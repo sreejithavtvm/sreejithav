@@ -1,0 +1,220 @@
+\documentclass[12pt, a4paper]{letter} % Set the font size (10pt, 11pt and 12pt) and paper size
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{eso-pic}
+\usepackage{comment}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{blindtext}
+
+%\hypersetup{hidelinks}
+%\geometry{top=0.7in, bottom=1in, left=1in, right=1in}
+
+% If you don't need a picture background for the letter, you can remove this code
+\begin{comment}
+\newcommand\BackgroundPicture{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{
+            \vfill
+            \centering\includegraphics[width=0.4\paperwidth,height=0.4\paperheight,keepaspectratio]{pic/NENU_Logo_Bg.png} % Change your logo
+            \vfill
+        }
+    }
+}
+\AddToShipoutPicture{\BackgroundPicture}
+\end{comment}
+\begin{document}
+\begin{comment}
+   \begin{minipage}{0.5\textwidth}
+\address{Dr. Arpita Korwar\\Dept. of Computer Science (SMCS)}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.5\textwidth}\raggedright
+\address{Dr. Saurabh Trivedi\\Dept. of Mathematics (SMCS)}
+    \end{minipage}
+
+    \vspace{0.4in} % Increase distance
+ 
+\end{comment}
+\newcommand*{\dittoclosing}{---''---}
+
+
+\begin{comment}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width=3.2in]{pic/NENU_Logo.png}\\ % Change your logo
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.6\textwidth}\raggedright
+        \small{ 
+            \hphantom{AA}Room xxx, Academic Building \\ % Change your address
+            \hphantom{AA}School of Information Science and Technology \\
+            \hphantom{AA}NorthEast Normal University \\
+            \hphantom{AA}No.2555 Jingyue Street, Nanguan District \\
+            \hphantom{AA}Changchun, P. R. China, 130117 \\
+        }
+    \end{minipage}
+
+    \vspace{0.4in} % Increase distance
+\end{comment}
+
+
+\begin{center}
+    \textbf{CS510 Foundations of theoretical computer science %for Ms. Lili Liang\footnote{\textbf{Lili Liang}. ``NENU Letter Template'' Proceedings of Overleaf. Overleaf Gallery, 2024.}
+    }    
+\end{center}
+\textbf{Objective:} Introduce some of the foundations of theoretical computer science
+
+\textbf{Learning outcome:} Understand (1) what is computation, (2) what is efficient computation, (3) models that can be learned.
+
+
+\textbf{Textbook:} \href{https://files.boazbarak.org/introtcs/lnotes_book.pdf}{Introduction to theoretical computer science} by Boaz Barak
+
+\textbf{Eligibility:} MTech and Ph.D.
+
+%\textbf{Evaluation Plan:} Attendance (10\%), Midsem (40\%), Endsem (50\%)
+
+%\textbf{Malpractice:} Any malpractice leads to Fail (F) grade.
+
+\noindent
+\textbf{Lecture Plan:}
+%The tutorial time will be used in between lecture times to solve example problems.
+We spend 1 hour of tutorial for every 2-3 hours of lecture.
+\begin{enumerate}
+ \item Introduction to theoretical computer science (1 hour)
+ \item Basic mathematics (4 hours) - Sets: countable, uncountable; Functions, relations, words; mathematical proofs; proof strategies
+ \item Regular languages (4 hours) - Finite automata: deterministic vs non-deterministic, closure properties; regular expressions; equivalence of automata and expressions; applications; non-regular languages (pumping lemma)
+ \item Formalizing computation (6 hours) - Turing machine; limits of computation: undecidability; recursive enumerable, and non-recursive languages
+ \item Computational complexity (6 hours) - Polynomial time (P); Nondeterministic polynomial time (NP); Reductions, hardness, completeness; P vs NP; other time and space restricted classes
+ \item Approximation algorithms (3 hours) - Optimization problems; introduction to approximation algorithms: examples like Vertex cover, Clustering etc
+ \item Probability and Computation* (4 hours) - probability theory introduction; randomized computation introduction; example randomized algorithms
+ \item Finite computation, Digital circuits (3 hours) - AND / OR / NOT gates, universality of these gates; binary addition, and multiplication
+ \item Finite computation, Neural networks (3 hours) - Perceptron model: linear separator; multilayer perceptron: universal boolean function, universal classifier and function approximator; size vs depth tradeoff;
+ \item Learnable models (5 hours) - feedforward neural networks, backpropagation algorithm; other models: convolutional neural networks, autoencoders
+\end{enumerate}
+%\end{spacing}
+
+\newpage
+
+\begin{center}
+    \textbf{CS228 Logic for computer science}
+\end{center}
+\textbf{Objective:} Introduce logic for computer scientists.
+
+\textbf{Learning outcome:} Students should be able to understand propositional logic and its importance in computer science. Learn how to reduce problems to propositional logic and use SAT solvers to solve them. Learn about first order logic and how to use SMT solvers.
+
+\textbf{Textbook:} Logic for computer science by Huth and Ryan
+
+\textbf{Eligibility:} BTech core course
+
+%\textbf{Evaluation Plan:} Attendance (10\%), Midsem (40\%), Endsem (50\%)
+
+%\textbf{Malpractice:} Any malpractice leads to Fail (F) grade.
+
+\textbf{Lecture Plan:}
+We spend 1 hour of tutorial for every 2-3 hours of lecture.
+\begin{enumerate}
+\item Propositional logic introduction (6 hours) - syntax, semantics, boolean functions, types of formulas, normal forms, applications, compactness*
+\item Satisfiability (4 hours)- polynomial time, non-deterministic polynomial time, P vs NP, NP-hardness, SAT is NP-complete
+\item SAT solvers (6 hours) - resolution: algorithm, worst case running time, 2CNF in P, HornSAT in P; semantic tableaux; DPLL algorithm
+\item Proof system (6 hours) - natural deduction, soundness and completeness
+\item First order logic introduction (9 hours) - syntax, free and bound variables, semantics, normal forms, substitution
+\item First order satisfiability (3 hours) - undecidability, resolution and semi-decidability of validity
+\item Proof system (6 hours) - soundness and completeness
+\end{enumerate}
+
+\newpage
+\begin{center}
+    \textbf{CS528 Formal methods in machine learning}
+\end{center}
+\textbf{Objective:} Introduce the area of formal verification and how it can be applied to machine learning
+
+\textbf{Learning outcome:} Students should (I) understand formal verification techniques, properties that can be verified in machine learning, understand the limitations, (II) understand algorithms that can be used for verifying, and (III) be able to use tools used in machine learning verification.
+
+\textbf{Textbook:} \hyperlink{https://verifieddeeplearning.com/}{Introduction to Neural Network Verification} by Aws Albarghouthi
+
+\textbf{Eligibility:} BTech, MTech and Ph.D.
+
+%\textbf{Evaluation Plan:} Attendance (10\%), Midsem (40\%), Endsem (50\%)
+
+%\textbf{Malpractice:} Any malpractice leads to Fail (F) grade.
+
+\noindent
+\textbf{Lecture Plan:}
+We spend 1 hour of tutorial for every 2-3 hours of lecture.
+\begin{enumerate}
+\item Introduction (1 hour)
+\item Overview of machine learning and neural networks (3 hours)
+\item Overview of formal methods (6 hours) - logic, specifying properties in feed-forward neural networks
+\item Complete verifiers (3 hours) - Constraint solver based approach, Reluplex
+\item Abstract Interpretation (6 hours) - basics; abstract interpretation for neural networks, polyhedral based abstract interpretation, DeepPoly, ImageStar
+\item Fast parallel verifiers (6 hours) - Crowns, $\beta$-Crowns, $\alpha-\beta$ Crowns
+\item Binarized neural networks (8 hours) - introduction to BNNs, BNN verification using SAT solvers
+\item Neural network interpretation (3 hours)
+\end{enumerate}
+
+\newpage
+\begin{center}
+    \textbf{CS525 Randomized algorithms}
+\end{center}
+\textbf{Objective:} The aim of this course is to understand the tools and techniques that are available to
+design and analyze randomized algorithms, along with sufficient background to read
+research publications in the area.
+
+\textbf{Learning outcome:} Understand (1) what is probabilistic computational model, (2) how to analyse randomized algorithms.
+
+\textbf{Textbook:} Mitzenmacher, M., \& Upfal, E. (2017). Probability and computing: Randomization and
+probabilistic techniques in algorithms and data analysis. Cambridge university press.
+
+\textbf{Eligibility:} BTech, MTech and Ph.D.
+
+%\textbf{Evaluation Plan:} Attendance (10\%), Midsem (40\%), Endsem (50\%)
+
+%\textbf{Malpractice:} Any malpractice leads to Fail (F) grade.
+
+\noindent
+\textbf{Lecture Plan:}
+We spend 1 hour of tutorial for every 2-3 hours of lecture.
+\begin{enumerate}
+ \item Basic probability theory (3 hours)
+ \item Inequalities and applications (12 hours) - Markov, Chebyshev, and moment inequalities; limited independence; coupon collectors’ problem; tail inequalities
+and the Chernoff bound; conditional expectation
+\item Introduction to Markov chains (3 hours) - fundamental theorem of Markov chains, random walks
+\item Introduction to randomized algorithms (12 hours) - Randomized complexity classes; Schwartz-Zippel Lemma and application in perfect matching, randomized max-cut, randomized quicksort, the randomized algorithm for computing median, randomized algorithm for convex-hull, bucket-sort
+ \item Approximation algorithms (3 hours) - Optimization problems; introduction to approximation algorithms: examples like Vertex cover, Clustering etc
+\item Fully polynomial randomized approximation scheme (3 hours)
+\item Applications of Markov chains (3 hours) - randomized 2-SAT and 3-SAT algorithms.
+\end{enumerate}
+
+\newpage
+\begin{center}
+    \textbf{CS520 High dimensional data science}
+\end{center}
+\textbf{Objective:} Understand the foundations of high dimensional data science.
+
+\textbf{Learning outcome:} 1. Understand the problems in high dimensions, (2) understand the methods to resolve problems in high dimensions
+
+\textbf{Textbook:} Foundations of Data science by Blum, Hopcroft and Kannan, Understanding machine learning by Shai Shalev-Shwartz and Shai Ben-David
+
+\textbf{Eligibility:} BTech, MTech and Ph.D.
+
+%\textbf{Evaluation Plan:} Attendance (10\%), Midsem (40\%), Endsem (50\%)
+
+%\textbf{Malpractice:} Any malpractice leads to Fail (F) grade.
+
+\noindent
+\textbf{Lecture Plan:}
+We spend 1 hour of tutorial for every 2-3 hours of lecture.
+\begin{enumerate}
+\item Probability basics (6 hours) - basic probability theory; Markov, Cheyshev, Chernoff bound; law of large numbers
+\item High Dimensional Space (4 hours) - geometry of high dimension, properties of the until ball, porcupine lemma
+\item Algorithms in HD space (8 hours) - generating uniformly at random from a ball, gaussians in high dimension, random projection and Johnson-Lindenstrauss lemma, separating gaussians, fitting a spherical gaussian to data
+\item Random Graphs (6 hours) - the G(n,p) model; Giant component: existence, no other large component; Cycles and full connectivity: emergence of cycles, full connectivity;
+	Phase transitions for increasing properties; Branching processes; CNF-SAT
+\item Introduction to linear algebra (4 hours)
+\item Singular Value Decomposition (12 hours) - Introduction to SVD, singular vectors and eigen vectors, best k-rank approximation, left singular vectors; power method for SVD, applications of SVD: centering data, principal component analysis (PCA), clustering a mix of spherical gaussians, ranking documents and web pages
+\end{enumerate}
+
+
+\end{document}

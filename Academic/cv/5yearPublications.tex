@@ -1,0 +1,44 @@
+ % LaTeX resume using res.cls
+\documentclass[margin]{res}
+\usepackage{amsfonts}
+
+%\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
+%\usepackage{newcent}   % uses new century schoolbook postscript font 
+\setlength{\textwidth}{5.1in} % set width of text portion
+\usepackage{etaremune}
+\usepackage{hyperref}
+\hypersetup{
+hidelinks
+}
+
+\begin{document}
+
+% Center the name over the entire width of resume:
+ \moveleft.5\hoffset\centerline{\Large \bf A. V. Sreejith} 
+% Draw a horizontal line the whole width of resume:
+ \moveleft\hoffset\vbox{\hrule width\resumewidth height 1pt}\smallskip
+% address begins here
+% Again, the address lines must be centered over entire width of resume:
+\moveleft.5\hoffset\centerline{Indian Institute of Technology Goa}
+\moveleft.5\hoffset\centerline{GEC campus, Farmagudi, Goa - 403401}
+\moveleft.5\hoffset\centerline{E-mail: sreejithav@iitgoa.ac.in}
+\moveleft.5\hoffset\centerline{ \href{http://www.iitgoa.ac.in/~sreejithav/} {\tt{www.iitgoa.ac.in/$\sim$sreejithav/}}}
+%\moveleft.5\hoffset\centerline{Phone: +918939601670}
+
+ 
+\begin{resume}
+\section{Last 5 years publications}
+\begin{enumerate}
+\item Gaurav, K., Métivier, F., A V Sreejith, Sinha, R., Kumar, A., and Tandon, S. K.: ``\emph{Coupling threshold theory and satellite-derived channel width to estimate the formative discharge of Himalayan foreland rivers}'', Earth Surf. Dynam., 9, 47-70, https://doi.org/10.5194/esurf-9-47-2021, 2021
+\item M. Bojanczyk, L. Daviaud, B. Guillon, V. Penelle, A. V. Sreejith ``\emph{Undecidability of a weak version of MSO+U}", Logical Methods in Computer Science (LMCS), volume 16:1, 2020.
+\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, ``\emph{Block products for algebras over countable words and applications to logic}", Logic in Computer Science (LICS), pages 1-13, 2019. 
+\item Kamal Lodaya, A. V. Sreejith, ``\emph{Two variable first order logic with counting quantifiers: complexity results}'', Developments in Language Theory (DLT), LNCS 10396, pages 260 - 271, 2017. 
+\item Amaldev Manuel, A. V. Sreejith, ``\emph{Two variable logic over countable linear orderings}", Mathematical Foundations of Computer Science (MFCS), LIPIcs 58, pages 66:1-66:13, 2016. 
+\item Thomas Colcombet, A. V. Sreejith, ``\emph{Limited Set quantifiers over Countable Linear Orderings}", Proceedings of the Automata, Languages, and Programming - 42nd International Colloquium (ICALP), volume 9135 of LNCS, pages 146-158, 2015. 
+\end{enumerate}
+\end{resume}
+\end{document}
+
+
+
+

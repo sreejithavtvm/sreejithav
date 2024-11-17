@@ -1,0 +1,47 @@
+ % LaTeX resume using res.cls
+\documentclass[margin]{res}
+\usepackage{amsfonts}
+
+%\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
+%\usepackage{newcent}   % uses new century schoolbook postscript font 
+\setlength{\textwidth}{5.1in} % set width of text portion
+\usepackage{etaremune}
+\usepackage{hyperref}
+\hypersetup{
+hidelinks
+}
+
+\begin{document}
+
+% Center the name over the entire width of resume:
+ \moveleft.5\hoffset\centerline{\Large \bf A. V. Sreejith} 
+% Draw a horizontal line the whole width of resume:
+ \moveleft\hoffset\vbox{\hrule width\resumewidth height 1pt}\smallskip
+% address begins here
+% Again, the address lines must be centered over entire width of resume:
+\moveleft.5\hoffset\centerline{Indian Institute of Technology Goa}
+\moveleft.5\hoffset\centerline{GEC campus, Farmagudi, Goa - 403401}
+\moveleft.5\hoffset\centerline{E-mail: sreejithav@iitgoa.ac.in}
+\moveleft.5\hoffset\centerline{ \href{http://www.iitgoa.ac.in/~sreejithav/} {\tt{www.iitgoa.ac.in/$\sim$sreejithav/}}}
+%\moveleft.5\hoffset\centerline{Phone: +918939601670}
+
+ 
+\begin{resume}
+\section{Top 10 Publications}
+{\bf 1.} M. Bojanczyk, L. Daviaud, B. Guillon, V. Penelle, A. V. Sreejith ``\emph{Undecidability of a weak version of MSO+U}", Logical Methods in Computer Science (LMCS), volume 16:1, 2020. \\
+{\bf 2.} Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, ``\emph{Block products for algebras over countable words and applications to logic}", Logic in Computer Science (LICS), pages 1-13, 2019. \\
+{\bf 3.} Kamal Lodaya, A. V. Sreejith, ``\emph{Two variable first order logic with counting quantifiers: complexity results}'', Developments in Language Theory (DLT), LNCS 10396, pages 260 - 271, 2017. \\
+{\bf 4.} Amaldev Manuel, A. V. Sreejith, ``\emph{Two variable logic over countable linear orderings}", Mathematical Foundations of Computer Science (MFCS), LIPIcs 58, pages 66:1-66:13, 2016. \\
+{\bf 5.} Thomas Colcombet, A. V. Sreejith, ``\emph{Limited Set quantifiers over Countable Linear Orderings}", Proceedings of the Automata, Languages, and Programming - 42nd International Colloquium (ICALP), volume 9135 of LNCS, pages 146-158, 2015. \\
+{\bf 6.} Kamal Lodaya, A. V. Sreejith, ``\emph{Counting quantifiers and linear arithmetic on word models}" with Kamal Lodaya in 14th Asian Logic Conference (ALC), 2014. \\
+{\bf 7.} V. Arvind, S. Raja, A. V. Sreejith, ``\emph{On lower bounds for multiplicative circuits and linear circuits in noncommutative domains}", 9th International Computer Science Symposium in Russia (CSR), volume 8476 of LNCS, pages 65-76, 2014.\\
+{\bf 8.} Andreas Krebs, A. V. Sreejith, ``\emph{Non-definability of Languages by Generalized First-order Formulas over (N, +)}", Proceedings of the 27th Annual IEEE Symposium on Logic in Computer Science (LICS),  pages 451-460, 2012.\\
+{\bf 9.} A. V. Sreejith, ``\emph{Expressive Completeness for LTL With Modulo Counting and Group Quantifiers}", Electronic Notes in Theoretical Computer Science, ENTCS 278, pages 201-214, 2011.\\
+{\bf 10.} Kamal Lodaya, A. V. Sreejith, ``\emph{LTL can be more succinct}", Proceedings of Automated Technology for Verification and Analysis (ATVA), LNCS 6252, 21-24, 2010.
+
+\end{resume}
+\end{document}
+
+
+
+
