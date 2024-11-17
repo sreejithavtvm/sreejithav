@@ -1,0 +1,209 @@
+\documentclass[a4paper,10pt]{article}
+%\documentclass[11pt]{llncs}
+%\usepackage[utf8x]{inputenc}
+%\usepackage{graphicx,subfig,appendix,sidecap,amsmath,amssymb,amsthm}
+\usepackage{fullpage}
+\linespread{1.3}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\input{macro.tex}
+\usepackage{cleveref} %for cref
+\usepackage{tikz}
+
+\theoremstyle{open}
+\newtheorem{open}{Open Problem}
+\newcommand{\plan}{\textbf}
+%\newtheorem{open}{Open Problem}[theorem]
+
+\newtheorem{thm}{Theorem}
+
+%opening
+\title{\bf{Satisfiability and Expressiveness of Logics using Semigroup Theory}}
+\author{Research Proposal by A. V. Sreejith}
+\date{}
+
+\newcommand{\focut}{FO-CUT}
+\newcommand{\foordinal}{FO-ordinal}
+\newcommand{\fofinite}{WMSO}
+\newcommand{\fofinitecut}{WMSO-CUT}
+\newcommand{\foscattered}{FO-Scat}
+\newcommand{\mso}{MSO}
+
+\newcommand{\odca}{ODCA}
+\newcommand{\odcas}{ODCAs}
+\newcommand{\droca}{DROCA}
+\newcommand{\drocas}{DROCAs}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+I work mainly in the area of theoretical computer science. I did my PhD under Prof. Kamal Lodaya from Institute of Mathematical Sciences, Chennai. After that, I did a few post doctoral positions including in LIAFA (now called IRIF) under Thomas Colcombet, University of Warsaw under Mikolaj Boyanjik. After that I joined as an Assistant Professor at IIT Goa and then became an associate professor.
+
+During the initlal period, my research has predominantly been in Logic and automata theory, especially from a theoretical framework. However, now I also do applied research along with combining formal methods for applications like machine learning, verification etc.
+
+
+\section{Descriptive complexity - Research During PhD}
+Mathematical logic is the ``language" mathematicians use to express properties unambiguously. Just like there are different languages, there are different logics. On the one hand it helps to understand deep mathematical questions in areas like descriptive complexity \cite{immerman_book}, semigroup theory \cite{str_cirBook}, set theory \cite{ject_setTheory} etc. Infact Hilbert started the program of proving every true statement in mathematics using logic, only to hit a roadblock due to G\"odel's incompleteness results \cite{godel_incompleteness}. After that the work of Turing, Church, Tarski contributed to the development of this field. Many interesting meta-theorems in mathematics, like the G\"odel's incompleteness theoremas \cite{mendelson_logic} are a contribution of logic to mathematics. Logic also contributed enormously in ``practical" areas like formal verification \cite{esparza_unfoldings}, databases \cite{vianu_bookDB}, multi agent systems \cite{vardi_logicEffectiveness}, programming language theory \cite{vardi_logicEffectiveness}, artificial intelligence \cite{nisson_logicAI} etc. See \cite{vardi_logicEffectiveness} for a wide variety of applications of logic. 
+
+\subsection{Extensions of Linear Temporal logic}
+The model checking problem of testing whether a model satisfies a particular property is the most important problem here \cite{esparza_unfoldings}. Vardi and Wolper \cite{vardi94ic} won the G\"odel prize in 2000 for their work on linear temporal logic (LTL) and automata. The introduction of LTL along with good algorithms for  model checking of B\"uchi automata has greatly influenced system verification \cite{vardi95}. Hence the study of temporal logics are hugely motivated by the tremendous practical use. LTL though has its limitations. It cannot express properties which are periodic in nature (see Demri \cite{demri_ltlPeriod} for examples and an approach to overcome this limitation). In my PhD work \cite{sav_thesis} and subsequent papers \cite{my_ltlmod,my_ltlsuccinct}, we introduced modulo counting operators (also extended to regular operators) which gave LTL more expressive power. We also showed that the model checking problem is in Pspace (this is similar to LTLs). Thus we had a logic expressively more powerful than LTL but the model checking problem of same complexity (see \cite{demri_presburger} for a survey of various extensions of similar flavour).
+
+\subsection{Finite model theory}
+Finite model theory studies logic from the perspective of finite models. One of its major application is in database systems \cite{vianu_bookDB}. It has also found application in complexity theory \cite{immerman_book}. Descriptive complexity is the study of complexity classes from the perspective of ``Logic". The aim is to bring in lower bound techniques (like games) available in logics to show hard lower bound results in complexity classes. The area was popularized by Immerman with his G\"odel prize winning work showing nondeterministic logspace is closed under complementation \cite{immerman_book}. Many natural questions in circuit complexity can be reduced to questions in first order logic (FOL) and its extensions. Thus the idea to resolve major open questions in circuit complexity by looking through this prism of logic. In one of our papers \cite{my_foplus}, we were able to solve an important question posed by Roy and Straubing \cite{roy_defGenFO} several years back. We reduced ``very uniform" circuit families to equivalent logics and then used techniques developed in model theory, ramsey theory and semigroup theory to show lower bound results.
+
+
+\subsection{Awards and Recognition}
+ACM India Honourable mention in 2014 for my PhD thesis titled \emph{Regular quantifiers in Logics}.
+
+\section{Countable words - Postdoc and IIT Goa work}
+This work is at the meeting point of two important branches of language theory: on the one hand the extension of the finite word languages theories---in particular infinite words or infinite trees--, as initiated by Büchi, and on the other hand the characterization of classes of languages---in particular logics---, as initiated by Schützenberger \cite{Schutzenberger65}.
+
+\subsubsection{Extension of words and monadic second-order logic.}
+Language theory is originally concerned with finite words \cite{Kleene56,RabinScott59}. Quickly, connections between the expressiveness of automata and "monadic second-order logic" ("MSO" for short) were enunciated \cite{Trakhtenbrot62,Elgott,Buchi60}, yielding the decidability of "MSO" over words.
+Then Büchi considered in a seminal work an extension to words of length~$\omega$ ("aka" "$\omega$-words", "ie" words for which the set of letter positions is the "linear ordering"~$\omega$) \cite{Buchi62}, which was then remarkably extended by Rabin to "infinite trees" \cite{Rabin69}. From these two works, the decidability of the "MSO" theory of these models, as well as for countable chains, is shown decidable. In 75, Shelah gave another proof of the decidabilty of countable chains~\cite{Shelah75} as well as an undecidability proof over the chain of reals (under the continuum hypothesis, an hypothesis which will be removed in a subsequent paper with Gurevitch~\cite{GurevichShelah79I,GurevichShelah79II}).
+Then, Gurevitch and Shelah pursued and gave a description of some non-countable chains for which "MSO" theory remained decidable.
+Another strand of research was the connection with algebraic structures as monoids and semigroups, as advocated by Schützenberger \cite{Schutzenberger56semi}. These approaches were extended to "$\omega$-words" by Wilke~\cite{Wilke93a} and
+Pin and Perrin~\cite{PerrinPin04}.
+In our case, the model of words we study is the one of countable words, the largest one that is known to have a theory of recognizability \cite{CartonColcombetPuppis}.
+
+\subsubsection{Characterization of classes and logics.} A second very vivid branch of research is the characterization of classes of languages (which are typically described by means of a logic). The goal is: given a regular language, decide whether it can be expressed in a weaker formalism, such as "first-order logic" ("FO" for short). The first result in this direction is the one of Schützenberger establishing that a language is describable by a star-free expressions if and only if its syntactic monoid is aperiodic \cite{Schutzenberger65}.
+
+\subsubsection{Contributions}
+In this paper, we study several logics of expressive power lying somewhere between "first-order logic (\fo)" and "monadic second-order logic (\mso)" over countable words: like first-order logic with cuts (\focut), weak monadic second order logic (\fofinite), scattered first-order logic (\foscattered) etc.
+
+The first result is how are related the expressive power of these logics.
+Our second result is an effective characterization of these logics in algebraic terms, in the spirit of Schützenberger's result.
+Its statement requires to introduce "o-monoids", an algebraic notion used for describing languages of countable words, and
+some property that these algebras can have.
+\begin{theorem}[Colcombet, Sreejith. ICALP15]
+The core theorems is listed below.
+\begin{enumerate}
+ \item Algebraic characterization for \fo, \focut, \fofinite, \fofinitecut, \foordinal, \foscattered.
+ \item As a consequence, these logics are decidable.
+ \item As a consequence, expressiveness comparison between all these logics are possible.
+ \end{enumerate}
+\end{theorem}
+
+This was a joint work with Colcombet that was published in ICAL15 \cite{icalp15}.
+
+We continued our explorations and considered first-order logic with one variable, and two variable fragments. We also extended this to various other small fragments of first-order logic.
+We then consider extensions of \fo with infinitary quantifiers.
+The main purpose
+of our new quantifiers is to naturally allow expression of
+infinitary features that are inherent in the countable setting. Here we give algebraic characterisation through decomposition theorems. \
+The seminal result of Krohn-Rhodes decomposition theorem \cite{kr65} shows that any finite monoid can be built from groups and the monoid $U_1$ (a unique $2$-element monoid) using a block-product construction \cite{str_cirBook}. There are other prominent examples in this line of work. One interesting result is a `no finite block-product basis' theorem for \focut, \fofinite etc. This is in contrast with \fo
+where finite decomposition is possible.
+
+The results presented here is a summary of work with Manuel (that appeared in MFCS 16 \cite{ms16}), Adsul and Sarkar (that appeared in LICS 2019 \cite{lics19}, FCT 2021 \cite{fct21}, JCSS 2023, \cite{jcss23}).
+
+\section{One counter automata - Ongoing work at IIT Goa}
+One-counter automata (oca) extends finite-state automata with one integer counter. The counter can be
+incremented, decremented, and tested for zero on a transition but can never go below zero. They are strictly
+more expressive than finite-state systems and can capture the behaviour of certain infinite-state systems.
+Their expressiveness is sufficient to verify programs with lists and validate XML streams.
+
+In this work, we focus on two problems related to one-counter systems: the equivalence and active learning.
+In the first part of our work, we introduced a model called weighted real-time one-deterministic-counter automata (\odca). These are weighted real-time one-counter automata with the property of counter-determinacy, meaning that all paths labelled by a given word starting from the initial configuration have the same counter-effect. The model is called real-time as there are no $\epsilon$-transitions.
+We show the the equivalence of weighted \odca is in $P$.
+We introduced a problem called the co-VS (complement to a vector space) reachability problem for weighted \odcas over fields towards this purpose. The co-VS reachability problem seeks to determine if there exists a run from a given configuration of a weighted \odca to another configuration whose weight vector lies outside a given vector space. We established two significant properties of witnesses for co-VS reachability: they satisfy a pseudo-pumping lemma, and the lexicographically minimal witness has a special form. It follows that the co-VS reachability problem is in $P$.
+These reachability problems are crucial in proving that the equivalence problem of weighted \odcas over fields is in $P$ by adapting the equivalence proof of deterministic real-time one-counter automata~\cite{droca} by B\"ohm et al.  This is a step towards resolving the open question of the equivalence problem of weighted  one-counter automata.
+
+We also looked at the regularity problem, the problem of checking whether an input weighted \odca over a field is equivalent to some weighted automaton, and showed that it is in ${P}$. Finally, we investigated the covering problem, which takes two weighted \odcas as input and checks whether there exist initial configurations in one of them that make it equivalent to all initial configurations in the other. We showed that the covering problem for weighted \odcas over fields is also in ${P}$.
+
+We also considered boolean \odcas and showed that the equivalence problem for (non-deterministic) boolean \odcas is in ${PSPACE}$. In contrast, it is undecidable for (non-deterministic) boolean one-counter automata.
+
+In the second part of our work, we developed a new method for learning deterministic real-time one-counter automata (\droca) with the help of a SAT solver that requires only polynomially many queries. We follow an active learning framework similar to that by Angluin~\cite{angluin} that uses membership, equivalence and counter-value queries to infer an unknown model from a teacher. We prove that learning \droca is in $P^{NP}$ under this framework.
+We used the idea of computing a minimal separating deterministic finite-state automaton from a given set of positive and negative samples using a SAT solver in learning \droca. The existing techniques for learning \droca rely on observing the behaviour of the \droca up to exponentially large counter-values. Our algorithm eliminates this need and requires only a polynomial number of membership, equivalence, and counter-value queries.
+We implemented the proposed algorithm and tested it on randomly generated \drocas. Our evaluations show that the proposed method greatly outperforms the existing technique.
+
+The works are published in couple of papers in FSTTCS-23 \cite{fsttcs23}, and ICLA 24 \cite{icalp25}. One work is under review and its archived version can be found in Arxiv \cite{learning24}.
+
+In the final unpublished work, we address the problem of active learning for deterministic one-counter automata (doca),
+where the learner can ask membership and minimal equivalence queries to a teacher. We propose
+a novel algorithm, OL*, that learns a doca in time polynomial in the size of the smallest doca,
+recognising the target language.
+Previous algorithms for learning doca are exponential in time complexity and often rely on an
+additional query type—counter value queries—where the teacher must return the counter value for
+a given word. Furthermore, these algorithms are restricted to real-time docas.
+Our approach overcomes the NP-hardness of learning a minimal doca by producing a doca
+whose size is bounded by a polynomial in the size of the minimal doca. As a byproduct, we also
+present an approximate minimisation algorithm for docas.
+
+\subsection{Achievement}
+\begin{enumerate}
+ \item \textbf{Funding:} SERB funding for three years to work on \emph{Probabilistic Pushdown Automata} [MTR/2021/000788].
+ \item \textbf{PhD student:} One PhD. student Prince Mathew who worked with me in this has submitted his pre-dissertation seminar and is planning to submit his thesis in December.
+\end{enumerate}
+
+
+
+
+\section{Formal methods in Machine learning - Future research direction}
+Software driven controllers are used by engineers to command, direct and regulate behaviour of a system
+(called plant) and achieve system level functional requirements. Plants vary from large systems like aircrafts,
+to small cyber-physical systems including household appliances. These controllers work in a reactive fashion
+in a loop, taking sensed inputs from the plant, implementing the control algorithm and generating control
+outputs through actuators back to the plants.
+Control algorithms are also now taking advantages of the development in machine learning. Thus, the
+controller learns decisions as time progress. Such adaptive control algorithms can be used by controllers to
+take decisions based on real time changes in the environment. Machine learning algorithms can work in two
+ways: 1. by classifying the sensor inputs and providing this information to the control system, and 2.
+replacing the controller with an appropriate machine learning algorithm. The machine learning model can be
+a neural network or simpler classification tools like decision trees.
+When it comes to verification of such adaptive control systems, traditional testing and formal methods
+cannot be directly applied or extended. Predictions of machine learning algorithms may not always be
+correct. In safety critical systems, it is important to ensure that the overall safety of the controller is not
+compromised. For safety critical systems, industry standards like ISO 26262, DO-178C recommend the use
+of formal methods based verification.
+In this project, we are interested in languages used to model control systems. Stateflow and Simulink are
+example languages provided by Mathworks. Most of these languages support formal verification. These help
+to verify safety of critical control software designed using these languages. These languages also support
+extending control design with machine learning algorithms. For example, several learning algorithms are
+available within the Matlab environment. Verification of machine learning algorithms are difficult since they
+are probabilistic in nature. Formal verification of adaptive control algorithms (control algorithms which
+learn) is in the nascent stage.
+In this project, we propose developing techniques to verify control logics build using control logics and
+simple machine learning algorithms. Control systems needs to be verified for several real-time properties
+including safety, robustness, deterministic response etc. We propose to develop formal methods techniques
+using the theory of abstraction and SAT/SMT solvers to verify such systems. We also propose to build a
+prototype for use inside control system design frameworks. We believe our work as a step towards building a
+formal framework for verifying control logics which use machine learning algorithms.
+
+\subsection{Achievements}
+\begin{enumerate}
+ \item \textbf{Funding:} Indo-French funding agency (CEFIPRA) has funded a generous research grant for research in \emph{Formal verification of Adaptive control algo-
+rithms}. This is a joint work with Dr. Vincent Penelle and Dr. Meenakshi D'Souza.
+ \item \textbf{Visiting faculty position:} University of Bordeaux offered me a visiting faculty position in University of Bordeaux (for four months) to do research in this area.
+\end{enumerate}
+Few masters students have worked on their Master thesis with me on this: Umang Srivastav on \emph{Neural network inversion}, and Sumitra on \emph{Using simulators to train neural networks}.
+
+\section{Water research through Geostationary information - On going engineering work}
+An area of work I am interested in is the work on water through geostationary information.
+
+The measurement of water discharge in rivers is important for the assessment of flood hazards, sediment transport, and the estimation and management of the terrestrial water budget. But most rivers, particularly in the developing countries are poorly instrumented and have only few gauging stations. This limits our understanding of the stream dynamics both in terms of water and sediment dynamics, and both longitudinally and laterally. As a consequence, issues such as, the critical reaches where water loss/gain is severe; and trends of discharge variation along the river course remain unresolved. Such data are needed for sustainable river development and river management to ensure regional water security.
+At present, the above mentioned issues are difficult to address for two reasons.  First, the conventional gauging stations to measure the river’s discharge are separated by long distances. Second, such gauging stations estimate the discharge from locally established stage-discharge or width-discharge rating curves. These curves are highly site-dependent, and thus only applicable for a section for which the rating curve is calibrated.
+To overcome the limitation of existing studies, we proposed to develop a generalized regime relation (width-discharge), based on field measurement and information from satellite images.
+
+This work was published in Earth surface dynamics in 2021 \cite{esd21}.
+
+At present we are working on soil moisture estimation from satellite images. We have applied for funding for this.
+
+\subsection{Achievements}
+\textbf{Funding:} Ministry of Earth Science (MoES) sanctioned project \emph{Remote sensing based method
+for detecting water discharge in the Ganga and Brahmaputra rivers}. This is a joint
+project with Dr. Gaurav Kumar (Earth scientist, IISER Bhopal). The aim of the
+project was to use a combination of in-situ measurements and multi-spectral satellite
+river data to estimate the water discharge. The project is completed.
+
+A master's student Ankita Chand did an MTech project titled \emph{Soil moisture estimation} with me.
+
+\bibliographystyle{alpha}
+\bibliography{papers}
+
+\end{document}

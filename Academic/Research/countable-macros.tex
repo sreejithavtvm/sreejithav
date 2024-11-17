@@ -1,0 +1,475 @@
+% !TEX root =  main-mso-sublogic-characterization-journal.tex
+
+
+\usepackage{MnSymbol}
+
+\newrobustcmd \textiff{\text{if and only if}}
+\newrobustcmd \qtextiff{\quad\textiff\quad}
+\newrobustcmd \qqtextiff{\qquad\textiff\qquad}
+
+\newrobustcmd \suchthat{\text{such that }}
+\newrobustcmd \qsuchthat{\quad\suchthat}
+\newrobustcmd \qqsuchthat{\qquad\suchthat}
+
+%% General %%
+\NewDocumentCommand\TODO{ o }{%
+			\marginpar{\textcolor{red}{{\LARGE !}}}%
+			\IfNoValueTF{#1}{}{\textcolor{red}{#1}}{}}
+
+\definecolor{srcolor}{RGB}{255,20,147}
+
+%\newrobustcmd{\TODO}[1][]{{\marginpar{\bf\color{red}TODO}}\ifthenelse{\equal{(#1)}{}}{}{\upshape\setulcolor{red}\ul{(#1)}}}
+\newrobustcmd{\sr}[1]{{\color{srcolor} #1 - Sreejith.}}
+\newrobustcmd{\tc}[1]{{\color{red} #1 - Thomas.\\}}
+%{\marginpar{\bf\color{blue}}}\ifthenelse{\equal{(#1)}{}}{}{\	upshape\setulcolor{blue}\ul{(#1)}}}
+
+\newrobustcmd{\defs}{::=}
+\newrobustcmd{\ie}{i.e. }
+
+% for denoting sets in comprehension
+\knowledgenewrobustcmd\mset[2]
+	{\ensuremath{\cmdkl{\{}#1\cmdkl\,\mid\,#2\cmdkl{\}}}}
+
+% the xparse verision does not work for weir reasons...
+%\KnowledgeNewDocumentCommand\openset{mm}{\ensuremath{\cmdkl{(}#1\cmdkl,#2\cmdkl{)}}}
+\knowledgenewrobustcmd\openset[2]{\ensuremath{\cmdkl{(}#1\cmdkl,#2\cmdkl{)}}}
+
+\knowledgenewrobustcmd{\leftopenset}[2]{\ensuremath{\cmdkl(#1,#2\cmdkl]}}
+\knowledgenewrobustcmd{\rightopenset}[2]{\ensuremath{\cmdkl[#1,#2\cmdkl)}}
+\knowledgenewrobustcmd{\closedset}[2]{\ensuremath{\cmdkl[#1,#2\cmdkl]}}
+\knowledgenewrobustcmd{\openprefix}[1]{\ensuremath{\cmdkl({-}\infty,#1\cmdkl)}}
+\knowledgenewrobustcmd{\closedprefix}[1]{\ensuremath{\cmdkl({-}\infty,#1\cmdkl]}}
+\knowledgenewrobustcmd{\opensuffix}[1]{\ensuremath{\cmdkl(#1,\infty\cmdkl)}}
+\knowledgenewrobustcmd{\closedsuffix}[1]{\ensuremath{\cmdkl[#1,\infty\cmdkl)}}
+\knowledgenewrobustcmd{\leftclosedset}[2]{\ensuremath{\cmdkl[#1,#2 \rangle}}
+
+
+\knowledgenewcommand\relto[2]{#2\cmdkl{~\mathrm{in}~}#1}
+\newrobustcmd{\rightrelativize}[2]{#1[\leq #2]}
+\newrobustcmd{\relativize}[3]{#1[\geq #2,\leq #3]}
+\newrobustcmd{\substitute}[2]{[#1/ #2]}
+
+
+\newrobustcmd{\tuple}{\vec}
+\newrobustcmd{\ifthen}{\Rightarrow}
+\newrobustcmd{\lang}[1]{\mathcal{L}(#1)}
+
+\knowledgenewrobustcmd{\dom}[1]{\cmdkl{\mathit{dom}(#1)}}
+\knowledgenewrobustcmd{\length}[1]{\cmdkl|#1\cmdkl|}
+
+\newrobustcmd\rationals{\mathbb{Q}}
+\newrobustcmd\reals{\mathbb{R}}
+\newrobustcmd\nats{\mathbb{N}}
+
+\newrobustcmd{\Bin}{\kl[\Bin]{{\in}}}
+\knowledge\Bin{notion}
+\newrobustcmd{\Bnin}{\kl[\Bnin]{{\not\in}}}
+\knowledge\Bnin{notion}
+\newrobustcmd{\Win}{\mathbin{\kl[\Win]{\in}}}
+\knowledge\Win{notion}
+\newrobustcmd\product{\kl[\product]{\pi}}
+\knowledge\product{notion}
+
+\newrobustcmd{\sublem}[1]{.#1}
+\newrobustcmd{\card}[1]{|#1|}
+
+%% Languages %%
+\newrobustcmd{\languageOf}[1]{\mathrm{L}_{#1}}
+
+\newrobustcmd{\LSing}{\kl[\LSing]{\languageOf{\mathrm{Sing}}}}
+\knowledge {\LSing}{notion}
+\newrobustcmd{\LFinite}{\kl[\LFinite]{\languageOf{\mathrm{Fin}}}}
+\knowledge {\LFinite}{notion}
+\newrobustcmd{\LComplete}{\kl[\LComplete]{\languageOf{\mathrm{Complete}}}}
+\knowledge {\LComplete}{notion}
+\newrobustcmd{\LEvenGaps}{\kl[\LEvenGaps]{\languageOf{\mathrm{EvenGaps}}}}
+\knowledge {\LEvenGaps}{notion}
+\newrobustcmd{\LOrd}{\kl[\LOrd]{\languageOf{\mathrm{Ord}}}}
+\knowledge {\LOrd}{notion}
+\newrobustcmd{\LScat}{\kl[\LScat]{\languageOf{\mathrm{Scat}}}}
+\knowledge {\LScat}{notion}
+\newrobustcmd{\LGap}{\kl[\LGap]{\languageOf{\mathrm{Gap}}}}
+\knowledge {\LGap}{notion}
+\newrobustcmd{\LEven}{\kl[\LEven]{\languageOf{\mathrm{Even}}}}
+\knowledge {\LEven}{notion}
+\newrobustcmd{\LPerfectlyDense}{\kl[\LPerfectlyDense]{\languageOf{\mathrm{PerfDense}}}}
+\knowledge {\LPerfectlyDense}{notion}
+\newrobustcmd{\LFiniteGaps}{\kl[\LFiniteGaps]{\languageOf{\mathrm{FiniteGaps}}}}
+\knowledge {\LFiniteGaps}{notion}
+
+
+%% Monoids %%
+\newrobustcmd{\monoid}{\ensuremath{\mathbf{M}}}
+\newrobustcmd{\monoidset}{\ensuremath{M}}
+\newrobustcmd{\monoidN}{\mathbf{N}}
+\newrobustcmd{\monoidNset}{N}
+%\newrobustcmd{\monoidOf}[1]{\ensuremath{(#1,\unit,\product)}\xspace}
+\newrobustcmd{\monoidOf}[2][]{\ensuremath{(#2,#1{\product})}\xspace}
+\newrobustcmd{\algebraOf}[1]{\ensuremath{(#1,\unit,\productoper,\algomegasymb, \algomegastarsymb,\algshufflesymb)}\xspace}
+\newrobustcmd{\semigroup}{\mathbf{S}}
+\newrobustcmd{\semigroupset}{S}
+\newrobustcmd{\semigroupOf}[1]{\ensuremath{(#1,\product)}\xspace}
+
+% Example languages and monoids
+
+\newrobustcmd{\monoidSing}{\kl[\monoidSing]{\ensuremath{\mathbf{Sing}}}}
+\knowledge {\monoidSing}{notion}
+\newrobustcmd{\monoidOrd}{\kl[\monoidOrd]{\ensuremath{\mathbf{Ord}}}}
+\knowledge {\monoidOrd}{notion}
+\newrobustcmd{\monoidFinite}{\kl[\monoidFinite]{\ensuremath{\mathbf{Fin}}}}
+\knowledge {\monoidFinite}{notion}
+\newrobustcmd{\monoidCut}{\kl[\monoidCut]{\ensuremath{\mathbf{Cut}}}}
+\knowledge {\monoidCut}{notion}
+\newrobustcmd{\monoidScat}{\kl[\monoidScat]{\ensuremath{\mathbf{Scat}}}}
+\knowledge {\monoidScat}{notion}
+\newrobustcmd{\monoidEven}{\kl[\monoidEven]{\ensuremath{\mathbf{Even}}}}
+\knowledge {\monoidEven}{notion}
+\newrobustcmd{\monoidGap}{\kl[\monoidGap]{\ensuremath{\mathbf{Gap}}}}
+\knowledge {\monoidGap}{notion}
+\newrobustcmd{\monoidEvenGaps}{\kl[\monoidGap]{\ensuremath{\mathbf{EvenGaps}}}}
+\knowledge {\monoidEvenGaps}{notion}
+\newrobustcmd{\monoidFiniteGaps}{\kl[\monoidGap]{\ensuremath{\mathbf{FinGaps}}}}
+\knowledge {\monoidFiniteGaps}{notion}
+\newrobustcmd{\monoidPerfectlyDense}{\kl[\monoidPerfectlyDense]{\ensuremath{\mathbf{PerfDense}}}}
+\knowledge {\monoidPerfectlyDense}{notion}
+
+\newrobustcmd{\dupmonoidGap}{\ensuremath{\mathbf{Gap}}}
+
+\newrobustcmd{\morphism}{\pi}
+\newrobustcmd{\invmorphism}{\pi^{-1}}
+
+%% Formulae
+\newrobustcmd{\fformula}[1]{\ensuremath{\mathtt{#1}}}
+\newrobustcmd{\formula}[1]{\kl[\formula{#1}]{\fformula{#1}}}
+\newrobustcmd{\setfamily}[1]{\ensuremath{\mathtt{#1}}}
+
+\knowledgenewcommand\fMin{\cmdkl{\fformula{Min}}}
+\knowledgenewcommand\fMax{\cmdkl{\fformula{Max}}}
+\knowledgenewcommand\fCut{\cmdkl{\fformula{Cut}}}
+\knowledgenewcommand\fDense{\cmdkl{\fformula{Dense}}}
+\knowledgenewcommand\fGap{\cmdkl{\fformula{Gap}}}
+\knowledgenewcommand\fOrdinal{\cmdkl{\fformula{Ordinal}}}
+\knowledgenewcommand\fReverseOrdinal{\cmdkl{\fformula{Ordinal^*}}}
+\knowledgenewcommand\fFinite{\cmdkl{\fformula{Finite}}}
+\knowledgenewcommand\fEven{\cmdkl{\fformula{Even}}}
+\knowledgenewcommand\fOdd{\cmdkl{\fformula{Odd}}}
+\knowledgenewcommand\fScattered{\cmdkl{\fformula{Scattered}}}
+\knowledgenewcommand\fOneGap{\cmdkl{\fformula{OneGap}}}
+\knowledgenewcommand\fNoGap{\cmdkl{\fformula{NoGaps}}}
+\knowledgenewcommand\fFiniteGaps{\cmdkl{\fformula{FiniteGaps}}}
+\knowledgenewcommand\fEvenGaps{\cmdkl{\fformula{EvenGaps}}}
+\knowledgenewcommand\fSucc{\cmdkl{\fformula{Succ}}}
+
+
+\knowledgenewcommand\Juright[1]{\cmdkl{\fformula{\overset{\rightarrow}{J}_{#1}}}}
+
+\knowledgenewcommand\Jright[1]{\cmdkl{\fformula{\overset{\mapsto}{J}_{#1}}}}
+\knowledgenewcommand\eright[1]{\cmdkl{\fformula{\overset{\mapsto}{#1}}}}
+\knowledgenewcommand\Jleft[1]{\cmdkl{\fformula{\overset{\leftmapsto}{J}_{#1}}}}
+\knowledgenewcommand\eleft[1]{\cmdkl{\fformula{\overset{\leftmapsto}{#1}}}}
+
+\knowledgenewcommand\fNotScattered{\cmdkl{\fformula{NotScattered}}}
+\knowledgenewcommand\fInfinity{\cmdkl{\fformula{Infinitely}}}
+
+
+%% Algebra %%
+\renewrobustcmd{\ostar}{\circledast} %had to use renewcommand bcoz of class with package MnSymbol
+
+
+\newrobustcmd{\circplussymbol}{\ensuremath{\small \oplus}}
+\newrobustcmd{\circsemigroup}{\circplussymbol-semigroup\xspace}	
+
+\newrobustcmd{\unit}{\ensuremath{\mathbf 1}\xspace}
+\newrobustcmd{\zero}{\ensuremath{\mathbf 0}\xspace}
+
+\newrobustcmd\nepowerset[1]{\mathcal{P}(#1)\setminus\{\emptyset\}}
+
+
+\newrobustcmd{\algomegasymb}{\ensuremath{{\boldsymbol {\omega}}}}
+\newrobustcmd{\algomegastarsymb}{\ensuremath{\boldsymbol \omega^*}}
+\newrobustcmd{\algshufflesymb}{\ensuremath{\boldsymbol \shuffle}}
+
+\newrobustcmd{\productoper}{\ensuremath{%\boldsymbol%
+		 \cdot}}
+\newrobustcmd{\omegaoper}[1]{\ensuremath{#1^{\algomegasymb}}}
+\newrobustcmd{\omegastaroper}[1]{\ensuremath{#1^{\algomegastarsymb}}}
+\newrobustcmd{\shuffleoper}[1]{\ensuremath{#1^{\algshufflesymb}}}
+ 
+
+\newrobustcmd{\shuffle}{\eta}
+\knowledgenewrobustcmd{\perfectShuffle}[1]{\cmdkl{\ensuremath{\mathit{perfectshuffle}}}(#1)}
+
+\newrobustcmd{\Nat}{\nats}
+\newrobustcmd{\intersect}{\cap}
+\newrobustcmd{\leftlimit}{\leftarrowtail}
+\newrobustcmd{\rightlimit}{\rightarrowtail}
+\newrobustcmd{\recurrentpoint}{|}
+
+
+\newrobustcmd\gJ{\kl[\gJ]{\mathcal{J}}}
+\newrobustcmd\gL{\kl[\gL]{\mathcal{L}}}
+\newrobustcmd\gR{\kl[\gR]{\mathcal{R}}}
+\newrobustcmd\gH{\kl[\gH]{\mathcal{H}}}
+\newrobustcmd\gD{\kl[\gD]{\mathcal{D}}}
+
+\knowledgenewcommand{\Jclass}{\cmdkl{\mathcal{J}}}
+\knowledgenewcommand{\Lclass}{\cmdkl{\mathcal{L}}}
+\knowledgenewcommand{\Rclass}{\cmdkl{\mathcal{R}}}
+\knowledgenewcommand{\Hclass}{\cmdkl{\mathcal{H}}}
+\knowledgenewcommand{\Dclass}{\cmdkl{\mathcal{D}}}
+
+\newrobustcmd{\Jeq}{\mathrel{\kl[\Jeq]{\mathcal J}}}
+\newrobustcmd{\nJeq}{\mathrel{\kl[\Jeq]{\cancel{\mathcal{J}}}}}
+\knowledge{\Jeq}{notion}
+
+\newrobustcmd{\Req}{\mathrel{\kl[\Req]{\mathcal{R}}}}
+\newrobustcmd{\nReq}{\mathrel{\kl[\Req]{\cancel{\mathcal{R}}}}}
+\knowledge{\Req}{notion}
+
+\newrobustcmd{\Leq}{\mathrel{\kl[\Leq]{\mathcal{L}}}}
+\newrobustcmd{\nLeq}{\mathrel{\kl[\Leq]{\cancel{\mathcal{L}}}}}
+\knowledge{\Leq}{notion}
+
+\newrobustcmd{\Heq}{\mathrel{\kl[\Heq]{\mathcal{H}}}}
+\newrobustcmd{\nHeq}{\mathrel{\kl[\Heq]{\cancel{\mathcal{H}}}}}
+\knowledge{\Heq}{notion}
+
+\newrobustcmd{\Jleq}{\mathrel{\kl[\Jleq]{\leqslant_{\mathcal{J}}}}}
+\newrobustcmd{\Jgeq}{\mathrel{\kl[\Jleq]{\geqslant_{\mathcal{J}}}}}
+\newrobustcmd{\nJleq}{\mathrel{\kl[\Jleq]{\nleqslant_{\mathcal{J}}}}}
+\newrobustcmd{\nJgeq}{\mathrel{\kl[\Jleq]{\ngeqslant_{\mathcal{J}}}}}
+\knowledge{\Jleq}{notion}
+
+\newrobustcmd{\Rleq}{\mathrel{\kl[\Rleq]{\leqslant_{\mathcal{R}}}}}
+\newrobustcmd{\Rgeq}{\mathrel{\kl[\Rleq]{\geqslant_{\mathcal{R}}}}}
+\knowledge{\Rleq}{notion}
+
+\newrobustcmd{\Lleq}{\mathrel{\kl[\Lleq]{\leqslant_{\mathcal{L}}}}}
+\newrobustcmd{\Lgeq}{\mathrel{\kl[\Lleq]{\geqslant_{\mathcal{L}}}}}
+\knowledge{\Lleq}{notion}
+
+\let\leqJ\Jleq
+\let\leqR\Rleq
+\let\leqL\Lleq
+
+\newrobustcmd{\Jl}{\mathrel{\kl[\Jl]{<_{\mathcal{J}}}}}
+\newrobustcmd{\nJl}{\mathrel{\kl[\Jl]{\nless_{\mathcal{J}}}}}
+\newrobustcmd{\Jg}{\mathrel{\kl[\Jl]{>_{\mathcal{J}}}}}
+\newrobustcmd{\nJg}{\mathrel{\kl[\Jl]{\ngtr_{\mathcal{J}}}}}
+\knowledge{\Jl}{notion}
+\newrobustcmd{\Rl}{\mathrel{\kl[\Rl]{<_{\mathcal{R}}}}}
+\newrobustcmd{\Rg}{\mathrel{\kl[\Rl]{>_{\mathcal{R}}}}}
+\knowledge{\Rl}{notion}
+\newrobustcmd{\Ll}{\mathrel{\kl[\Ll]{<_{\mathcal{L}}}}}
+\newrobustcmd{\Lg}{\mathrel{\kl[\Ll]{>_{\mathcal{L}}}}}
+\knowledge{\Ll}{notion}
+
+
+
+
+
+\newrobustcmd{\idemp}{\kl[\idemp]{\mathtt{E}}}
+\knowledge\idemp{notion,ensuremath}
+\newrobustcmd{\giidemp}{\kl[\giidemp]{\mathtt{GiE}}}
+\knowledge\giidemp{notion,ensuremath}
+\newrobustcmd{\oidemp}{\kl[\oidemp]{\mathtt{OE}}}
+\knowledge\oidemp{notion,ensuremath}
+\newrobustcmd{\ostidemp}{\kl[\ostidemp]{\mathtt{O^*E}}}
+\knowledge\ostidemp{notion,ensuremath}
+\newrobustcmd{\scatidemp}{\kl[\scatidemp]{\mathtt{ScE}}}
+\knowledge\scatidemp{notion,ensuremath}
+\newrobustcmd{\shuffleidemp}{\kl[\shuffleidemp]{\mathtt{ShE}}}
+\knowledge\shuffleidemp{notion,ensuremath}
+\newrobustcmd{\shsimp}{\kl[\shsimp]{\mathtt{SSE}}}
+\knowledge\shsimp{notion,ensuremath}
+
+\newrobustcmd{\aperiodic}{\kl[\aperiodic]{\mathtt{Ap}}}
+\knowledge\aperiodic{notion,ensuremath}
+
+\newrobustcmd{\s}{yes}
+\newrobustcmd{\n}{no}
+\newrobustcmd{\ds}{(yes)}
+\newrobustcmd{\Eeqs}{e = e^2}
+\newrobustcmd{\GIeqs}{\omegaoper e \omegastaroper e = e}
+\newrobustcmd{\OIeqs}{e = \omegaoper e}
+\newrobustcmd{\OIstareqs}{e = \omegastaroper e}
+\newrobustcmd{\SIeqs}{e = \omegastaroper e \omegaoper e}
+\newrobustcmd{\ShIeqs}{e = \shuffleoper e}
+\newrobustcmd{\SSeqs}{\shsimp}
+
+
+%% Equations %%
+\newrobustcmd\smallsubseteq{\text{\raisebox{.12em}{\scalebox{.6}{${\subseteq}$}}}}
+\knowledgenewrobustcmd{\eigi}{\ensuremath{\cmdkl{\mathtt{E{\smallsubseteq}GiE}}}}
+\knowledgenewrobustcmd{\scish}{\ensuremath{\cmdkl{\mathtt{ScE {\smallsubseteq} ShE}}}}
+\knowledgenewrobustcmd{\shiss}{\ensuremath{\cmdkl{\mathtt{ShE {\smallsubseteq} SSE}}}}
+\knowledgenewrobustcmd{\oigi}{\ensuremath{\cmdkl{\mathtt{OE {\smallsubseteq} GiE}}}}
+\knowledgenewrobustcmd{\ostigi}{\ensuremath{\cmdkl{\mathtt{O^*E {\smallsubseteq} GiE}}}}
+%
+\newrobustcmd{\foeqs}{\ensuremath{\aperiodic,\eigi,\scish, \shiss}}
+\newrobustcmd{\fofeqs}{\ensuremath{\aperiodic,\oigi,\ostigi,\scish,\shiss}}
+\newrobustcmd{\focuteqs}{\ensuremath{\aperiodic,\scish,\shiss}}
+\newrobustcmd{\fofiniteeqs}{\ensuremath{\oigi,\ostigi,\scish,\shiss}}
+\newrobustcmd{\fofinitecuteqs}{\ensuremath{\scish,\shiss}}
+\newrobustcmd{\foscatteredeqs}{\ensuremath{\shiss}}
+
+\newrobustcmd{\aperiodiceqs}{\exists n ~e^n=e}
+\newrobustcmd{\eigieqs}{e=e^2 \rightarrow e^{\omega}e^{\omega*}=e}
+\newrobustcmd{\scisheqs}{e=e^{\delta} \rightarrow e=e^{\shuffle}}
+\newrobustcmd{\shisseqs}{e=e^{\shuffle} \rightarrow e \mbox{ is } \shsimp}
+\newrobustcmd{\oigieqs}{e=e^{\omega} \rightarrow e^{\omega}e^{\omega*}=e}
+\newrobustcmd{\ostigieqs}{e=e^{\omega*} \rightarrow e^{\omega}e^{\omega*}=e}
+
+
+
+%% Model - Words and Linear ordering %%
+
+\newrobustcmd \emptyword {\varepsilon}
+
+\newrobustcmd{\natorder}{\omega}
+\newrobustcmd{\negorder}{\omega^*}
+\newrobustcmd{\intorder}{\delta}
+\newrobustcmd{\rationalorder}{\shuffle}
+\newrobustcmd{\integers}{\mathbb{Z}}
+
+\newrobustcmd\alphabet{\kl[\alphabet]{\ensuremath{\Sigma}}}
+\knowledge\alphabet{notion}
+\newrobustcmd{\subword}[2]{#1\kl[\subword]{|}_{#2}}
+\knowledge\subword{notion}
+\newrobustcmd\words[1]{#1^{\kl[\words]{\circ}}}
+\knowledge\words{notion}
+\newrobustcmd{\nonemptywords}[1] {#1^{\kl[\nonemptywords]{\circplussymbol}}}
+\knowledge\nonemptywords{notion}
+\newrobustcmd{\reg}{\mathrm{r}}
+\newrobustcmd{\factor}[2]{#1#2}
+
+\knowledgenewrobustcmd{\omegaword}[1] {\ensuremath{#1^{\cmdkl\omega}}}
+\knowledgenewrobustcmd{\omegastarword}[1] {\ensuremath{#1^{\cmdkl{\omega^*}}}}
+\knowledgenewrobustcmd{\shuffleword}[1] {\ensuremath{#1^{\cmdkl{\shuffle}}}}
+\knowledgenewrobustcmd{\negation}[1]{\ensuremath{\overline{#1}}}
+\knowledgenewrobustcmd{\finitewords}[1]{\ensuremath{#1^{\cmdkl{*}}}}
+
+%% Logics %%%
+\knowledgenewrobustcmd{\fo}{\ensuremath{\cmdkl{\mathsf{fo}}}}
+\knowledgenewrobustcmd{\wmso}{\ensuremath{\cmdkl{\mathsf{wmso}}}}
+\knowledgenewrobustcmd{\mso}{\ensuremath{\cmdkl{\mathsf{mso}}}}
+
+\knowledgenewrobustcmd{\foq}[1][]{\ensuremath{\cmdkl{\mathsf{fo}[}#1\cmdkl{]}}}
+
+\newrobustcmd{\focut}{\ensuremath{\foq[\existsCut]}}
+%\newrobustcmd{\focut}{\ensuremath{\kl[\focut]{\mathsf{foq[\existsCut]}}}}
+\knowledge\focut{notion}
+\newrobustcmd{\fofinite}{\ensuremath{\foq[\existsFinite]}}
+%\newrobustcmd{\fofinite}{\ensuremath{\kl[\fofinite]{\mathsf{foq[\existsFinite]}}}}
+\knowledge\fofinite{notion}
+\newrobustcmd{\fofinitecut}{\ensuremath{\foq[\existsFinite,\existsCut]}}
+%\newrobustcmd{\fofinitecut}{\ensuremath{\kl[\fofinitecut]{\mathsf{foq[\existsFinite,\existsCut]}}}}
+\knowledge\fofinitecut{notion}
+\newrobustcmd{\foordinal}{\ensuremath{\foq[\existsOrdinal]}}
+%\newrobustcmd{\foordinal}{\ensuremath{\kl[\foordinal]{\mathsf{foq[\existsOrdinal]}}}}
+\knowledge\foordinal{notion}
+\newrobustcmd{\foscattered}{\ensuremath{\foq[\existsScattered]}}
+%\newrobustcmd{\foscattered}{\ensuremath{\kl[\foscattered]{\mathsf{foq[\existsScattered]}}}}
+\knowledge\foscattered{notion}
+%\newrobustcmd{\foset}{\ensuremath{\kl[\foset]{\mathsf{foq[set]}}}}
+%\knowledge\foset{notion}
+
+
+% Quantifiers
+\newrobustcmd{\rexists}[1]{\kl[\rexists]{\exists^{#1}}}
+\newrobustcmd{\rforall}[1]{\kl[\rforall]{\forall^{#1}}}
+
+\newrobustcmd\existsIn[1]{\kl[\existsIn]{\exists}^{#1}}
+\knowledge\existsIn{notion}
+\newrobustcmd\forallIn[1]{\kl[\forallIn]{\forall}^{#1}}
+\knowledge\forallIn{notion}
+
+\newcommand{\existsFinite}[1][]{\kl[\existsFinite]{\exists_{#1}^{\mathsf{finite}}}}
+\knowledge\existsFinite{notion}
+\newcommand{\existsCut}{\kl[\existsCut]{\exists^{\mathsf{cut}}}}
+\knowledge\existsCut{notion}
+\newcommand{\existsGap}{\kl[\existsGap]{\exists^{\mathsf{gap}}}}
+\knowledge\existsGap{notion}
+\newcommand{\existsOrdinal}{\kl[\existsOrdinal]{\exists^{\mathsf{ordinal}}}}
+\knowledge\existsOrdinal{notion}
+\newcommand{\existsScattered}{\kl[\existsScattered]{\exists^{\mathsf{scattered}}}}
+\knowledge\existsScattered{notion}
+\newcommand{\forallFinite}{\kl[\forallFinite]{\forall^{\mathsf{finite}}}}
+\knowledge\forallFinite{notion}
+\newcommand{\forallCut}{\kl[\forallCut]{\forall^{\mathsf{cut}}}}
+\knowledge\forallCut{notion}
+\newcommand{\forallGap}{\kl[\forallGap]{\forall^{\mathsf{gap}}}}
+\knowledge\forallGap{notion}
+\newcommand{\forallOrdinal}{\kl[\forallOrdinal]{\forall^{\mathsf{ordinal}}}}
+\knowledge\forallOrdinal{notion}
+\newcommand{\forallScattered}{\kl[\forallScattered]{\forall^{\mathsf{scattered}}}}
+\knowledge\forallScattered{notion}
+
+
+%%Gap Monoid elements%%
+\knowledgenewcommand{\cci}{\cmdkl{\mathsmaller{[\,]}}}
+\knowledgenewcommand{\oci}{\cmdkl{\mathsmaller{(\,]}}}
+\knowledgenewcommand{\coi}{\cmdkl{\mathsmaller{[\,)}}}
+\knowledgenewcommand{\ooi}{\cmdkl{\mathsmaller{(\,)}}}
+\knowledgenewcommand{\cui}{\cmdkl{\mathsmaller{[\,\rangle}}}
+\knowledgenewcommand{\uci}{\cmdkl{\mathsmaller{\langle\,]}}}
+\knowledgenewcommand{\uui}{\cmdkl{\mathsmaller{\langle\,\rangle}}}
+
+
+
+\knowledgenewcommand{\ccim}[1]{\cmdkl{\mathsmaller{[ #1 ]}}}
+\knowledgenewcommand{\ocim}[1]{\cmdkl{\mathsmaller{( #1 ]}}}
+\knowledgenewcommand{\coim}[1]{\cmdkl{\mathsmaller{[ #1 )}}}
+\knowledgenewcommand{\ooim}[1]{\cmdkl{\mathsmaller{( #1 )}}}
+\knowledgenewcommand{\cuim}[1]{\cmdkl{\mathsmaller{[ #1 \rangle}}}
+\knowledgenewcommand{\ucim}[1]{\cmdkl{\mathsmaller{\langle #1]}}}
+\knowledgenewcommand{\uuim}[1]{\cmdkl{\mathsmaller{\langle #1 \rangle}}}
+\knowledgenewcommand{\ouim}[1]{\cmdkl{\mathsmaller{(#1 \rangle}}}
+\knowledgenewcommand{\uoim}[1]{\cmdkl{\mathsmaller{\langle #1)}}}
+
+
+\newrobustcmd{\morphsetmodify}[1] {#1}
+\newrobustcmd{\invmorph}[1]{\langle {\morphsetmodify #1} \rangle}
+\newrobustcmd{\minmorph}[1]{[ {\morphsetmodify #1} \rangle}
+\newrobustcmd{\maxmorph}[1]{\langle {\morphsetmodify #1} ]}
+\newrobustcmd{\minmaxmorph}[1]{[ {\morphsetmodify #1} ]}
+\newrobustcmd{\nomaxmorph}[1]{\langle {\morphsetmodify #1} )}
+\newrobustcmd{\nominmorph}[1]{( {\morphsetmodify #1} \rangle}
+\newrobustcmd{\nominmaxmorph}[1]{( {\morphsetmodify #1} )}
+\newrobustcmd{\minnomaxmorph}[1]{[ {\morphsetmodify #1} )}
+\newrobustcmd{\maxnominmorph}[1]{( {\morphsetmodify #1} ]}
+
+
+
+%%Identities%%
+\newcommand{\idap}{x^i=x^i\cdot x}
+\newcommand{\ideigi}{(x^i)^\omega\cdot (x^i)^{\omega*}}
+\newcommand{\idoigi}{x^{oi}\cdot x^{\omega*}=x^{oi}}
+\newcommand{\idostigi}{x^{\omega}\cdot x^{o^*i}=x^{o^*i}}
+\newcommand{\idscish}{\{x^{sc}\}^{\shuffle}=x^{sc}}
+\newcommand{\idshiss}{\mathit{sh}(x,y_1,\dots,y_k)=(\{\mathit{sh}(x,y_1,\dots,y_k)\}\cup\{y_1,\dots,y_k\})^\shuffle}
+
+
+\knowledgenewcommand{\logic}{\cmdkl{\ensuremath{\mathrm{Log}}}}
+\knowledgenewcommand{\extralogic}[1][]{\cmdkl{\ensuremath{\logic[\exists #1]}}}
+
+\knowledgenewcommand{\extclosure}{\cmdkl{\mathrm{extensionClosure}}}
+\knowledgenewcommand{\starclosure}{\cmdkl{\ensuremath{^*}\mathrm{Closure}}}
+
+\knowledgenewcommand{\cof}{\cmdkl{\mathrm{coFinal}}}
+\knowledgenewcommand{\covering}{\cmdkl{\mathrm{Covering}}}
+\knowledgenewcommand{\initial} {\cmdkl{\mathrm{Initial}}}
+
+
+\knowledgenewcommand{\definterval}{\cmdkl{\fformula{DefInterval}}}
+
+
+
+\knowledgenewcommand{\ramseyomega}[1]{\cmdkl{\omegaword{\cuim{#1}}}}
+\knowledgenewcommand{\ramseyomegastar}[1]{\cmdkl{\omegastarword{\ucim{#1}}}}
+
+
+
+\newcommand{\fletter}[1]{\formula{Letter}_{#1}}
+\newcommand{\fleft}{\formula{LeftInterval}}
+

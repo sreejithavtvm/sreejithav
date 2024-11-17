@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{hyperref}
+\usepackage{cite}
+
+\title{Research Plan}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+I primarily work in the area of theoretical computer science. I completed my Ph.D. under Prof. Kamal Lodaya at the Institute of Mathematical Sciences, Chennai. Subsequently, I pursued postdoctoral research at institutions such as Institut de recherche en informatique fondamentale (IRIF), France under Thomas Colcombet and the University of Warsaw, Poland under Mikołaj Boja\'nczyk. I later joined IIT Goa as an Assistant Professor, where I am currently an Associate Professor.
+
+Initially, my research focused on logic and automata theory from a theoretical perspective. Over time, I expanded into applied research, combining formal methods with applications in machine learning, verification, and related areas.
+
+\section{Descriptive Complexity: Ph.D.}
+Logic provides a precise framework to express mathematical properties unambiguously. It plays a vital role in areas like descriptive complexity~\cite{immerman_book}, semigroup theory~\cite{str_cirBook}, and set theory~\cite{ject_setTheory}. Historically, Hilbert's program aimed to prove all true mathematical statements using logic, a vision interrupted by Gödel's incompleteness theorem~\cite{godel_incompleteness}. Subsequent foundational contributions from Turing, Church, and Tarski shaped the modern landscape of logic. Logic has also driven advances in practical domains, including formal verification~\cite{vardi94ic, esparza_unfoldings}, databases~\cite{vianu_bookDB}, multi-agent systems~\cite{vardi_logicEffectiveness}, programming languages~\cite{vardi_logicEffectiveness}, and artificial intelligence~\cite{nisson_logicAI}. Vardi~\cite{vardi_logicEffectiveness} provides an excellent overview of these applications.
+
+\subsection{My contribution}
+In my Ph.D. thesis~\cite{sav_thesis}, I introduced modulo counting operators. These are operators that can count modulo a number. For example, a clock does modulo counting. My contributions to this area are
+
+\begin{enumerate}
+ \item My work in \cite{my_ltlmod,my_ltlsuccinct} extends Linear temporal logic (\textsf{LTL}) with modulo counting operators, enhancing its expressiveness while retaining PSPACE complexity for model checking. This extended \textsf{LTL} to handle properties like periodicity.
+ \item One of the biggest open problem in circuit complexity (stated in terms of logic) is whether all regular languages are definable in first order logic (with addition and multiplication predicates).
+ In~\cite{my_foplus}, we showed that there are regular languages not definable in first order logic (if addition is the only predicate) extended with modulo counting operators. This resolves a question posed in \cite{roy_defGenFO}, and takes a step towards resolving the open problem in circuit complexity. Our work connects circuit complexity to logic using tools from model theory, Ramsey theory, and semigroup theory.
+\end{enumerate}
+
+\subsection{Awards and Recognition}
+\begin{itemize}
+    \item \textbf{ACM India Honorable Mention (2014):} For my Ph.D. thesis titled \emph{Regular Quantifiers in Logics}.
+\end{itemize}
+
+\section{Countable Words: Postdoctoral and IIT Goa}
+This work is at the meeting point of two important branches of language theory: on the one hand the extension of the finite word languages theories, in particular infinite words or infinite trees, as initiated by Büchi, and on the other hand the characterization of classes of languages, in particular logics, as initiated by Schützenberger \cite{Schutzenberger65}.
+
+Language theory originated with finite words~\cite{Kleene56,RabinScott59} and extended to infinite words~\cite{Buchi62} and trees~\cite{Rabin69}, leading to MSO decidability for these structures.
+In our case, the model of words we study is the one of countable words, the largest one that is known to have a theory of recognizability \cite{CartonColcombetPuppis}.
+
+\subsection{Contributions}
+My contributions include extensive study on logics over countable words.
+\begin{itemize}
+    \item In \cite{icalp15} we gave algebraic characterizations for logics like \textsf{FO}, and intermediate logics like \textsf{FO} with cuts, weak \textsf{MSO}, and scattered \textsf{FO}. This was the first paper that gave characterization of intermediate logics over countable words.
+    \item In \cite{ms16} and \cite{lics19} we developed similar ideas to show algebraic characterizations for two variable fragment of \textsf{FO} and \textsf{LTL}.
+    \item As a consequence of the above results, we get decidability for all these logics.
+    \item As a consequence, we are also able to compare expressiveness over countable words, between these logics.
+    \item We also established novel decomposition theorems for algebraic structures in these settings~\cite{lics19,jcss23}.
+    \item We were also able to show that logics like \textsf{FO} with cuts, weak \textsf{MSO} cannot be decomposed by a finite set \cite{fct21}.
+\end{itemize}
+
+\section{One-Counter Automata: IIT Goa}
+Automata theory is the study of abstract machines. An automata typically ``simulates" the working of a machine or a process. For example, Turing machines simulate the workings of a real computer \cite{sipser_tocBook}, B\"uchi automata simulate the workings of finite state machines (for example, a lift) \cite{vardi95}, and Cellular automata simulate biological processes \cite{Barto75}. Automata theory thus studies mathematical modeling of many of the complex systems we find around us. A real object can now be modelled using an automata and its properties tested using logics. Automata theory is also used in compliers, natural language processing etc. See \cite{deepak_bookAppAutomata} for various applications of automata theory.
+
+One-counter automata (OCA) extend finite automata with a single integer counter and capture behaviors of certain infinite-state systems. In this work, we focus on two problems related to one-counter systems: (1) equivalence of two deterministic OCA (DOCA) and its various extensions, (2) active learning of DOCAs.
+
+\subsection{Contributions}
+Key results include:
+\begin{itemize}
+    \item Equivalence problem for weighted DOCA is not known to be decidable. It is a non-trivial subproblem of the fundamental question of equivalence of weighted pushdown automata. In our work, we showed that decidability of equivalence of a large subclass of weighted DOCA. We showed the problem is in P using new reachability techniques~\cite{fsttcs23,icla25}.
+    \item Active learning algorithms for DOCAs using SAT solvers, significantly improving efficiency over prior methods~\cite{learning24}.
+    \item All current algorithms for active learning of DOCAs run in time exponential in the worst case. In an unpublished work, we have developed the first polynomial time algorithm for active learning of DOCAs.
+\end{itemize}
+
+\subsection{Achievements}
+\begin{itemize}
+    \item \textbf{Funding:} SERB research grant for \emph{Probabilistic Pushdown Automata} (2021--2024).
+    \item \textbf{Supervision:} Guided Prince Mathew (Ph.D. student), expected to graduate in December 2024.
+\end{itemize}
+
+\section{Formal Methods in Machine Learning: Future Directions}
+Adaptive control systems use machine learning algorithms for decision-making, but verifying their safety poses significant challenges. In safety critical systems, it is important
+to ensure that the overall safety of the controller is not compromised. My research proposes formal verification techniques using abstraction and SAT/SMT solvers to ensure safety in such systems.
+
+\subsection{Achievements}
+\begin{itemize}
+    \item \textbf{Funding:} Indo-French research grant from CEFIPRA on \emph{Formal Verification of Adaptive Control Algorithms}.
+    \item \textbf{Visiting Faculty:} Funding as a Visiting Faculty at University of Bordeaux for four months for research in \emph{Formal methods in machine learning}.
+\end{itemize}
+
+\section{Water Research Using Geostationary Data}
+My interdisciplinary work explores water discharge estimation in rivers using geospatial data (along with in-situ measurements). By developing generalized width-discharge relations, our research addressed critical gaps in sustainable river management~\cite{esd21}. Currently we are working on soil moisture estimation from geospatial data.
+
+\subsection{Achievements}
+\textbf{Funding:} Ministry of Earth Science (MoES) sanctioned project \emph{Remote sensing based method
+for detecting water discharge in the Ganga and Brahmaputra rivers}.
+
+\section{Conclusion}
+My research combines theoretical rigor with practical applications across diverse domains, including logic, automata theory, machine learning, and environmental engineering. I aim to deepen collaborations and further interdisciplinary exploration.
+
+\bibliographystyle{plain}
+\bibliography{papers}
+
+\end{document}

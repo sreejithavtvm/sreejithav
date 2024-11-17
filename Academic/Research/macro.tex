@@ -1,0 +1,291 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  Theorems %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newtheorem{facts}{Theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{openproblem}[theorem]{Open Problem}
+%\newtheorem*{remark}{Remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%     Fonts      %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\class}{\textsc}
+\newcommand{\name}{\textsf}
+\newcommand{\concept}{\textbf}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%    Number System     %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Int}{\mathbb{Z}}
+\newcommand{\rmplus}{\textrm{+}}
+\newcommand{\divides}{|}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Useful Symbols  %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\emphi}[1]{\emph{#1}\index{#1}}
+\newcommand{\windex}[1]{#1\index{#1}}
+
+\newcommand{\true}{true}
+\newcommand{\false}{false}
+\newcommand{\andover}{\bigwedge}
+\newcommand{\orover}{\bigvee}
+
+\newcommand{\prodover}{{\displaystyle \Pi}}
+\newcommand{\suc}{succ}
+\newcommand{\limplies}{\Rightarrow}
+\newcommand{\liff} {\Leftrightarrow}
+\newcommand{\occ}[2]{|#2|_{#1}}
+\newcommand{\bp}{\Box}
+\newcommand{\henceproved}{~}
+\newcommand{\etal}{et.al}
+\newcommand{\lcm}{\mathrm{lcm}}
+
+\newcommand{\aperiodic}{{\bf A}}
+\newcommand{\starfree}{{\bf SF}}
+\newcommand{\ul}{{\bf UL}}
+\newcommand{\da}{{\bf DA}}
+
+% Game
+\newcommand{\game}[2]{\sim_{#1}^{#2}}
+\newcommand{\bdd}[2]{\approx_{#1}^{#2}}
+\newcommand{\dist}{\delta}
+\newcommand{\efmod}{EF\textsc{mod}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%           LTL MODALITIES     %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\suntil}{{\textsc{\u U}}}
+\newcommand{\ssince}{{\textsc{\u S}}}
+\newcommand{\spast}{{\textsc{\u P}}}
+\newcommand{\sfut}{{\textsc{\u F}}}
+\newcommand{\shenceforth}{{\textsc{\u G}}}
+\newcommand{\salwayspast}{{\textsc{\u H}}}
+
+\newcommand{\nexttime}{\textsc{X}}
+\newcommand{\yesterday}{\textsc{Y}}
+\newcommand{\fut}{\textsc{F}}
+\newcommand{\past}{\textsc{P}}
+\newcommand{\until}{\textsc{U}}
+\newcommand{\since}{\textsc{S}}
+\newcommand{\henceforth}{\textsc{G}}
+\newcommand{\alwayspast}{\textsc{H}}
+\newcommand{\len}{{\ell}}
+\newcommand{\modpred}[3] {#1 \equiv #2 ~(\mod #3)}
+
+% Modulo counting operators
+\newcommand{\modf}[3] {\modo_{#1,#2}^F{#3}}
+\newcommand{\modp}[3] {\modo_{#1,#2}^P{#3}}
+\newcommand{\modfoq}[1] {\textsc{mod$^F(#1)$}}
+\newcommand{\modpoq}[1] {\textsc{mod$^P(#1)$}}
+\newcommand{\modoq}[1] {\textsc{mod($#1$)}}
+\newcommand{\modfo} {\textsc{mod$^F$}}
+\newcommand{\modpo} {\textsc{mod$^P$}}
+\newcommand{\modo} {\textsc{mod}}
+
+%Length counting operators
+%\newcommand{\lenmod}[2]{\len_{#1,#2}} % To be deleted (TBD)
+\newcommand{\lenf}[2]{\len_{#1,#2}^F}
+\newcommand{\lenp}[2]{\len_{#1,#2}^P}
+\newcommand{\lenfoq}[1] {\textsc{len$^F(#1)$}}
+\newcommand{\lenpoq}[1] {\textsc{len$^P(#1)$}}
+\newcommand{\lenfo} {\textsc{len$^F$}}
+\newcommand{\lenpo} {\textsc{len$^P$}}
+\newcommand{\leno} {\textsc{len}}
+\newcommand{\duro} {\textsc{dur}}
+
+%Group operators
+\newcommand{\grpF}[3] {{#1}_{#2}^F \langle #3 \rangle}
+\newcommand{\groupF}[3] {G_{#1}^F \langle #2,\dots,#3 \rangle}
+\newcommand{\groupP}[3] {G_{#1}^P \langle #2,\dots,#3 \rangle}
+\newcommand{\grpog}[1] {\textsc{grp($#1$)}}
+\newcommand{\grpo} {\textsc{grp}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%    LTL group notation   %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\tl}{\textsc{tl}}
+\newcommand{\ltl}{\textsc{LTL}}
+\newcommand{\ltlgrp}{\ltl\textsc{grp}}
+\newcommand{\ltlmod}{\ltl\textsc{mod}}
+\newcommand{\utl}{\textsc{UTL}}
+\newcommand{\itl}{\textsc{ITL}}
+\newcommand{\uitl}{\textsc{UITL}}
+\newcommand{\ltlgrpbin}{\ltlgrp$^{bin}$}
+\newcommand{\ltlgrpun}{\ltlgrp$^{un}$}
+\newcommand{\ltlgrpg}[1] {\textsc{\ltlgrp(#1)}}
+\newcommand{\fltl} {\textsc{\tl[\nexttime,\until]}}
+\newcommand{\fxtl} {\textsc{\tl[\nexttime,\fut]}}
+\newcommand{\mxutl} {\textsc{\tl[\nexttime,\until,\modo]}}
+\newcommand{\moxutl}[1] {\textsc{\tl[\nexttime,\until,\modoq{#1}]}}
+\newcommand{\gfptl} {\tl[\fut,\past,\grpo]}
+\newcommand{\fptl} {\tl[\fut,\past]}
+\newcommand{\gfpxytl} {\tl[\fut,\past,\nexttime,\yesterday,\grpo]}
+\newcommand{\moftl}[1] {\tl[\fut,\modoq{#1}]}
+\newcommand{\lnfptl} {\tl[\fut,\past,\leno]}
+\newcommand{\lntl} {\tl[\leno]}
+\newcommand{\lnftl} {\tl[\fut,\leno]}
+\newcommand{\lnfxl} {\tl[\fut,\nexttime,\leno]}
+\newcommand{\dtl} {\tl[\duro]}
+\newcommand{\mftl} {\tl[\fut,\modo]}
+\newcommand{\ftl} {\tl[\fut]}
+\newcommand{\lnftlun} {\textsc{\tl$^{un}$[\fut,\leno]}}
+\newcommand{\mfpxytl} {\tl[\nexttime,\yesterday,\fut,\past,\modo]}
+\newcommand{\lnfpxytl} {\tl[\nexttime,\yesterday,\fut,\past,\leno]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  First Order Logic %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\foarb}{\fo[$<,\arb$]}
+\newcommand{\fo}{FO}
+\newcommand{\FO}{\mathrm{FO}}
+\newcommand{\foless}{\fo[$<$]}
+\newcommand{\folesssuc}{\fo[$<,\suc$]}
+\newcommand{\foplus}{\fo[$<,+$]}
+\newcommand{\fomult}{\fo[$<,+,*$]}
+\newcommand{\modmult}{MOD[$<,+,*$]}
+\newcommand{\fotwoless}{\fo$^2$[$<$]}
+\newcommand{\fomod}{\fo\plusmod}
+\newcommand{\fogrp}{\fo\plusgrp}
+\newcommand{\fogrpplus}{\fogrp[$<,$\rmplus]}
+\newcommand{\pluscount}{\textsc{unC}}
+\newcommand{\focount}{\fo\pluscount}
+\newcommand{\fogroup}[4]{Q_#1^{#2}x~ \langle #3,\dots,#4 \rangle}
+\newcommand{\fogroupy}[4]{Q_#1^{#2}y~ \langle #3,\dots,#4 \rangle}
+\newcommand{\mon}[2]{Q_{#1}^{#2}}
+\newcommand{\reg}{\mathrm{REG}}
+
+\newcommand{\fogrpless}{\fo{\textsc{grp}}[$<$]}
+\newcommand{\fogrplesssuc}{\fo{\textsc{grp}}[$<,\suc$]}
+\newcommand{\fomodplus}{\fomod[$<,+$]}
+
+\newcommand{\modplus}{\MOD[$<,+$]}
+
+\newcommand{\propmod}{\textsc{mod}}
+\newcommand{\plusmod}{\propmod}
+\newcommand{\plusgrp}{\textsc{grp}}
+\newcommand{\cnt}{\#}
+\newcommand{\durymod}[3]{\exists^{(#2,#3)}y(#1)}
+\newcommand{\durmod}[3]{\exists^{(#2,#3)}x(#1)}
+\newcommand{\uncnt}[4]{\exists^{#3 #2}{#1} #4}
+
+\newcommand{\MOD}{\propmod}
+\newcommand{\MAJ}{\textsc{maj}}
+\newcommand{\fogroupl}{\fo\textsc{group}}
+\newcommand{\GROUP}{\textsc{group}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%  Complexity classes %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ptime}{\class{P}}
+\newcommand{\pspace}{\class{Pspace}\/}
+\newcommand{\logspace}{\class{Logspace}}
+\newcommand{\Nlogspace}{\class{Nlogspace}\/}
+\newcommand{\np}{\class{Np}\/}
+\newcommand{\Pitwo}{\class{$\Pi_2^P$}}
+\newcommand{\Sigmatwo}{\class{$\Sigma_2^P$}}
+\newcommand{\twoexptime}{\class{2Exptime}}
+\newcommand{\Atwoexptimelin}{\class{ATime}[$2^{2^{O(n)}},O(n)$]}
+\newcommand{\Nexptime}{\class{Nexptime}}
+\newcommand{\Expspace}{\class{Expspace}}
+\newcommand{\twoexpspace}{\class{2Expspace}}
+\newcommand{\Sigmathree}{$\Sigma_3^P$}
+\newcommand{\ac}{\class{AC}$^0$\/}
+\newcommand{\acc}{\class{ACC}$^0$\/}
+\newcommand{\cc}{\class{CC}$^0$\/}
+\newcommand{\nc}{\class{NC}$^1$\/}
+\newcommand{\tc}{\class{TC}$^0$\/}
+\newcommand{\nonuniform}{\emph{non-uniform}}
+\newcommand{\logtimeuniform}{\emph{dlogtime-uniform}}
+\newcommand{\arb}{\mathrm{Arb}}
+\newcommand{\nonelementary}{\class{Non-Elementary}}
+\newcommand{\maj}{$\mathrm{MAJ}$}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%  L[<,+] %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\nnp}{\mathrm{nnp}}
+%\newcommand{\Arb}{\mathrm{arb}}
+\newcommand{\IL}{\mathrm{IL}}
+\newcommand{\IR}{\mathrm{IR}}
+\newcommand{\uniform}{\mathrm{uniform}}
+\newcommand{\NL}{\mathbf{NLL}}
+\newcommand{\REG}{\mathrm{REG}}
+\newcommand{\alphabet}{\mathcal{A}}
+\newcommand{\defs}{::=}
+\newsavebox{\meinebox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Two Variable Logic  %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fotwo}{FO${}^{2}$}
+%\newcommand{\fotworeg}{\fotwo\plusreg}
+\newcommand{\fotwoplus}{\fo$^2$[$<,+$]}
+\newcommand{\fotwomodless}{\fotwo\plusmod[$<$]}
+\newcommand{\fomodtwo}{\fotwo\plusmod}
+\newcommand{\fomodless}{\fomod[$<$]}
+\newcommand{\modpres}{\fomod[\rmplus]}
+\newcommand{\fogrptwo}{\fotwo\plusgrp}
+\newcommand{\fomodtwoless}{\fotwo\plusmod\less}
+\newcommand{\fogrptwoless}{\fogrptwo\less}
+
+\newcommand{\fomodtwolesssuc}{\fotwo\plusmod\lesssuc}
+\newcommand{\fogrptwolesssuc}{\fogrptwo\lesssuc}
+
+\newcommand{\less}{[$<$]}
+\newcommand{\lesssuc}{[$<,\suc$]}
+
+\newcommand{\xyfptlmod}{UTL\textsc{mod}}
+\newcommand{\xyfptllen}{UTL\textsc{len}}
+\newcommand{\xyfptlgrp}{UTL\textsc{grp}}
+
+\newcommand{\fotwolen}{\fotwo\proplen}
+%\newcommand{\prev}{\textsf{Y}}
+\newcommand{\focounttwolesssuc}{\fotwo\pluscountlesssuc}
+\newcommand{\focounttwo}{\fotwo\pluscount}
+\newcommand{\pluscountlesssuc}{\pluscount\lesssuc}
+\newcommand{\fotwosucplus}{FO${}^2$[$<,Suc,y=2x,1$]}
+\newcommand{\countpres}{\focount[\rmplus]}
+\newcommand{\pres}{FO[\rmplus]}
+\newcommand{\durthresh}[3]{\cnt #1 #2 #3}
+
+\newcommand{\fotwolesssuc}{\fotwo\lesssuc}
+%\newcommand{\plusthrlesssuc}{\plusthr\lesssuc}
+\newcommand{\fothrtwolesssuc}{\fotwo\plusthr\lesssuc}
+\newcommand{\plusthr}{\textsc{thr}}
+\newcommand{\fothr}{FO\plusthr}
+%\newcommand{\pluslenless}{\proplen\less}
+\newcommand{\fotwolenlesssuc}{\fotwo\proplen\lesssuc}
+

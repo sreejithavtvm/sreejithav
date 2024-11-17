@@ -1,0 +1,116 @@
+% !TEX root =  main.tex
+
+\section{Introduction}
+\label{Introduction}
+
+This work is at the meeting point of two important branches of language theory: on the one hand the extension of the finite word languages theories---in particular infinite words or infinite trees--, as initiated by Büchi, and on the other hand the characterization of classes of languages---in particular logics---, as initiated by Schützenberger \cite{Schutzenberger65}. 
+
+\subsection{Extension of words and monadic second-order logic.}
+Language theory is originally concerned with finite words \cite{Kleene56,RabinScott59}. Quickly, connections between the expressiveness of automata and "monadic second-order logic" ("MSO" for short) were enunciated \cite{Trakhtenbrot62,Elgott,Buchi60}, yielding the decidability of "MSO" over words.
+Then Büchi considered in a seminal work an extension to "words of length~$\omega$" ("aka" "$\omega$-words", "ie" words for which the set of letter positions is the "linear ordering"~$\omega$) \cite{Buchi62}, which was then remarkably extended by Rabin to "infinite trees" \cite{Rabin69}. From these two works, the decidability of the "MSO" theory of these models, as well as for countable chains, is shown decidable. In 75, Shelah gave another proof of the decidabilty of countable chains~\cite{Shelah75} as well as an undecidability proof over the chain of reals (under the continuum hypothesis, an hypothesis which will be removed in a subsequent paper with Gurevitch~\cite{GurevichShelah79I,GurevichShelah79II}).
+Then, Gurevitch and Shelah pursued and gave a description of some non-countable chains for which "MSO" theory remained decidable.
+Another strand of research was the connection with algebraic structures as monoids and semigroups, as advocated by Schützenberger \cite{Schutzenberger56semi}. These approaches were extended to "$\omega$-words" by Wilke~\cite{Wilke93a} and 
+Pin and Perrin~\cite{PerrinPin04}.
+In our case, the model of words we study is the one of countable words, the largest one that is known to have a theory of recognizability \cite{CartonColcombetPuppis}.
+
+\subsection{Characterization of classes and logics.} A second very vivid branch of research is the characterization of classes of languages (which are typically described by means of a logic). The goal is: given a regular language, decide whether it can be expressed in a weaker formalism, such as "first-order logic" ("FO" for short). The first result in this direction is the one of Schützenberger establishing that a language is describable by a star-free expressions if and only if its syntactic monoid is aperiodic \cite{Schutzenberger65}.
+
+\subsection{Contributions}
+
+In this paper, we study several logics of expressive power lying somewhere between "first-order logic" and "monadic second-order logic" over countable words:
+\begin{itemize}
+	\item \fo\ is standard first-order logic over words.
+	\item \focut\ is first-order logic extended with quantifications over "Dedekind cuts". It is easily shown equivalent to \fo[gap]\ which is the extension of first-order logic with quantifications over "gaps".
+	\item \fofinite\ is first-order logic extended with quantifications over finite sets, which is nothing but "weak monadic second-order logic" (or "WMSO" for short).
+	\item \fofinitecut\ is the combination of the two above extensions.
+	\item \foordinal\ is first-order logic extended with quantifications over ordinals, "i.e." well-founded sets of positions.
+	\item \foscattered\ is first-order logic extended with quantifications over "scattered sets", "i.e." sets of positions that are ``nowhere dense''.
+	\item \mso\ is "monadic second-order logic", which is first-order extended with set quantifiers.
+\end{itemize}
+
+The first thing that we disclose is how are related the expressive power of these logics.
+\begin{restatable}{theorem}{TheoremExpressiveness}
+	The relative expressiveness of logics are summarized in the following drawing:
+	\begin{center}
+	  \begin{tikzpicture}
+	  \node(fo) at (3mm,0) {\fo};
+	  %\node(fof) at (3mm,0) {\textcolor{red}{\fo[Fin]}};
+	  \node(focut) at (28mm,8mm) {\focut};
+	  \node(wmso) at (28mm,-8mm)  {\begin{tabular}c\fofinite\\=\\ \wmso\end{tabular}};
+	  \node(msofcut) at (60mm,0mm) {\begin{tabular}c\fofinitecut\\=\\ \foordinal\end{tabular}};
+	  \node(msoscat) at (90mm,0mm) {\foscattered};
+	  \node(mso) at (110mm,0mm) {\mso};
+	  %\draw[->] (node cs:name=fo) -- (node cs:name=fof);
+	  \draw[->] (node cs:name=fo) -- (node cs:name=focut);
+	  \draw[->] (node cs:name=fo) -- (node cs:name=wmso);
+	  \draw[->] (node cs:name=focut) -- (node cs:name=msofcut);
+	  \draw[->] (node cs:name=wmso) -- (node cs:name=msofcut);
+	  \draw[->] (node cs:name=msofcut) -- (node cs:name=msoscat);
+	  \draw[->] (node cs:name=msoscat) -- (node cs:name=mso);
+	  \end{tikzpicture}
+	\end{center}
+	All inclusions are strict, and there exist languages which are definable in \focut\ and \fofinite, but not in \fo.
+	More precisely:
+	\begin{itemize}
+	\item ``The domain is finite'' is definable in \focut\ and \fofinite, but not in \fo.
+	\item ``The domain contains a gap'' is definable in \focut, but not in \fofinite.
+	\item ``The domain ... FILL THE GAP'' is definable in \fofinite, but not in \focut.
+	\item The union of the two previous languages, abd ``there is an even number of gaps'',
+			are both definable in \fofinitecut, but not in \fofinite, nor \focut.
+	\item ``The domain is "scattered"'' is definable in \foscattered, but not in \fofinitecut.
+	\item ``To fill'' is definable in \mso, but not in \foscattered.
+ 	\end{itemize}
+\end{restatable}
+In this first statement, most inclusions are obvious. The most difficult part is the inclusion $\foordinal\subseteq\fofinitecut$ which we do not know how to perform syntactically, and requires to appeal to the second result. For the separation example, a direct proof could be given, but we rather appeal to the easy direction of our main theorem, \Cref{TheoremCore}. 
+Detailed explanations can be found in \tc{put proper ref}.
+
+Our second result is an effective characterization of these logics in algebraic terms, in the spirit of Schützenberger's result.
+Its statement requires to introduce "o-monoids", an algebraic notion used for describing languages of countable words, and 
+some property that these algebras can have (see Definition~\ref{definition:algebraic-properties}). This properties are discussed in more details in Section~\ref{section:...}. For instance, \eigi\ signifies that all "idempotents" are "gap insensitive": a "o-monoid" which satisfies \eigi\ cannot make the difference between a large number of iterations of a word\tc{put drawings instead of formulae}
+\begin{align*}
+	u^n\qquad\text{for a sufficiently large~$n$,}
+\end{align*}
+and an infinite word in which a "gap" has been inserted
+\begin{align*}
+	u^\omega\ u^{\omega*}\ .
+\end{align*}
+\tc{Note that it implies aperiodicity.}
+\begin{restatable}{theorem}{TheoremCore}
+	Let $\monoid$ be the \kl{syntactic $\circ$-monoid} for a \kl{language} $L\subseteq\words\alphabet$.
+	\begin{itemize}
+		\item $L$ is \kl{definable} in \fo\ if and only if $\monoid$ satisfies \foeqs.
+		%i->gi, sc->sh and sh->ss.
+		\item $L$ is \kl{definable} in \focut\ if and only if $\monoid$ satisfies \focuteqs.
+		%aperiodic, sc->sh and sh->ss.
+		\item $L$ is \kl{definable} in \fofinite if and only if $\monoid$ satisfies \fofiniteeqs.
+		%oi->gi, o*i->gi, sc->sh and sh->ss.
+		\item $L$ is \kl{definable} in \fofinitecut\ if and only if it is \kl{definable} in \foordinal
+			if and only if $\monoid$ satisfies $\fofinitecuteqs$.
+		%sc->sh and sh->ss.
+		\item $L$ is \kl{definable} in \foscattered\ if and only if $\monoid$ satisfies \foscatteredeqs.
+		%sh->ss.
+	\end{itemize}
+	As a consequence, these logics are decidable.
+\end{restatable}
+\tc{complete...}
+We also describe in more details what these properties mean, by giving:
+\begin{theorem}
+	\begin{itemize}
+	\item an interpretation of them in terms of $\gJ$-classes,
+	\item an equivalent description in terms of identities.
+	\end{itemize}
+\end{theorem}
+
+\subsection{Related work}
+Some algebraic studies of regular languages of infinite words have already been made.
+\cite{Etessami99}
+\tc{}
+
+In particular, Bes and Carton have studied the particular case of "scattered countable words", and established
+an equivalent algebraic characterization of \fo\  \cite{BesCarton11} and \wmso\ \cite{BesCartonPersonal} in this specific case.
+
+\subsection{Structure of the document}
+
+
+
+

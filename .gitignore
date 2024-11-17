@@ -8,3 +8,5 @@ Academic/Course Handouts/dsa_plan.pdf
 *.log
 *.aux
 *.pdf
+*.bbl
+*.blg
