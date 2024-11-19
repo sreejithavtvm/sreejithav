@@ -23,20 +23,23 @@
 \makecvtitle % Print the CV title
 
 \section{Introduction}
-My research lies at the intersection of theoretical computer science and practical applications, with a focus on logic, automata theory, and their integration into fields like formal verification and recently machine learning. I completed my Ph.D. under Prof. Kamal Lodaya at the Institute of Mathematical Sciences, Chennai, and subsequently pursued postdoctoral research at institutions such as IRIF, France, and the University of Warsaw, Poland. Currently, I am an Associate Professor at IIT Goa. \\
+My research lies at the intersection of theoretical computer science and practical applications, focusing on logic, automata theory, and their integration into fields such as formal verification and, more recently, machine learning. I completed my Ph.D. under the supervision of Prof. Kamal Lodaya at the Institute of Mathematical Sciences, Chennai, and postdoctoral research at prestigious institutions, including IRIF (France), the University of Warsaw (Poland), TIFR and CMI. I joined IIT Goa as an Assistant Professor and currently serve as an Associate Professor. \\
 
-My initial work concentrated on the theoretical foundations of logic and automata. Over time, I expanded into applied research, leveraging formal methods to address challenges in verification, and machine learning. This document outlines my contributions, current work, and future directions.
 
+My Ph.D. thesis earned an \emph{ACM India Honorable Mention} in 2014, recognizing its contributions to descriptive complexity. At IIT Goa, I have mentored Ph.D. and master's students and secured competitive funding from agencies such as CEFIPRA, SERB and MoES.\\
+
+My early research centered on the theoretical foundations of logic and automata. Over time, I expanded into applied research.
+This document outlines my research journey, highlighting key contributions, ongoing projects, and future directions.
 \section{Descriptive Complexity: Ph.D.}
 Logic provides a precise framework to express mathematical properties unambiguously. It plays a vital role in areas like descriptive complexity~\cite{immerman_book}, and set theory~\cite{ject_setTheory}.
 %While Hilbert's program sought to axiomatize mathematics, Gödel's incompleteness theorem underscored the limits of formal systems \cite{godel_incompleteness}. Yet, l
 Logic has driven advances among other things in formal verification, database, and artificial intelligence~\cite{vardi_logicEffectiveness}.
 
 \subsection{Contributions}
-My Ph.D. thesis \cite{sav_thesis} introduced modulo counting operators, thereby enhancing the expressiveness of logics. Key contributions include:
+Our work introduced modulo counting operators, thereby enhancing the expressiveness of logics. Key contributions (see my thesis \cite{sav_thesis}) include:
 \begin{enumerate}
  \item Extending Linear temporal logic (\textsf{LTL}) with modulo counting operators, enhancing its expressiveness while retaining PSPACE complexity for model checking~\cite{my_ltlmod,my_ltlsuccinct}.
- \item Resolving an \emph{open problem} in circuit complexity by showing that certain regular languages are not definable in first-order logic with addition and modulo counting operators~\cite{my_foplus}. It connects logic and semigroup theory to show strict hierarchies in certain highly uniform circuit classes.
+ \item Resolving an \emph{open problem} in circuit complexity by showing that certain regular languages are not definable in first-order logic with addition and modulo counting operators~\cite{my_foplus}. It connects logic and semigroup theory to show strict hierarchies in some circuit complexity classes.
 \end{enumerate}
 
 \subsection{Awards and Recognition}
@@ -45,18 +48,22 @@ My Ph.D. thesis \cite{sav_thesis} introduced modulo counting operators, thereby 
 \end{itemize}
 
 \section{Countable Words: Postdoctoral and IIT Goa}
-This work is at the meeting point of two important branches of language theory: on the one hand the extension of the finite word language theories~\cite{Kleene56,RabinScott59}, in particular infinite words~\cite{Buchi62} or infinite trees~\cite{Rabin69}, as initiated by Büchi, and on the other hand the characterization of classes of languages, in particular logics, as initiated by Schützenberger \cite{Schutzenberger65}.
-%Language theory originated with finite words and extended to infinite words~\cite{Buchi62} and trees~\cite{Rabin69}, leading to MSO decidability for these structures.
-In our case, we study countable words, the largest extension that is known to have a theory of recognizability.
+This work is at the meeting point of two important branches of language theory:
+\begin{enumerate}
+ \item \textbf{Extension of finite word language theories:} This branch explores structures beyond finite words, such as infinite words~\cite{Buchi62} and infinite trees~\cite{Rabin69}.
+ \item \textbf{Characterization of logics:} This branch focuses on identifying and classifying logics, with First-order logic~\cite{Schutzenberger65} serving as a key example.
+\end{enumerate}
+
+We study countable words, the largest extension that is known to have a theory of recognizability.
 
 \subsection{Contributions}
-Our work provided the first algebraic characterizations of intermediate logics over countable words:
+Our work \cite{icalp15} provided the first algebraic characterizations of intermediate logics. We:
 \begin{itemize}
-    \item Developed characterizations (algebraic / regular expression) for logics such as first-order logic (\textsf{FO}), \textsf{FO}$^2$, \textsf{FO} with cuts, weak \textsf{MSO}, and scattered \textsf{FO}, yielding decidability results~\cite{icalp15,ms16}.
+    \item Developed characterizations (algebraic / regular expression) for various natural restrictions and extensions of first-order logic like \textsf{FO}$^2$ and weak \textsf{MSO}~\cite{icalp15,ms16}.
     \item Established decomposition theorems for algebraic structures in this context~\cite{lics19,jcss23}.
-    \item Demonstrated that certain logics, such as \textsf{FO} with cuts and weak \textsf{MSO}, cannot be decomposed using a finite set~\cite{fct21}.
+    \item Demonstrated that certain logics, like weak \textsf{MSO}, cannot be decomposed using a finite set~\cite{fct21}.
 \end{itemize}
-These results provide tools for comparing expressiveness among logics.
+These results provide mathematical tools for comparing expressiveness among logics.
 
 \subsection{Achievements}
 \begin{itemize}
@@ -65,17 +72,16 @@ These results provide tools for comparing expressiveness among logics.
 
 
 \section{One-Counter Automata: IIT Goa}
-Finite automata models complex systems, from computational processes \cite{vardi95} to biological phenomena \cite{Barto75}.
-Deterministic one-counter automata (DOCA) extend deterministic finite automata with an integer counter. It captures behavior of infinite-state systems. See Figure 1.
+Finite automata models complex systems, from computational processes \cite{vardi95} to biological phenomena \cite{Barto75}. Deterministic one-counter automata (DOCA) extend finite automata with an integer counter, enabling the modeling of certain infinite-state systems (see Figure 1). DOCAs are strictly more expressive than finite automata, making them promising candidates for replacing finite automata in applications, provided scalable algorithms can be developed. This research aims to advance the understanding and applicability of DOCAs.
 
 \subsection{Contributions}
 We addressed two key problems:
 \begin{itemize}
-    \item \textbf{Equivalence of weighted DOCA:} We showed decidability for a large subclass using novel reachability techniques, placing the problem in P \cite{fsttcs23,icla25}. The equivalence problem for the full class is an important open problem in the area.
+    \item \textbf{Equivalence of weighted DOCA:} We showed decidability for a large subclass using novel reachability techniques, placing the problem in P \cite{fsttcs23,icla25}. The equivalence problem for the full class remains a fundamental open problem.
     \item \textbf{Active learning algorithms for DOCAs:}
     \begin{itemize}
-    \item Developed SAT-based algorithm~\cite{learning24} that is better than state of the art algorithm \cite{gaetan}.
-    \item Developed the first polynomial-time algorithm, significantly advancing the state-of-the-art (unpublished). This work will enable faster and more efficient active learning of DOCAs.
+    \item Developed SAT-based algorithm~\cite{learning24} that is better than state of the art \cite{gaetan}.
+    \item Developed the first polynomial-time algorithm (yet to be published), improving on the current complexity of $P^{NP}$. This work will enable faster and more efficient learning of DOCAs.
     \end{itemize}
 \end{itemize}
 
@@ -85,27 +91,31 @@ We addressed two key problems:
     \item \textbf{Supervision:} Prince Mathew (Ph.D. student), expected to submit thesis by Dec 2024.
 \end{itemize}
 \begin{minipage}{\textwidth}
-\includegraphics[width=0.85\textwidth]{doca.png} \\
+\begin{center}
+\includegraphics[width=0.66\textwidth]{doca.png} \\
 \textbf{Figure 1} The input DOCA recognizes the language $\{a^nb^na ~|~ n > 0\}$.
+\end{center}
 \end{minipage}
-
-%\clearpage
 
 \section{Water Research Using Geostationary Data}
 In collaboration with environmental scientists, we developed methods to estimate river water discharge (see Figure 2.) using geospatial data (along with in-situ measurements) \cite{esd21}. Ongoing work focuses on soil moisture estimation, contributing to water resource management.
 
 \subsection{Achievements}
 \textbf{Funding:} Ministry of Earth Science (MoES) sanctioned project \emph{Remote sensing based method
-for detecting water discharge in the Ganga and Brahmaputra rivers}.
+for detecting water discharge in the Ganga and Brahmaputra rivers} is completed
 
 \begin{minipage}{\textwidth}
-\includegraphics[width=0.6\textwidth]{river-width.png} \\
+\begin{center}
+\includegraphics[width=0.51\textwidth]{river-width.png} \\
   \textbf{Figure 2} River width estimation.
+\end{center}
 \end{minipage}
 
+
 \section{Formal Methods in Machine Learning: Future Directions}
-Adaptive control systems in safety-critical applications (e.g., autonomous vehicles, robotics) require rigorous verification. Verifying their safety poses significant challenges when these controllers use machine learning algorithms for their decision making. In safety critical systems, it is important
-to ensure that the overall safety of the controller is not compromised. My research proposes formal verification techniques using abstraction and SAT/SMT solvers to ensure safety in such systems.
+Adaptive control systems used in safety-critical applications, such as autonomous vehicles and robotics, demand rigorous safety verification. Traditional verification methods face significant challenges when these systems incorporate machine learning algorithms for decision-making.\\
+
+Our research aims to address these challenges by employing formal verification techniques, including abstraction and SAT/SMT solvers, to ensure the safety and reliability of such systems.
 
 \subsection{Future directions}
 \begin{itemize}
@@ -120,8 +130,9 @@ to ensure that the overall safety of the controller is not compromised. My resea
 \end{itemize}
 
 
+
 \section{Conclusion}
-My research combines theoretical rigor with practical applications, advancing logic, automata theory, and their implications in formal verification. In the next decade, I aim to:
+My research combines theoretical rigor with practical applications, advancing the fields of logic, automata theory, and their applications in formal verification. In the next five years, I aim to:
 \begin{itemize}
     \item Continue the foundational work in automata theory and logic.
     \item Design and develop algorithms and tools for formal verification of machine learning systems.

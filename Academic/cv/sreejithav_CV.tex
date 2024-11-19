@@ -1,33 +1,47 @@
- % LaTeX resume using res.cls
-\documentclass[margin]{res}
-\usepackage{amsfonts}
+\documentclass[11pt,a4paper,sans]{moderncv} % Font sizes: 10, 11, or 12; paper sizes: a4paper, letterpaper, a5paper, legalpaper, executivepaper or landscape; font families: sans or roman
 
-%\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
-%\usepackage{newcent}   % uses new century schoolbook postscript font 
-\setlength{\textwidth}{5.1in} % set width of text portion
-\usepackage{etaremune}
-\usepackage{hyperref}
-\hypersetup{
-hidelinks
-}
+\moderncvstyle{banking} % CV theme - options include: 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{grey} % CV color - options include: 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+
+\usepackage[scale=0.75]{geometry} % Reduce document margins
+%\setlength{\hintscolumnwidth}{3cm} % Uncomment to change the width of the dates column
+%\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
+
+%\usepackage{hyperref}
+\usepackage{graphicx}
+
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,positioning}
+
+%\title{Curriculum Vitae}
+
+\firstname {Sreejith}
+\familyname {A V}
+
+\address{Associate Professor, School of Mathematics and Computer Science, }{Indian Institute of Technology Goa, Farmagudi, Goa, 403401}
+\homepage{www.iitgoa.ac.in/~sreejithav}
+\email{sreejithav@iitgoa.ac.in}
+\phone{8939601670}
 
 \begin{document}
+\makecvtitle % Print the CV title
 % Center the name over the entire width of resume:
-\moveleft.5\hoffset\centerline{\Large \bf A. V. Sreejith} 
+%\moveleft.5\hoffset\centerline{\Large \bf A. V. Sreejith}
 % Draw a horizontal line the whole width of resume:
-\moveleft\hoffset\vbox{\hrule width\resumewidth height 1pt}\smallskip
+%\moveleft\hoffset\vbox{\hrule width\resumewidth height 1pt}\smallskip
 % address begins here
 % Again, the address lines must be centered over entire width of resume:
-\moveleft.5\hoffset\centerline{Associate Professor, School of Mathematics and Computer Science}
-\moveleft.5\hoffset\centerline{Indian Institute of Technology Goa, GEC campus, Farmagudi, Goa - 403401}
-\moveleft.5\hoffset\centerline{E-mail: sreejithav@iitgoa.ac.in ~~~~ Phone:+918939601670}
-\moveleft.5\hoffset\centerline{ \href{http://www.iitgoa.ac.in/~sreejithav/} {\tt{www.iitgoa.ac.in/$\sim$sreejithav/}}}
+%\moveleft.5\hoffset\centerline{Associate Professor, School of Mathematics and Computer Science}
+%\moveleft.5\hoffset\centerline{Indian Institute of Technology Goa, GEC campus, Farmagudi, Goa - 403401}
+%\moveleft.5\hoffset\centerline{E-mail: sreejithav@iitgoa.ac.in ~~~~ Phone:+918939601670}
+%\moveleft.5\hoffset\centerline{ \href{http://www.iitgoa.ac.in/~sreejithav/} {\tt{www.iitgoa.ac.in/$\sim$sreejithav/}}}
 %\moveleft.5\hoffset\centerline{Phone: +918939601670}
 
 \newif \ifpersonal
 \personalfalse
  
-\begin{resume}
+%\begin{resume}
  
 %\section{Broad Subject}  Computer Science, Theoretical Computer Science, Formal methods and Verification
 \ifpersonal
@@ -43,64 +57,35 @@ Date of birth: March 21, 1983 \hfill Citizenship: Indian
 %\end{tabular}
 
 \section{Research interest}
-Theoretical computer science, Formal methods and Verification, Data science.
+\begin{enumerate}
+ \item \textbf{Theoretical Computer Science:} Mathematical Logic, Automata theory
+ \item \textbf{Formal methods:} Formal Verification, Probabilistic automata, Temporal Logics, Formal methods in machine learning
+\end{enumerate}
 
 \section{Current position}
-					Associate Professor, School of Mathematics and Computer Science, \\
-					Indian Institute of Technology Goa  \hfill  August 2021 - present
+\cventry{}{School of Mathematics and Computer Science}{Associate Professor}{August 2021--present}{\textit{IIT Goa}}{Responsibilities: Teaching undergraduate and graduate students, research, and administrative leadership.}
+\section{Research positions}
+\cventry{April 2024--July 2024}{Professeur Invit\'e}{University of Bordeaux}{France}{\textit{~}}{~}
+\cventry{October 2017--July 2021}{Assistant Professor}{School of Mathematics and Computer Science, IIT Goa}{Goa}{\textit{~}}{~}
+\cventry{September 2016--September 2017}{Postdoctoral position}{University of Warsaw, Institute of Informatics}{Poland}{\textit{Mentor: Prof. Miko\l{}aj Boja\'nczyk}}{~}
+\cventry{October 2015--August 2016}{Postdoctoral position}{Chennai Mathematical Institute}{Chennai}{\textit{~}}{~}
+\cventry{April 2014--September 2015}{Postdoctoral position}{Institut de recherche en informatique fondamentale (IRIF)}{Paris, France}{\textit{Mentor: Prof. Thomas Colcombet}}{~}
+\cventry{September 2013--March 2014}{Postdoctoral position}{Tata Institute of  Fundamental Research (TIFR)}{Mumbai}{\textit{}}{~}
+\cventry{March 2012--August 2012}{Research visit}{University of T\"ubingen}{Germany}{\textit{Mentor: Prof. Klaus-J\"orn Lange}}{~}
 
-\section{Research \\ positions held}
-					Professeur Invit\'e, Laboratoire Bordelais de Recherche en Informatique (LaBRI), \\
-					University of Bordeaux \hfill April - July 2024 \\
-					\noindent\rule{13cm}{0.4pt} \\
-					Assistant Professor, School of Mathematics and Computer Science, \\
-					Indian Institute of Technology Goa  \hfill October 2017 - July 2021\\
-					\noindent\rule{13cm}{0.4pt} \\
-					Postdoctoral Researcher at \hfill  \\
-					Institute of Informatics, University of Warsaw \hfill September 2016 - January 2017 \\
-					Mentor: Prof. Miko\l{}aj Boja\'nczyk \hfill July 2017 - September 2017 \\
-					\noindent\rule{13cm}{0.4pt} \\
-					Postdoctoral Researcher at 	\hfill December 2015 - August 2016 \\
-					Chennai Mathematical Institute (CMI)  \hfill February 2017 - June 2017 \\
-					\noindent\rule{13cm}{0.4pt} \\
-					Postdoctoral Researcher  at Laboratoire d{'}Informatique Algorithmique: \\
-					Fondements et Applications (LIAFA),	Paris, France  \\
-					Mentor: Prof. Thomas Colcombet \hfill April 2014 - September 2015\\
-					\noindent\rule{13cm}{0.4pt} \\
-					Postdoctoral Researcher  at Tata Institute of  Fundamental \\
-					Research (TIFR), Mumbai	\hfill	September 2013 - March 2014
-					\noindent\rule{13cm}{0.4pt} \\					
-					Research Position at Wilhelm-Schickard-Institut f\"ur Informatik, \\
-					University of T\"ubingen, Germany \\
-					Mentor: Prof. Klaus-J\"orn Lange \hfill March 2012 - August 2012 \\
-					\noindent\rule{13cm}{0.4pt}
+\cventry{August 2007--September 2013}{Ph.D.}{Institute of Mathematical Sciences (IMSc)}{Chennai}{\textit{Advisor: Prof. Kamal Lodaya}}{Thesis: Regular Quantifiers in Logics} % arguments 3 to 6 can be left empty
+\section{Education}
 
+\cventry{August 2005--May 2007}{M.Tech in Computer Science}{Indian Institute of Technology (IIT)}{Madras}{\textit{CGPA: 8.6}}{~} % arguments 3 to 6 can be left empty
 
-%\newpage
-\section{Education} 
-					PhD in Mathematics at Institute of Mathematical Sciences (IMSc), Chennai  \\
-					Advisor: Prof. Kamal Lodaya \\
-					Thesis: Regular Quantifiers in Logics  \hfill August 2007 - September 2013\\
-					\noindent\rule{13cm}{0.4pt}
-					MTech in Computer Science \\
-					Institute: Indian Institute of Technology (IIT), Madras \hfill August 2005 - May 2007 \\
-					%Project: Automatic Raga classification \\
-					%Project guide: Prof. C. Chandra Sekhar \hfill CGPA: 8.86 \\
-					\noindent\rule{13cm}{0.4pt} \\
-					BTech in Computer Science  \\
-					Institute: College of Engineering, Thiruvananthapuram \hfill August 2000 - June 2004 \\
-					\noindent\rule{13cm}{0.4pt} 
-%					School: Loyola School, Thiruvananthapuram \\
-%					12th ISC Marks: 88\% \hfill 
-%					10th ICSE Marks: 91.2\% \\
-%					\noindent\rule{13cm}{0.4pt} 
-	
+\cventry{August 2000--June 2004}{B.Tech in Computer Science}{College of Engineering}{Thiruvananthapuram}{\textit{73\%}}{~}
+
 \section{Industry }
 Software Engineer, Infosys Technologies, India \hfill August 2004 - July 2005
 
 \section{Awards}
 $\bullet$ Awarded a position of ``Professeur Invit\'e'' at University of Bordeaux for 2023-2024. \\
-$\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph{ACM India Doctoral Dissertation Award 2014: Honourable mention}}} for doctoral dissertation, ``Regular Quantifiers in Logics". %The award is given by ACM, India.
+$\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\textbf{ACM India Doctoral Dissertation Award 2014: Honourable mention}}} for doctoral dissertation, \emph{Regular Quantifiers in Logics}. %The award is given by ACM, India.
 % the Association for computing machinery (ACM), India. \\
 %The award is for the second best doctoral dissertation in computer science in India for the year 2014. 
 %{$\bullet$} First prize in programming contest conducted by Cochin University in 2002. \\
@@ -109,43 +94,36 @@ $\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph
 
 				
 \section{Research funding}
-\emph{Ministry of Earth Science (MoES)} sanctioned project  ``\emph{Remote sensing based method for detecting water discharge in the Ganga and Brahmaputra rivers}". This is a joint project with Dr. Gaurav Kumar (Earth scientist, IISER Bhopal). The aim of the project was to use a combination of in-situ measurements and multi-spectral satellite river data to estimate the water discharge. The project is completed. \\
-\noindent\rule{13cm}{0.4pt} 
+\begin{itemize}
+ \item \textbf{Indo-French grant (CEFIPRA):} \emph{Formal Verification of Adaptive Control Algorithms} \\
+Collaborators: Dr. Vincent Penelle (University of Bordeaux), Dr. Meenakshi D’Souza (IIITB)
+\item \textbf{SERB MATRICS:} \emph{Probabilistic pushdown automata}
+\item \textbf{Ministry of Earth Science (MoES):} \emph{Remote sensing based method for detecting water discharge in the Ganga and Brahmaputra rivers}, project completed \\
+Collaborators: Dr. Gaurav Kumar (Earth Scientist, IISER Bhopal)
+\end{itemize}
 
-\emph{MATRICS project: Department of Science and Technology (DST)} sanctioned the work on  ``\emph{Probabilistic pushdown automata}''. The aim of the project is to understand probabilistic pushdown automata and its sub classes. \\
-\noindent\rule{13cm}{0.4pt} 
-
-\emph{CEFIPRA} sanctioned the work on ``\emph{Formal verification of Adaptive control algorithms}''. The Indo-French funding is jointly conducted along with Dr. Vincent Penelle (University of Bordeaux, France) and Dr. Meenakshi D'Souza (IIIT Bangalore). The aim of the project is to design and develop tools and techniques for formal verification of machine learning algorithms. \\
-\noindent\rule{13cm}{0.4pt} 
-
-%As part of the MoES funded project we developed a tool to use satellite imagery to measure water discharge in rivers. The tool automatically identifies a river from satellite images and then measures the width of the river at various points. This tool was then developed into a web based portal.
-
-%\section{Student \\ Guidance}
-%Prince Mathew (JRF) in year 2018 for the MoES project. \\
-%					\noindent\rule{13cm}{0.4pt} 
-					
-\renewcommand\labelitemi{$\cdot$}
 
 \section{Ph.D guidance}
-%Ajay Kumar from August 2018: Working on Learning \\
-\begin{itemize}
- \item Prince Mathew from January 2019 (completing in 2024)
-% \item Andleeb Zuhra from August 2021: Along with Dr. Sudakshina Dutta
-\end{itemize}
+\cvitem {Prince Mathew (pre-dissertation over, thesis submission by Dec 2024)} {Equivalence and Learning of Weighted One-Counter Automata subclasses}
 
+\section{B.Tech/M.Tech thesis projects}
 
-\section{BTech/Mtech thesis projects}
+% \begin{itemize}
+% \item Rashika N (MTech, 2024): Verifying properties of deep neural networks
+% \item Sumitra (MTech, 2024): Using simulators to train neural networks
+% \item Umang Srivastav (MTech, 2024): Neural network inversion
+% \item Ankita Chand (Mtech, 2023): Soil moisture estimation
+% \item Vaibhav Kumar Rai (MTech, 2021): Epidemic modelling
+% \item Shivam Kumar (BTech, 2020): Detection of one function from a set of functions
+% %\item Manika Khare and Himali Goel (BTech, 2020): Automating approaches for identification of the morphology of nano particles from microscopic Images
+% \end{itemize}
 
-\begin{itemize}
-%\item Rashika N (MTech, 2024): Verifying properties of deep neural networks
-\item Sumitra (MTech, 2024): Using simulators to train neural networks
-\item Umang Srivastav (MTech, 2024): Neural network inversion
-\item Ankita Chand (Mtech, 2023): Soil moisture estimation
-\item Vaibhav Kumar Rai (MTech, 2021): Epidemic modelling
-\item Shivam Kumar (BTech, 2020): Detection of one function from a set of functions
-%\item Manika Khare and Himali Goel (BTech, 2020): Automating approaches for identification of the morphology of nano particles from microscopic Images
-\end{itemize}
-
+\cvitem {Rashika N (MTech 2024)}{Verifying properties of deep neural networks}
+\cvitem {Sumitra (MTech 2024)} {Using simulators to train neural networks}
+\cvitem {Umang Strivastav (MTech 2024)} {Neural network inversion}
+\cvitem {Ankita Chand (MTech 2023)} {Soil moisture estimation}
+\cvitem {Vaibhav Kumar Rai (MTech 2021)} {Epidemic modelling}
+\cvitem {Shivam Kumar (BTech 2020)} {Detection of one function from a set of functions}
 
 %\section{Unpublished Manuscripts}
 %{\bf 1.} A. V. Sreejith, ``\emph{Unary counting and Exponentiation function}''.\\
@@ -190,12 +168,11 @@ $\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph
 
 
 \section{Teaching}
-					{\bf Indian Institute of Technology Goa } ($^*$ - shared course) \\
-					\noindent\rule{13cm}{0.4pt}
+					\subsection{ Indian Institute of Technology Goa  ($^*$ - shared course)}
 					\begin{enumerate}
+					\item {Foundations of theoretical computer science}  (graduate course) \hfill Aug 2024/23
 					\item {Compilers$^*$} (undergraduate course) \hfill Jan 2024
 					\item {Formal methods in machine learning$^*$} (graduate/undergraduate) \hfill Jan 2024
-					\item {Foundations of theoretical computer science}  (graduate course) \hfill Aug 2023
 					\item Randomized algorithms (graduate/undergraduate) \hfill Jan 2023/22
 					\item {Data structures and algorithms} (undergraduate course)  \hfill  Aug 2022/21/20
 					\item {Advanced data structures and algorithms}  (graduate course)  \hfill Aug 2021
@@ -231,13 +208,11 @@ $\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph
 %					{\tt{https://www.iitgoa.ac.in/$\sim$sreejithav/18Jan/networking/cs348.html}}} \\
 					\end{enumerate}
 					
-					{\bf Other places} \\
-					\noindent\rule{13cm}{0.4pt}
+					\subsection{Other places}
 					\begin{enumerate}
-					\item Short 12 hour course: {Formal methods in machine learning} (graduate course) \\
+					\item 12 hour course: {Formal methods in machine learning} (graduate course) \\
 					LaBRI, University of Bordeaux \hfill June 2024
 					\item {Verification}  (undergraduate and graduate course)  \\
-					Wilhelm-Schickard-Institut f\"ur Informatik, \\
 					University of T\"ubingen, Germany \hfill March-Aug 2012
 					\item One week course: {Descriptive Complexity theory: An introduction}  \\
 					Indian School on Logic and its Applications (ISLA), \\
@@ -247,10 +222,9 @@ $\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph
 
 \section{Other activities}
 \begin{itemize}
- \item Program chair of Computer Science at IIT Goa
- \item Various administrative positions at IIT Goa
- \item Program chair of ICLA 2023
- \item Member of the expert committee for Goa startup promotion cell for 2019-2021
+ \item \textbf{Current administrative positions at IIT Goa:} Program chair of Computer Science and Engineering, Chair of Senate student advisory committee (SSAC), Head of Information Technology Services in IIT Goa, and member of various other committees at department and institute level.
+ \item Program chair of Indian conference on logic and its applications (ICLA) 2023.
+ \item Member of the expert committee for Goa startup promotion cell for 2019-2021.
 \end{itemize}
 
 %$\bullet$ Heading the Center for Information Technology Services in IIT Goa \\
@@ -312,31 +286,32 @@ $\bullet$ \href{http://awards.acm.org/award_winners/sreejith_9923861.cfm}{{\emph
 
 \section{Publications}
 \begin{enumerate}
-\item Prince Mathew, Vincent Penelle, Prakash Saivasan, A. V. Sreejith, ``\emph{One deterministic counter automata}'', Foundations of Software Technology and Theoretical Computer Science (FSTTCS), 39:1-39:23, 2023
-\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, ``\emph{Algebraic Characterizations and Block Product Decompositions for First Order Logic and its Infinitary Quantifier Extensions over Countable Words}'', Journal of Computer and System Sciences (JCSS), 136:302-326, 2023
-\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, ``\emph{First-Order logic and its Infinitary Quantifier Extensions over Countable Words}'', Fundamentals of Computation Theory (FCT), 39-52, 2021
-\item Kumar Gaurav, Fran\c{c}ois M\'etivier, A V Sreejith, Rajiv Sinha, Amit Kumar, and Sampat Kumar Tandon: \href{https://doi.org/10.5194/esurf-9-47-2021}{``\emph{Coupling threshold theory and satellite-derived channel width to estimate the formative discharge of Himalayan foreland rivers}''}, Earth Surface Dynamics, 9, 47-70, 2021
-\item Mico\l{}aj Boja\'nczyk, Laure Daviaud, Bruno Guillon, Vincent Penelle, A. V. Sreejith ``\emph{Undecidability of a weak version of MSO+U}", Logical Methods in Computer Science (LMCS), volume 16:1, 2020.
-\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, ``\emph{Block products for algebras over countable words and applications to logic}", Logic in Computer Science (LICS), pages 1-13, 2019.
-\item Kamal Lodaya, A. V. Sreejith, ``\emph{Two variable first order logic with counting quantifiers: complexity results}'', Developments in Language Theory (DLT), LNCS 10396, pages 260 - 271, 2017.
-\item Amaldev Manuel, A. V. Sreejith, ``\emph{Two variable logic over countable linear orderings}", Mathematical Foundations of Computer Science (MFCS), LIPIcs 58, pages 66:1-66:13, 2016. 
-\item Thomas Colcombet, A. V. Sreejith, ``\emph{Limited Set quantifiers over Countable Linear Orderings}", Proceedings of the Automata, Languages, and Programming - 42nd International Colloquium (ICALP), volume 9135 of LNCS, pages 146-158, 2015. 
-\item V. Arvind, S. Raja, A. V. Sreejith, ``\emph{On lower bounds for multiplicative circuits and linear circuits in noncommutative domains}", 9th International Computer Science Symposium in Russia (CSR), volume 8476 of LNCS, pages 65-76, 2014.
-\item Andreas Krebs, A. V. Sreejith, ``\emph{Non-definability of Languages by Generalized First-order Formulas over (N, +)}", IEEE Symposium on Logic in Computer Science (LICS),  pages 451-460, 2012.
-\item A. V. Sreejith, ``\emph{Expressive Completeness for LTL With Modulo Counting and Group Quantifiers}", Electronic Notes in Theoretical Computer Science, ENTCS 278, pages 201-214, 2011.
-\item Kamal Lodaya, A. V. Sreejith, ``\emph{LTL can be more succinct}", Proceedings of Automated Technology for Verification and Analysis (ATVA), LNCS 6252, 21-24, 2010.
+\item Prince Mathew, Vincent Penelle, A. V. Sreejith, \emph{Learning real-time one-counter automata using polynomially many queries}, 2024, \href{https://arxiv.org/abs/2411.08815}{arXiv:2411.08815}.
+\item Prince Mathew, Vincent Penelle, Prakash Saivasan, A. V. Sreejith, \emph{Equivalence of deterministic weighted real-time one-counter automata}. In 11th Indian Conference on Logic and its Applications (ICLA), 2025.
+\item Prince Mathew, Vincent Penelle, Prakash Saivasan, A. V. Sreejith, \emph{One deterministic counter automata}, Foundations of Software Technology and Theoretical Computer Science (FSTTCS), 39:1-39:23, 2023
+\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, \emph{Algebraic Characterizations and Block Product Decompositions for First Order Logic and its Infinitary Quantifier Extensions over Countable Words}, Journal of Computer and System Sciences (JCSS), 136:302-326, 2023
+\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, \emph{First-Order logic and its Infinitary Quantifier Extensions over Countable Words}, Fundamentals of Computation Theory (FCT), 39-52, 2021
+\item Kumar Gaurav, Fran\c{c}ois M\'etivier, A V Sreejith, Rajiv Sinha, Amit Kumar, and Sampat Kumar Tandon: \href{https://doi.org/10.5194/esurf-9-47-2021}{\emph{Coupling threshold theory and satellite-derived channel width to estimate the formative discharge of Himalayan foreland rivers}}, Earth Surface Dynamics, 9, 47-70, 2021
+\item Mico\l{}aj Boja\'nczyk, Laure Daviaud, Bruno Guillon, Vincent Penelle, A. V. Sreejith \emph{Undecidability of a weak version of MSO+U}, Logical Methods in Computer Science (LMCS), volume 16:1, 2020.
+\item Bharat Adsul, Saptarshi Sarkar, A. V. Sreejith, \emph{Block products for algebras over countable words and applications to logic}, Logic in Computer Science (LICS), pages 1-13, 2019.
+\item Kamal Lodaya, A. V. Sreejith, \emph{Two variable first order logic with counting quantifiers: complexity results}, Developments in Language Theory (DLT), LNCS 10396, pages 260 - 271, 2017.
+\item Amaldev Manuel, A. V. Sreejith, \emph{Two variable logic over countable linear orderings}, Mathematical Foundations of Computer Science (MFCS), LIPIcs 58, pages 66:1-66:13, 2016.
+\item Thomas Colcombet, A. V. Sreejith, \emph{Limited Set quantifiers over Countable Linear Orderings}, Proceedings of the Automata, Languages, and Programming - 42nd International Colloquium (ICALP), volume 9135 of LNCS, pages 146-158, 2015.
+\item V. Arvind, S. Raja, A. V. Sreejith, \emph{On lower bounds for multiplicative circuits and linear circuits in noncommutative domains}, 9th International Computer Science Symposium in Russia (CSR), volume 8476 of LNCS, pages 65-76, 2014.
+\item Andreas Krebs, A. V. Sreejith, \emph{Non-definability of Languages by Generalized First-order Formulas over (N, +)}, IEEE Symposium on Logic in Computer Science (LICS),  pages 451-460, 2012.
+\item A. V. Sreejith, \emph{Expressive Completeness for LTL With Modulo Counting and Group Quantifiers}, Electronic Notes in Theoretical Computer Science, ENTCS 278, pages 201-214, 2011.
+\item Kamal Lodaya, A. V. Sreejith, \emph{LTL can be more succinct}, Proceedings of Automated Technology for Verification and Analysis (ATVA), LNCS 6252, 21-24, 2010.
 \end{enumerate}
 
 \section{Others}
 \begin{enumerate}
-\item Sumitra Dagar, Sudakshina Dutta, Shitala Prasad, Sreejith A V, ``\emph{Towards Safer Roads: Utilizing Synthetic Data and Neural Networks to Classify Safe Distances in Driving Scenarios}'' in 9th International Conference on Computer Vision and Image Processing (CVIP 2024).
-\item Mohua Banerjee, A. V. Sreejith, ``\emph{Logic and Its Applications - 10th Indian Conference, ICLA 2023}'', Indore, India, March 3-5, 2023, Editors.
-\item Kamal Lodaya, A. V. Sreejith, ``\emph{Counting quantifiers and linear arithmetic on word models}" in 14th Asian Logic Conference (ALC), 2014.
+\item Sumitra Dagar, Sudakshina Dutta, Shitala Prasad, Sreejith A V, \emph{Towards Safer Roads: Utilizing Synthetic Data and Neural Networks to Classify Safe Distances in Driving Scenarios} in 9th International Conference on Computer Vision and Image Processing (CVIP 2024).
+\item Mohua Banerjee, A. V. Sreejith, \emph{Logic and Its Applications - 10th Indian Conference, ICLA 2023}, Indore, India, March 3-5, 2023, Editors.
+\item Kamal Lodaya, A. V. Sreejith, \emph{Counting quantifiers and linear arithmetic on word models} in 14th Asian Logic Conference (ALC), 2014.
 \end{enumerate}
 
 
 
-\end{resume}
 \end{document}
 
 
