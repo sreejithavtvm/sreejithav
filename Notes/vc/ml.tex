@@ -1,0 +1,54 @@
+\newcommand{\trans}[1]{{#1}^{T}}
+
+\section{Machine learning basics}
+In this section, we look at machine learning basics and standard terminology.
+
+\subsection{Learning tasks}
+We are interested in \emph{supervised learning}. In this setting an algorithm learns a concept using a training data that includes both the model features and expected output labels. There are two important supervised learning tasks.
+
+\paragraph{Classification}
+In a \emph{classification} task, the objective of the learning algorithm is to classify the data into finite number of classes. The number of classes can be binary (eg. $\{0,1\}$ or $\{-1,+1\}$ or $\{M, F\}$) or non-binary depending on the task. 
+
+Let us consider a few examples. In the first example of ""obese classification"", the task is to classify a person into obese or not based on his/her height and weight. Here, the height and weight are the input features and the two classes are obese or not obese. In the second example of ""gender identification"", the task is to identify the gender of a person from his/her height. Another example is that of ""face recognition"". The task is to identify a person from his/her picture. This is an example of a non-binary classification task.
+
+Perceptron is an example of a classification algorithm. 
+
+\paragraph{Regression} %In \emph{regression}, we are interested in finding the ``best'' hyperplane that fits the data. 
+The output of a regression task is an integer/real number. Examples of regression: prediction of temperature, prediction of stock value.
+
+
+\subsection{Machine learning terminologies}
+We list some standard machine learning terminologies. 
+\begin{enumerate}
+\item \AP ""Feature space"": We denote by $\intro{\X} = \{x_1,x_2,\dots \}$ the "feature space". Each $x_i \in \X$ is a feature vector (containing multiple features). We do not represent $x_i$ as a vector to keep the notations simplified. In the "obese classification" example, the feature vector consists of height and weight of a person. In face recognition, the feature vector contains pixel values.
+\item \AP ""Label"": This is the class assigned to an input. In the obese example, a person is "labelled" obese or not. We will denote the set of labels by $\intro{\Y}$. In this writeup, unless otherwise mentioned $\Y = \{0,1\}$.
+\item \AP ""Target distribution"": The target $\intro{\D}$ is a probability distribution over $\X \times \Y$. Consider the example of "gender identification" we saw above. In this example $\Y = \{M,F\}$ and the input feature is height. Observe that for a particular height there are both males and females. Thus the machine learning algorithm gets its training data from a particular distribution $\D$. Note that the distribution $\D$ is unknown to the learning algorithm. The aim of the learning algorithm is to learn $\D$. We are interested in finding $\Prob{y=1 | x}$ in a classification algorithm and $\Exp{y | x}$ in regression.
+
+\AP We denote by $(x,y) \intro{\sample} \D$ to mean $x \in \X$ and $y \in \Y$ is sampled according to the distribution $\D$. We extend this to ""sampling"" an $n$ element set $S = \{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\}$ as $S \sample \D^n$.
+\item \AP Classifier or ""hypothesis function"": A hypothesis function $h: \X \rightarrow \Y$ classifies a feature vector. It will also be called hypothesis.
+\item \AP ""Bag of classifiers"": We fix a set of classifiers $\intro{\H}=\{h_1,h_2,\dots\}$, where each $h_i$ is a "hypothesis function".
+\item \AP ""Loss function"": It measures the error in prediction by a learning algorithm. A loss function is a function $f: \Y \times \Y \rightarrow \Reals$. Example loss functions are zero-one loss
+\[
+L_{0-1} (a,y) \defs \begin{cases}
+0 \text{, if $a = y$} \\
+1 \text{, otherwise}
+\end{cases}
+\]
+and regression loss
+\[
+L_{reg}(a,y) \defs (a-y)^2
+\]
+\AP In this lecture we will fix the range of the loss function to be between zero and one. That is,  $\intro{\L}: \Y \times \Y \rightarrow [0,1]$. Note that the exact function is not important for our discussion.
+\item \AP ""Training input"": A learning algorithm learns a model from the training set. It will be denoted by $S = \{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\}$.
+\end{enumerate}
+
+
+\subsection{Bias variance tradeoff}
+Consider the following.  Assume we have a dataset of 10 points $\{(x_i,y_i)\}_{i \in [10]}$ that are zeros of a $50^{th}$ degree polynomial. Consider the following two models (1) train a degree two polynomial model and (2) train a degree 10 polynomial model. Which of the following models will learn the $50^{th}$ degree polynomial better? It turns out that from 10 points, a 10 degree polynomial has lots of flexibility and it can end up being far away from the $50^{th}$ degree polynomial. On the other hand, the two degree polynomial has less flexibility. Therefore, even though a 10 degree polynomial models the input data points perfectly, it is actually not a very good model. 
+
+The above discussion is called as the bias variance tradeoff.
+\begin{enumerate}
+\item Learn the input data accurately - requires a higher model complexity. The error in input learning error is called bias error. Underfitting can lead to larger bias error.
+\item Generalization, or fit the target accurately - requires a lower model complexity. The error in target data is called variance error. Overfitting can lead to larger variance error.
+\end{enumerate}
+

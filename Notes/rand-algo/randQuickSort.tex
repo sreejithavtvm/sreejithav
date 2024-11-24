@@ -1,0 +1,125 @@
+\chapter{Randomized QuickSort}
+Let us look at the quicksort algorithm
+\begin{algorithm}[H]
+ \caption{QuickSort}
+ \label{alg:quicksort}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE An array $x$ of $n$ distinct elements 
+ \ENSURE  Sorted array $y$
+ \STATE If $n = 1$ or $0$ return $x$
+  \STATE $pivot = x[0]$
+  \STATE Create an array $x_1$ containing all elements less than  pivot (in the order they appear in $x$) 
+  \STATE Create an array $x_2$ containing all elements greater than pivot (in the order they appear in $x$).
+  \STATE Return the array $[$QuickSort$(x_1)$, pivot, QuickSort$(x_2)]$
+ \end{algorithmic} 
+ \end{algorithm}
+ 
+\noindent In the \emph{worst case}, how many comparisons are done in the above algorithm? The pivot ($x[0]$) chosen at the first call to the quicksort function is compared with all the elements in the array. That is, it is compared with $n-1$ many elements. The array is now split into two parts and quick sort called individually on these arrays. Therefore,
+\begin{align*}
+\text{Number of } & \text{comparisons of } x =  \\
+&\text{Number of comparisons of $x_1$ + Number of comparisons of $x_2$ + $n-1$}
+\end{align*}
+
+\noindent Let us assume the input array $x$ is in descending order. Then the array is split into two parts, one containing $n-1$ elements and the other containing no element. Thus, the total number of comparisons satisfies the following recurrence equation
+\[
+T(n) = T(n-1) + n-1
+\]
+
+\noindent We know that this is $O(n^2)$. Can we do better? The problem is, the pivot we choose does not create arrays $x_1$ and $x_2$ of equal size. In the above scenario, this appears in the worst form. One array of $n-1$ elements and another of $0$ elements. Let us now assume, there is a ``magician" who always picks a pivot which divides the arrays into two equal halves. The recurrence equation for the number of comparisons in this scenario is
+\[
+T(n) = 2 T(\ceil {\frac{n}{2}}) + n-1
+\]
+\noindent This gives us $O(n \log n)$ many comparisons. It is clear that, if we could simulate the working of the magician we have a faster algorithm. What does the magician do? He always picks the median as the pivot. How fast can you pick the median. It is easy to see that you can do it in $O(n^2)$ steps. You can also select the median after sorting the array, taking $O(n \log n)$ steps. But, it turns out, you can do this in linear time. The median-of-medians algorithm is a non-trivial but beautiful algorithm which can output the median in $O(n)$ steps. The number of comparisons in the quicksort algorithm can now be given the following recurrence equation: $T(n) =  2 T(\ceil {\frac{n}{2}}) + O(n)$. This gives us a deterministic $O(n \log n)$ algorithm.
+
+\noindent In this lecture, we will show that a randomized algorithm can give you a similar time. The algorithm is much simpler than the above median finding algorithm. Let us first ask the following question. If I pick a pivot randomly, what is the expected number of elements less than or equal to the pivot? Let $X$ be the number of elements less than or equal to the pivot.  
+\begin{lemma}
+$E[X] = \frac{n+1}{2}$.
+\end{lemma}
+\begin{proof}
+Let $y_1,\dots,y_n$ be the elements $x_1$ to $x_n$ sorted in ascending order. Let $p_i$ be the probability that $y_i$ is picked as the pivot. Since any of the $y_i$s can be picked with equal probability we have $p_i = \frac{1}{n}$, for all $i \leq n$. Then
+\begin{align*}
+E[X] = \sum_{i=1}^n (i \times p_i) & = \sum_{i=1}^n (i \times \frac{1}{n}) \\
+& = \frac{1}{n} \sum_{i=1}^n i = \frac{1}{n}  \frac{n (n+1)}{2} \\
+& = \frac{n+1}{2}
+\end{align*}
+\end{proof}
+
+\noindent The above lemma shows that picking a pivot randomly, splits the array into half with high probability.  This should help us get an $O(n \log n)$ algorithm for the following randomized quicksort, where the pivot is picked randomly every time.
+\begin{algorithm}[H]
+ \caption{RandQuickSort}
+ \label{alg:randquicksort}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE An array $x$ of $n$ distinct elements 
+ \ENSURE  Sorted array $y$
+ \STATE If $n = 1$ or $0$ return $x$
+  \STATE Pick a $pivot$ randomly from the elements $x_1$ to $x_n$.
+  \STATE Create an array $x_1$ containing all elements less than  pivot (in the order they appear in $x$) 
+  \STATE Create an array $x_2$ containing all elements greater than pivot (in the order they appear in $x$).
+  \STATE Return the array $[$RandQuickSort$(x_1)$, pivot, RandQuickSort$(x_2)]$
+ \end{algorithmic} 
+ \end{algorithm}
+ 
+ \noindent We now show that the expected number of comparisons made by the above Randomized Quicksort is $O(n \log n)$.
+ \begin{lemma}
+ For any input $x$, the expected number of comparisons of the Randomized Quicksort given in Algorithm \ref{alg:randquicksort} is $O(n \log n)$.
+ \end{lemma}
+ \begin{proof}
+ Let $y_1,\dots,y_n$ be the elements sorted in ascending order. Let $X$ be the number of comparisons. Our aim is to find out the expectation of $X$. Let $X_{ij}$ be the indicator random variable where
+\begin{equation}
+  X_{ij}=\begin{cases}
+    1, & \text{if $y_i$ and $y_j$ are compared}.\\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{equation}
+That is $X_{ij}$ is $1$ if $y_i$ and $y_j$ are compared and $0$ otherwise. Then $X$ the number of comparisons can be got by summing over all $X_{ij}$s as follows
+\[
+X = \sum_{i=1}^{n-1} \sum_{j=i+1}^n X_{ij}
+\]
+By linearity of expectation we know that the expectation of $X$ is the sum of expectation of $X_{ij}$s. That is
+\[
+E[X] = \sum_{i=1}^{n-1} \sum_{j=i+1}^n E[X_{ij}]
+\]
+So, let us now try to find the expectation of $X_{ij}$s. Let us first find the probability that $y_i$ and $y_j$ will be compared. Consider the elements $Y=\{y_i,y_{i+1},\dots,y_j\}$. Note the following claim
+\begin{claim}
+If any of $y_{i+1}$ to $y_{j-1}$ is selected as pivot before $y_i$ or $y_j$ is selected as pivot, then $y_i$ and $y_j$ will not be compared. \end{claim}
+\noindent The reason is, in this case, $y_i$ and $y_j$ will go into separate arrays (in the above algorithm $y_i$ will go into $x_1$ and $y_j$ will go into $x_2$). In other words, $X_{ij}=0$ if an element from $Y \backslash \{y_i,y_j\}$ is selected as pivot before $y_i$ or $y_j$ is picked as pivot. What about the other direction. 
+\begin{claim}
+If $y_i$ or $y_j$ is selected as pivot before any of the other elements in $Y$ are picked as pivot, then $y_i$ and $y_j$ will be compared.
+\end{claim}
+\noindent To understand the above claim, let $p_i$ be picked before any of the other elements in $Y$ were picked. Then $p_i$ will be compared with all the other elements in the array. Since none of $Y \backslash \{y_i\}$ were picked as pivot before, all the elements in $Y$ are in the same array as $y_i$. Therefore $y_i$ is compared with all elements in $Y$, in particular it is compared with $y_j$. 
+
+\noindent From the above two claims, it follows that $X_{ij}=1$ if and only if either $y_i$ or $y_j$ is selected as pivot before any other element from $Y \backslash \{y_i,y_j\}$ is selected as pivot. The question to ask now is, what is the probability for a $k \leq n$, $y_k$ is selected as pivot before any other element from $Y \backslash \{y_k\}$ is selected as pivot. That is among $Y$, $y_k$ is selected as pivot the first. Note that for any two different $y_k$ and $y_{k'}$ in $Y$, this probability is the same. That is
+\begin{align*}
+\prb {y_1 \text{ is selected as pivot first }} & = \prb{y_2 \text{ is selected as pivot first }} \\
+& = \dots = \prb{y_k \text{ is selected as pivot first}} = \dots \\
+& = \prb {y_n \text{ is selected as pivot first }} 
+\end{align*}
+Since they all have equal probability and because the probability that atleast one of them will be selected first in $Y$ has probability $1$, we have for all $k \leq n$,
+\[
+\prb{y_k \text{ is selected as pivot first}} = \frac{1}{|Y|}=\frac{1}{j-i+1}
+\]
+We can now compute the probability that $X_{ij}=1$. 
+\begin{align*}
+\prb {X_{ij} = 1} & = \prb{y_i \text{ is selected as pivot first}}  + \prb{y_j \text{ is selected as pivot first}}  \\
+& = \frac{2}{j-i+1}
+\end{align*}
+For the indicator random variable $X_{ij}$, the expectation $E[X_{ij}]$ is given by
+\begin{align*}
+E[X_{ij}] & = 1 \times \prb{X_{ij}=1} + 0 \times \prb{X_{ij}=0} \\
+& = \frac{2}{j-i+1} 
+\end{align*}
+Finally, we calculate the expected number of comparisons, $E[X]$. 
+\begin{align*}
+E[X] & = \sum_{i=1}^{n-1} \sum_{j=i+1}^n E[X_{ij}]  = \sum_{i=1}^{n-1} \sum_{j=i+1}^n \frac{2}{j-i+1} \\
+& = \sum_{i=1}^{n-1} \sum_{k=2}^{n-i+1} \frac{2}{k} = 2 \sum_{i=1}^{n-1} \sum_{k=2}^{n-i+1} \frac{1}{k} ~~~(\text{rename $j-i+1$ to $k$}) \\
+& \leq 2 \sum_{i=1}^{n-1} \sum_{k=1}^n \frac{1}{k} \\
+& \leq 2 \sum_{i=1}^{n-1} c \log n ~~~(\because \text{there exists a constant $c > 1$ such that $\sum_{k=1}^n \frac{1}{k} \leq c \log n$}) \\
+& \leq 2c (n-1) \log n
+\end{align*}
+In other words, the expected number of comparisons ($E[X]$) is  $O(n \log n)$. 
+\end{proof}
+

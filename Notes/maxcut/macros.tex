@@ -1,0 +1,98 @@
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{example}{Example}
+\newtheorem{puzzle}{Puzzle}
+\newtheorem*{solution}{Solution}
+
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+  \newenvironment{#1}[1]
+  {%
+   \renewcommand\customgenericname{#2}%
+   \renewcommand\theinnercustomgeneric{##1}%
+   \innercustomgeneric
+  }
+  {\endinnercustomgeneric}
+}
+
+\newcustomtheorem{customthm}{Theorem}
+\newcustomtheorem{customlemma}{Lemma}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\odd}{{\normalfont{Odd}}\xspace}
+\newcommand{\even}{{\normalfont{Even}}\xspace}
+\newcommand{\finocc}[1]{\mathrm{FIN}(#1)\xspace}
+\newcommand{\infocc}[1]{\mathrm{INF}(#1)\xspace}
+
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\Rn}{\Reals^n}
+\newcommand{\closedset}[2]{[#1, #2]}
+
+\renewcommand{\vec}[1]{\mathbf #1}
+\newcommand{\mat}[1]{{\mathbb #1}}
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
+\newcommand{\rowvec}[1]{\trans{\vec {#1}}}
+\newcommand{\dotprod}[2]{\rowvec{#1}  \vec{#2}}
+\newcommand{\minimize}{\mathtt{minimize}}
+\newcommand{\maximize}{\mathtt{maximize}}
+
+\newcommand{\Imatrix}{\mat{I}}
+\newcommand{\cspace}[1]{C(\mat #1)}
+\newcommand{\defs}{::=}
+\newcommand{\BFS}{\ensuremath{\mathrm{BFS}}\xspace}
+
+\newcommand{\lpstd}[4]{\begin{align*}
+\minimize ~\dotprod{#2}{#1} \\
+\mat{#3} \vec {#1} \leq \vec #4 \\
+\vec #1 \geq \vec 0
+\end{align*}}
+\newcommand{\lp}[4]{\begin{align*}
+\minimize ~\dotprod{#2}{#1} \\
+\mat{#3} \vec {#1} = \vec #4 \\
+\vec #1 \geq \vec 0
+\end{align*}}
+
+\makeatletter
+% USAGE \Matrix { a,..,z; A,.., Z ; ... ; aA, ..., zZ}
+% NO semi-colon for the last row.
+\newcommand{\Matrix}[1]
+    {\begin{pmatrix}
+      \Matrix@r #1;\@bye;\Matrix@r
+     \end{pmatrix}}
+
+\def\Matrix@r #1;{\@bye #1\Matrix@z\@bye\Matrix@s #1,\@bye, }%
+\def\Matrix@s #1,{#1\Matrix@t }%
+\def\Matrix@t #1,{\@bye #1\Matrix@y\@bye\@firstofone {&#1}\Matrix@t}%
+\def\Matrix@y #1\Matrix@t{\\ \Matrix@r }%
+\def\Matrix@z #1\Matrix@r {}
+\def\@bye  #1\@bye   {}% (the idea of \@bye is from xint code)
+
+\makeatother
+\newcommand{\NP}{\ensuremath{\mathrm{NP}}}
+\newcommand{\NPX}{\ensuremath{\mathrm{NPX}}}
+\newcommand{\Ptime}{\ensuremath{\mathrm{P}}}
+\newcommand{\opt}{\ensuremath{\mathrm{OPT}}}
+\newcommand{\A}{\ensuremath{\mathcal{A}}}
+\newcommand{\Exp}[1]{\ensuremath{\mathtt{E}(#1)}}
+\newcommand{\Prob}[1]{\ensuremath{\mathtt{Prob}(#1)}}
+
+%\newcounter{PC} %Problem Counter
+%\newcommand{\counter}{\stepcounter{PC}P\arabic{PC}}
+
+%\numberwithin{equation}{section} % This line resets equation numbering when starting a new section.
+\renewcommand{\theequation}{P\arabic{equation}} % This line ads "P" in front of your equation numbering.
+
+\newcounter{todocounter}
+\newcommand{\notess}[2][]{\stepcounter{todocounter}\todo[color=green!20, #1]{\thetodocounter: #2}}
+\newcommand{\sav}[1]{{\color{blue} #1}}
+\newcommand{\comment}[1]{{\color{gray} \footnotesize -- \emph{#1} }}
+
+\newcommand{\approxratio}{0.878}
+

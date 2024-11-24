@@ -1,0 +1,68 @@
+\chapter*{Tutorial 1}
+\section{Truth tables and semantics}
+
+\begin{exercise}
+Convert any formula into an equivalent formula which uses only symbols $\wedge$ and $\neg$.
+\end{exercise}
+
+\begin{exercise}
+Write a formula which satisfies the following condition
+\begin{align*}
+p_1p_2\dots p_n  \\
++ \\
+q_1q_2 \dots q_n &  \\
+= \\
+r_1r_2 \dots r_n
+\end{align*}
+View $p_1,\dots,p_n,q_1,\dots,q_n,r_1,\dots,r_n$ as propositions.
+\end{exercise}
+
+\begin{exercise}
+Use propositional logic to answer the following question:
+
+You are trapped in a room. There are two doors. Either the doors lead to an exit or to a lion (note that both leading to an exit or to a lion are also possible). In Door 1, it is written ``This door is exit and other door leads to lion". In Door 2, it is written ``One of the rooms lead to exit, the other to a lion". You are told that only one of the written statements are true and the other false. Which door would you choose?
+\end{exercise}
+
+\begin{exercise}[Pigeon hole principle]
+Consider $n+1$ pigeons and $n$ holes. Let proposition $p_{i,j}$ denote the fact that the $i^{th}$ pigeon is in the $j^{th}$ hole.  Write a propositional logic formula to encode the pigeon hole principle. 
+\end{exercise}
+
+\begin{exercise}
+Show that the following statments are equivalent.
+\begin{enumerate}
+\item $\alpha_1,\alpha_2,\dots,\alpha_n \models \beta$
+\item \true $~ \models \Big(\alpha_1 \ifthen \big(\alpha_2 \ifthen \dots (\alpha_n \ifthen \beta)\big)\Big)$
+\item \true $~\models (\alpha_1 \wedge \alpha_2 \wedge \dots \alpha_n) \ifthen \beta$
+\end{enumerate}
+\end{exercise}
+
+\section{Natural deduction}
+\begin{exercise}
+Derive natural deduction proofs for the following
+\begin{enumerate}
+\item \true $~\proves \alpha \vee \neg \alpha$.
+\item $\neg (\alpha \wedge \beta) \dashv \proves \neg \alpha \vee \neg \beta$.
+\item \true  $~\proves \alpha \ifthen (\beta \ifthen \alpha)$
+\item $\alpha \vee \beta, \alpha \vee \neg \beta \proves \alpha$
+\item $\neg \alpha \proves \alpha \ifthen \beta$
+\item $\neg \alpha \proves \neg (\alpha \wedge \beta)$
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+Show that the following are equivalent
+\begin{enumerate}
+\item $\alpha_1, \alpha_2, \dots, \alpha_n \proves \beta$
+\item \true $~\proves \Big(\alpha_1 \ifthen \big(\alpha_2 \ifthen (\dots (\alpha_n \ifthen \beta))\big)\Big)$
+\item \true $~\proves (\alpha_1 \wedge \alpha_2 \wedge \dots \alpha_n) \ifthen \beta$
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Answer the following questions
+\begin{enumerate}
+\item Let $\Psi$ be a formula over only the proposition $p$. Assume that $p \proves \psi$ and $\neg p \proves \psi$. Show that,  \true $~\proves \psi$.
+\item This is an extension of the previous one. Let $\psi$ be a formula over proposition $P$. Let $\Gamma$ be the set of all formulas over $P$. If $\alpha \proves \psi$ for all $\alpha \in \Gamma$, then $\true ~\proves \psi$.
+\end{enumerate}
+\end{exercise}

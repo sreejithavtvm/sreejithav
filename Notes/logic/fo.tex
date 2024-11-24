@@ -1,0 +1,98 @@
+\chapter{First Order Logic}
+\section{Introduction}
+Consider the logical derivations in Table \ref{tab:ramaujanProofs}. Which one of the reasoning is correct?
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{74mm}|p{82mm}}
+%\hline
+Proof A \newline
+1. All mathematicians are intelligent.\newline
+2. Ramanujan was a mathematician.\newline
+3. Therefore, Ramanujan was intelligent. &
+Proof B \newline
+1. There is a mathematician who is intelligent. \newline
+2. Ramanujan was a mathematician. \newline
+3. Therefore, Ramanujan was intelligent. \\
+%\hline
+\end{tabular}
+\caption{Two proofs - One is correct, one wrong.}
+\label{tab:ramaujanProofs}
+\end{table}
+
+You could see that Proof A is correct, whereas Proof B is not. Natural deduction of propositional logic will not help us to reach a correct conclusion. We need a stronger, richer logic for these kind of reasoning. We will show that, \indexit{first order logic} (also called \indexit{predicate} logic) will help us. 
+
+Consider the following statement. 
+\begin{equation}
+\text{Everyone is younger than a father.}
+\label{eq:fostatement}
+\end{equation}
+Our aim is to capture the information contained in the statement. We first introduce a \indexit{predicate} called father (which will be denoted by $F$). Introducing this predicate, allows us to write a formula like 
+\[F(Ashoka)\]
+The meaning we intend to convey is, ``Ashoka is a father". We can thus write $F(Alexander), F(Shivaji)$ etc. Let us introduce another predicate younger (which will be denoted by $Y$). We denote by $Y(Shivaji, Ashoka)$ to mean ``Shivaji is younger than Ashoka". The difference between the predicates $F$ and $Y$ is that $F$ takes one value as parameter whereas $Y$ takes two parameters. We say that $F$ is a \indexit{unary predicate} whereas $Y$ is a \indexit{binary predicate}. A predicate which takes $k$ parameters (where $k>2$) will be called a $k-ary$ predicate. We denote by \indexit{arity} the number of parameters of a predicate. That is, arity of $F$ is $1$, whereas the arity of $Y$ is $2$.
+
+The names $Ashoka, Alexander, Shivaji$ are called \indexit{constants}. This is in contrast to a \indexit{variable}. Variables will be represented by $x,y,z,\dots$. A variable is used as a symbol which can take any value from the domain of our problem. In our current discussion, a variable can take name of any person. Variables allow us to write formulas like
+
+\[F(x), F(y), F(z), \dots\]
+Combined with \indexit{quantifiers} variables are a very powerful addition to our logic. Let us introduce \indexit{universal quantifier} first. For a variable $x$, we write
+\[
+\forall x
+\]
+to mean, for all $x$. For a variable $y$, the \indexit{existential quantifier} is denoted by 
+\[
+\exists y
+\]
+and it means, there exists $y$. We can now rewrite the statement $(\ref{eq:fostatement})$ in first order logic as follows.
+\[
+\forall x ~\exists y ~(Y(x,y) \wedge F(y))
+\]
+It says, for every one ($\forall x$), there is some person ($\exists y$), who is older than him ($Y(x,y)$) and such that he ($y$) is a father. The variable $x$ and $y$ can take the name of any person. That is the domain of $x$ and $y$ is the set of all human beings (past and present). 
+
+In the above notation, given a person, we cannot identify who his/her father is. That is, the predicates we used was not good enough to keep track of this information. If we need to write properties using this information, we need to use a new predicate (let us call it father of, $Ff$) such that $Ff(Mahendra, Ashoka)$ will mean father of Mahendra is Ashoka. Note that father of is a function. That is, for every $x$, there exists exactly one $y$ such that $Ff(x,y)$ is true. In such cases, we can use a \indexit{function} notation. Let us denote by $ff$ the function which gives the father of a person. That is $ff(Mahendra) = Ashoka$. A function takes as parameter domain elements and returns a domain element. Consider the following sentence
+\begin{equation}
+\text{Everyone is younger than his/her father.}
+\end{equation}
+This can now be written using the function $ff$ as follows
+\[
+\forall x \exists y ~((y=ff(x)) \ifthen Y(x,y))
+\]
+It says, for all $x$, there exists someone who will be older than him, if he was his/her father. Note that, the statement does not say that any person needs to have a father. Similar to arity of predicates we can define arity of a function. It is defined as the number of parameters in its domain.
+
+\section{Terms and Formulas}
+\begin{definition}
+Terms are inductively defined as follows.
+\begin{enumerate}
+\item All constants are terms
+\item All variables are terms
+\item If $t_1,\dots, t_n$ are terms, and $f$ is a function of arity $n$, then $f(t_1,\dots, t_n)$ is also a term.
+\item Nothing else is a term.
+\end{enumerate}
+
+In Baukus normal form, the grammar for terms can be written as follows.
+\[
+t ::= c ~|~ x ~|~ f(t,t,\dots,t)
+\]
+\end{definition}
+\begin{definition}
+Formulas are inductively defined as follows
+\begin{enumerate}
+\item If $P$ is a predicate of arity $n$ and $t_1,\dots,t_n$ are terms, then $P(t_1,\dots,t_n)$ is a formula.
+\item If $\phi$ is a formula, then $\neg \phi$ is also a formula.
+\item If $\alpha, \beta$ are formulas, then $\alpha \vee \beta$, $\alpha \wedge \beta$, $\alpha \ifthen \beta$ are all formulas.
+\item If $\alpha$ is a formula, then $\exists x ~\alpha$ is a formula.
+\item If $\alpha$ is a formula, then $\forall x ~\alpha$ is a formula.
+\item Nothing else is a formula.
+\end{enumerate}
+In Baukus normal form, the grammar for formulas can be written as follows.
+\[
+\phi ::= P(t,t,\dots,t) ~|~ \neg \phi ~|~ \phi \vee \phi ~|~ \phi \wedge \phi ~|~ \phi \ifthen \phi ~|~  \exists x \phi ~|~ \forall x \phi 
+\]
+\end{definition}
+
+Informally, the terms look like functions (which output an element from the domain), whereas formulas look like predicates (which have a true or false value).
+
+\section{Natural Deduction}
+We follow Huth and Ryan for natural deduction.
+
+\section{Soundness and Completeness}
+The proof for soundness and completeness can be found in Enderton.

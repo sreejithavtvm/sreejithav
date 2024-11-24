@@ -1,0 +1,222 @@
+\chapter{First Order Theories}
+We follow the book ``The calculus of computation" by Bradley and Manna.
+
+\section{Introduction}
+A \indexit{first order theory} T consists of the following
+\begin{enumerate}
+\item A set of symbols called constants, predicates and functions.
+\item A set of axioms which give meaning to these symbols.
+\end{enumerate}
+
+Let us elaborate on the interplay between axioms and symbols. Consider the following formula:
+\[
+\forall x ~\exists y ~R(x,y)
+\]
+What is the meaning of $R$ in the above formula. Given only the symbol $R$, there is no way we know what it means. Let us rewrite the above sentence using a different symbol.
+\[
+\forall x ~\exists y ~x\leq y
+\]
+Suddenly we see a meaning in the above statement. The reason, being we have a notion of what $<$ stands for. Usually, we use $<$  to mean a \emph{total order}. Note that, you might encounter $<$ to mean a \emph{partial order} sometimes. Let us assume $<$ stands for total order in the above statement. The question arises, how do we tell an "alien" what is a total order (in short what does $<$ mean)? If our alien understands first order logic, we can give the set of axioms of a total order.
+\begin{enumerate}
+%\item (Reflexivity) $\forall x ~x \leq x$
+\item (Transitivity) $\forall x,y,z ~(a < b \wedge b < c) \ifthen (a < c)$
+\item (Antisymmetry) $\forall x, y ~(x < y) \ifthen (y < x)$
+\item (Trichotomy law) $\forall x,y ~(x < y) \vee (y < x)$
+\end{enumerate}
+Note that in a partial order, the Trichotomy law does not hold. The above axioms give meaning to the $<$ predicate. 
+\begin{example}
+We will denote by $T_<$, the theory of $<$ symbol along with the above axioms of transitivity, antisymmetry, and trichotomy law.
+\end{example}
+
+Given a theory $T$, we will abuse notation and use $T$ also to denote the set of axioms of the theory. For a theory $T$, we say a formula $\alpha$ is $T$-valid (or \indexit{valid in theory} $T$) if the following holds for all models $M$,
+\myquote{ If for all axioms $A$ in $T$, $M \models A$ then $M \models \alpha$.}
+In other words, we say $\alpha$ is $T$-valid if
+\[
+T \models \alpha
+\]
+Recollect that, from the completeness theorem this will also mean
+\[
+T \proves \alpha
+\]
+We say that $\alpha$ is $T$\emph{-satisfiable} if there exists a model $M$ such that $M \models A$ for all axioms $A$ in $T$ and $M \models \alpha$. We say that a theory $T$ is \indexit{complete} if for all formulas $\alpha$ which uses only the symbols in $T$,
+\[
+\text{either } T \models \alpha \text{ or } T \models \neg \alpha
+\]
+Consider the above theory $T_<$. We show that $T_<$ is not complete.
+\begin{lemma}
+$T_<$ is not a complete theory.
+\end{lemma}
+\begin{proof}
+Consider the formula 
+\[
+\alpha ::= \forall x, y (x<y) \ifthen (\exists z ~x < z <y)
+\]
+We show that $T_<$ neither satisfies $\alpha$ nor $\neg \alpha$. To show that the theory does not satisfy $\alpha$, it is enough to give a model which satisfies the axioms of $T_<$ but not $\alpha$. The natural numbers with the associated total order is one such model. Similarly to show that the theory does not satisfy $\neg \alpha$, it is sufficient to give a model which satisfies the axioms of $T_,$ but not $\neg \alpha$. The rational numbers with the associated total order is a model which satisfies this condition. 
+\end{proof}
+
+We say that a theory $T$ is \indexit{consistent} if for all formulas $\alpha$ we do not have that $T \models \alpha$ and $T \models \neg \alpha$. If a theory is not consistent, we say that it is \indexit{inconsistent}. 
+\begin{example}
+The theory consisting of the axioms $\alpha$ and $\neg \alpha$ for any $\alpha$ is inconsistent. On the other hand with some effort one can show that $T_<$ is consistent. 
+\end{example}
+We say that a theory $T$ is decidable, if there exists an algorithm $P$ which on input $\alpha$ outputs yes if $T \models \alpha$, and outputs no, otherwise. The theory of all symbols and no axioms is undecidable. On the other hand, $T_<$ is decidable. We will see that, most of the theories are undecidable, but there are interesting theories which are decidable. 
+
+\section{Theory of Equality}
+The theory of Equality (denoted by $T_E$) consists of the following set of symbols:
+\begin{itemize}
+\item A binary predicate called equality, denoted as $=$.
+\item All constants, functions, predicates.
+\end{itemize}
+The axioms of $T_E$ consists of the following
+\begin{enumerate}
+\item (Reflexive) $\forall x ~(x=x)$
+\item (Symmetry) $\forall x,y ~(x=y) \ifthen (y=x)$
+\item (Transitivity) $\forall x,y,z ~((x=y)\wedge (y=z)) \ifthen (x=z)$
+\item (function congruence) 
+\[\forall x_1,\dots,x_n, y_1,\dots, y_n ~(\bigwedge_{i=1}^n x_i = y_i) \ifthen f(x_1,\dots,x_n) = f(y_1,\dots,y_n)\]
+\item (predicate congruence) 
+\[\forall x_1,\dots,x_n, y_1,\dots, y_n ~(\bigwedge_{i=1}^n x_i = y_i) \ifthen (P(x_1,\dots,x_n) \iff P(y_1,\dots,y_n))\]
+\end{enumerate}
+
+\begin{exercise}
+Prove the following using natural deduction and axioms of $T_E$
+\[
+T_E \proves ((a=b) \wedge (b=c)) \ifthen g(f(a),b) = g(f(c),a)
+\]
+\end{exercise}
+
+The satisfiability problem of the theory of equality is undecidable.
+\begin{theorem}
+Satisfiability of theory of equality is undecidable.
+\end{theorem}
+Note that first order logic (without equality) itself is undedicable. Hence it is not surprise that first order logic with equality is undecidable (consider only formulas which do not use equality). This leads us to search for logics which are decidable. 
+
+\section{Peano arithmetic}
+Peano arithmetic was a proposed theory of arithmetic. We will denote it by $T_{PA}$. It consists of the following sets of symbols.
+\begin{itemize}
+\item The constants $0,1$
+\item The binary predicate $=$ and ternary predicates addition (denoted by $+$) and multiplication (denoted by $.$).
+\end{itemize}
+
+The axioms of Peano arithmetic are as follows.
+\begin{table}[H]
+\begin{tabular}{l l}
+(zero) & $\forall x ~\neg (x+1=0)$ \\
+(successor) & $\forall x,y ~((x+1=y+1) \ifthen (x=y))$ \\
+(plus zero) &  $\forall x ~(x+0 = x)$ \\
+(plus successor) & $\forall x,y ~(x+(y+1)) = (x+y)+1$ \\
+(times zero) & $\forall x ~(x.0 = 0)$ \\
+ (times successor) & $\forall x,y ~(x.(y+1)) = (x.y+x)$ \\
+(induction) & For all formulas $\alpha(x)$ with a single free variable $x$: \\
+ & $
+\big( \alpha(0) \wedge \forall x ~(\alpha(x) \ifthen \alpha(x+1)) \big) \ifthen \forall x ~ \alpha(x)
+$
+\end{tabular}
+\end{table}
+
+The intended interpretation of the axioms are in natural numbers (i.e. $\{0,1,\dots\}$).
+
+The logic is quite cumbersome to write. For example
+\[
+x.x + x.x + x.x + x + x + 1 + 1 + 1 + 1 + 1 = 0
+\]
+represents the polynomial $3x^2 + 2x+5 = 0$. Therefore, we will continue to use the polynomial notation inside formulas (but keeping in mind that we can convert it into the formula form whenever required).
+
+\begin{exercise}
+Express the following properties in $T_{PA}$. That is, for each of the following properties, write a formula in $T_{PA}$ such that the formula is true if and only if the property is true.
+\begin{enumerate}
+\item $x>y$ : is true iff $x$ is greater than $y$.
+\item $x \geq y$
+\item Prime$(x)$ : is true iff $x$ is a prime number
+\item Even$(x)$ : is true iff $x$ is an even number
+\item Goldbach Conjecture: Every even integer greater than $2$ is the sum of two prime numbers.
+\end{enumerate}
+\end{exercise}
+
+Use natural deduction and the axioms of $T_{PA}$ to show the following.
+\begin{exercise}
+Show that there are infinite number of primes. That is, 
+\[
+T_{PA} \proves \forall x ~\exists y ~(y > x \wedge \text{ Prime}(y)) 
+\]
+\end{exercise}
+
+Unfortunately satisfiability of $T_{PA}$ is also not decidable. 
+\begin{theorem}
+Satisfiability of Peano arithmetic is undecidable. 
+\end{theorem}
+
+But a more shocking result is the incompleteness theorem of G\"odel. He said that 
+\begin{theorem}[G\"odel's incompleteness theorem]
+Peano arithmetic is not a complete theory. That is, there is a formula $\alpha$ such that neither $T_{PA} \proves \alpha$ nor $T_{PA} \proves \neg \alpha$.
+\end{theorem}
+
+Keep in mind that, we are not saying $T_{PA}$ does not satisfy the completeness theorem. $T_{PA}$ satisfies the soundness and completeness results. In other words.
+\[
+T_{PA} \models \alpha \iff T_{PA} \proves \alpha
+\]
+
+G\"odel's incompleteness result is saying that there is a formula $\alpha$ such that neither can we derive $\alpha$ from the axioms of $T_{PA}$, nor can we derive $\neg \alpha$ from the axioms of $T_{PA}$. It was a strong statement at the time of its discovery. It says that there are theorems in first order logic of arithmetic, which can never be proved true or false. The exact statement of G\"odel is more powerful and says no matter how we extend Peano arithmetic, still we are left with statements which can neither be proved nor disproved.  
+
+\section{Presburger arithmetic}
+We will denote Presburger arithmetic by $T_{Presb}$. The theory is named after Presburger, a mathematician who designed the axioms and proved decidability of the theory. It is a theory of addition over integers.  It consists of the following sets of symbols.
+\begin{itemize}
+\item The constants $0,1$
+\item The binary predicates $=,<$ and ternary predicates addition (denoted by $+$) and subtraction (denoted by $-$).
+\end{itemize}
+
+The theory is intended to be interpreted over Integers.  The axioms of Presburger arithmetic are:
+\begin{table}[H]
+\begin{tabular}{l l}
+(successor) & $\forall x,y ~((x+1=y+1) \ifthen (x=y))$ \\
+(plus zero) &  $\forall x ~(x+0 = x)$ \\
+(plus successor) & $\forall x,y ~(x+(y+1)) = (x+y)+1$ \\
+(times zero) & $\forall x ~(x.0 = 0)$ \\
+(times successor) & $\forall x,y ~(x.(y+1)) = (x.y+x)$ \\
+(subtraction) & $\forall x,y,z ~(x=y-z \iff y=x+z)$ \\
+ (order successor) & $\forall x ~(x+1 > x)$  \\
+(order transitive) & $\forall x,y,z ~(x>y \wedge y>z) \ifthen (x>z)$ \\
+(order antisymmetric) & $\forall x,y ~(x > y) \ifthen \neg (y>x) \wedge \neg (x=y)$ \\
+(induction) & For all formulas $\alpha(x)$ with a single free variable $x$: \\
+ & $
+\big( \alpha(0) \wedge \forall x>0 ~(\alpha(x) \ifthen \alpha(x+1)) \big) \ifthen \forall x>0 ~ \alpha(x)
+$
+\end{tabular}
+\end{table}
+
+Use the axioms above along with natural deduction to prove the following.
+\begin{exercise}
+Prove the following
+\begin{enumerate}
+\item $T_{Presb} \proves \forall x,y,z ~\big((x>z) \wedge (y \geq 0) \big) \ifthen (x+y > z)$
+\item $T_{Presb} \proves \forall x,y ~\big((x>0) \wedge (x=2y \vee x=2y+1) \big) \ifthen (x-y > 0)$
+\end{enumerate}
+\end{exercise}
+
+Fortunately, Presburger arithmetic turns out to be decidable. The satisfiability problem is in $O(2^{2^{2^{|\alpha|}}})$.
+
+\section{Theory of Reals}
+Tarski showed that the theory of reals is decidable. The symbols for the theory of reals is as follows.
+\begin{itemize}
+\item The constants $0,1$
+\item The binary predicate $=$ and ternary predicates addition (denoted by $+$) and multiplication (denoted by $.$).
+\end{itemize}
+
+As the name suggests, the theory is to be interpreted over reals. We skip the set of axioms because the list is big. The big takeaway from the theory of reals is that it is decidable. 
+
+\section{Summary}
+We summarize the different theories in the table below.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+Name & Symbols & Interpretation over & Decidability \\
+\hline
+First order theory & all relations & all models & Undecidable \\
+Theory of equality & all relations, $=$ & all models & Undecidable \\
+Peano arithmetic & $0,1,+,.,=$ & Natural numbers & Undecidable \\
+Presburger arithmetic & $0,1,+,-,>,=$ & Integers & Decidable \\
+Theory of Reals & $0,1,+,.,=$ & Reals & Decidable \\
+\end{tabular}
+\end{table}
+
+

@@ -10,3 +10,11 @@ Academic/Course Handouts/dsa_plan.pdf
 *.pdf
 *.bbl
 *.blg
+*.idx
+*.ilg
+*.gz
+*.ind
+*.key
+*.kaux
+*.diagnose
+*.toc

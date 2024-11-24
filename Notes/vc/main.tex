@@ -1,0 +1,114 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+%\documentclass[12pt,
+%    driverfallback=dvipdfm,
+% %   openright,
+% 	openany,
+%    a4paper,
+% %   parskip=half,   
+%    toc=bibliography,
+%    twoside,
+%    numbers=noenddot]{article}              % Book class in 11 points
+
+\documentclass[english,course]{lecture}
+%\usepackage[usenames,dvipsnames,showerrors,usenames,svgnames]{xcolor}
+    
+\usepackage{algorithmic}
+%\usepackage{fullpage}
+%\usepackage[hidelinks,breaklinks]{hyperref}
+%\usepackage[xcolor,makeidx=compatibility,quotation,notion]{knowledge}
+\usepackage[electronic,xcolor,makeidx=compatibility,quotation,notion]{knowledge}
+
+\usepackage{float}
+\floatstyle{ruled}
+\newfloat{problem}{thp}{lop}
+\floatname{problem}{Problem}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[rightcaption]{sidecap}
+ 
+%%% PACKAGES
+\usepackage{tikz}
+\usetikzlibrary{angles}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+
+\usepackage{fullpage}
+\usepackage[english]{babel}
+\usepackage{amsmath, amsthm, amssymb}
+%\usepackage{tikz-cd}
+%\usetikzlibrary{shapes,arrows,intersections}
+%\usetikzlibrary{matrix,fit,calc,trees,positioning,arrows,chains,shapes.geometric,shapes,angles,quotes}
+
+%\usepackage{algorithm,algorithmic}% http://ctan.org/pkg/algorithms
+
+\usepackage{mdframed} 
+\usepackage{xspace}
+
+\usepackage[capitalize]{cleveref}
+\usepackage{todonotes}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\addtolength{\headsep}{0.3in}
+
+%
+% First, provide some data about this document
+\title{Vapnik–Chervonenkis Theory}
+%\subtitle{Empirical Risk Minimization (ERM)}
+\shorttitle{VC theory} % For headers; if undefined, the usual title will be used
+%\ccode{Code 7.45} % Most of these data are not compulsory
+%\subject{Subject of the Talk}
+\author{Thanks to Satyanath Bhat}
+%\spemail{satya@iitgoa.ac.in}
+%\email{sreejithav@iitgoa.ac.in}
+\speaker{Sreejith A V}
+%\date{12}{07}{2021}
+%\dateend{12}{07}{2021}
+%\conference{Lecture hall 7}
+%\place{IIT Goa}
+%\flag{An extra line if you need it.}
+%\attn{Place anything here to gather your readers' attention. This could be a warning, a disclaimer, a license, or, more likely, some helpful suggestions for your readers.}
+%\morelink{vhbelvadi.com}
+
+\input{macro.tex}
+
+\begin{document}
+%\maketitle
+\newpage
+\input{ml.tex}
+\input{vc.tex}
+\input{prob.tex}
+\input{comb.tex}
+
+%\bibliography{papers}
+%\bibliographystyle{plain}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

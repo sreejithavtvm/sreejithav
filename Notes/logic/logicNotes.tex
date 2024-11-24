@@ -1,0 +1,191 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+\documentclass[12pt,
+    driverfallback=dvipdfm,
+ %   openright,
+ 	openany,
+    a4paper,
+ %   parskip=half,   
+    toc=bibliography,
+    twoside,
+    numbers=noenddot]{book}              % Book class in 11 points
+    \usepackage[usenames,dvipsnames,showerrors]{xcolor}
+    \usepackage[
+    driverfallback=dvipdfm,
+    colorlinks,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=black,
+    bookmarks=true
+    ]{hyperref}
+    
+\usepackage{logicproof}
+\usepackage{fancyhdr}
+%\usepackage{mathptmx}
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{sidecap}
+\usepackage{float}
+\floatstyle{ruled}
+\newfloat{problem}{thp}{lop}
+\floatname{problem}{Problem}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+%\usepackage{fullpage}
+    
+%\raggedright                            % do not right justify
+
+
+\title{\bf Logic for Computer Science}    % Supply information
+\author{Sreejith A. V. (sreejithav@iitgoa.ac.in)}              %   for the title page.
+\date{IIT Goa, lecture notes}                           %   Use current date. 
+%\usepackage{mwe}
+%\usepackage{xcolor}
+%\usepackage[markcase=noupper]{scrlayer-scrpage}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+%\fancyhead[RE,LO]{Guides and tutorials}
+\fancyhead[LO]{}
+%\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[LE,RO]{\thepage}
+ 
+%\renewcommand{\headrulewidth}{1pt}
+%\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+
+%\ohead{}% clear the outer head
+%\addtokomafont{pagehead}{\sffamily}
+%\addtokomafont{pagefoot}{\tiny}% Making the foot extra tiny to demonstrate
+%\addtokomafont{pagenumber}{\normalsize}% that the page number can be controlled on its own. 
+%\ofoot*{\pagemark}% the pagenumber in the outer part of the foot, also on plain pages
+%\ifoot*{Sreejith\\sreejithav@iitgoa.ac.in}% Name and title beneath each other in the inner part of the foot
+%\setlength{\footheight}{24.0pt}
+
+%\documentclass[UKenglish,a4paper,12pt]{article} % use larger type;
+%\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+
+% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{\mathversion{bold}2. Propositional Logic}
+%\author{A. V. Sreejith (IIT Goa)}
+%\date{~}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+%%% PACKAGES
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, positioning}
+\usepackage{algorithm,algorithmic}% http://ctan.org/pkg/algorithms
+    
+\tikzstyle{decision} = [diamond, draw, fill=yellow!40, 
+    text width=4.5em, text badly centered, node distance=1.75cm, inner sep=0pt]
+\tikzstyle{decisiong} = [diamond, draw, fill=blue!40, 
+    text width=4.5em, text badly centered, node distance=1.75cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, node distance=1.75cm, minimum width=1cm, minimum height=0.5cm, draw, fill=yellow!20, 
+    text width=30em, text centered, rounded corners, minimum height=1.5em]
+\tikzstyle{blockg} = [rectangle, minimum width=1cm, minimum height=0.5cm, draw, fill=blue!20, 
+    text width=15em, text centered, rounded corners, minimum height=1.5em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=yellow!20, node distance=1.5cm, 
+    minimum height=2em]
+\tikzstyle{invis} = [draw, fill=yellow!10, node distance=4.25cm, 
+    minimum height=2em]
+\tikzstyle{invisg} = [draw, fill=yellow!10, node distance=3.5cm, 
+    minimum height=2em]
+\tikzstyle{matheq} = [node distance=8.75cm, text width=21em, minimum width=1cm, 
+    minimum height=2em, text centered]
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{bussproofs}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{float}
+\restylefloat{table}
+
+\newcommand{\chapquote}[3]{\begin{quotation} \textit{#1} \end{quotation} \begin{flushright} - #2, \textit{#3}\end{flushright} }
+\newcommand{\myquote}[1]{\begin{quotation} \textit{#1} \end{quotation}}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{exercise}{Exercise}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{puzzle}{Puzzle}[chapter]
+\newtheorem*{solution}{Solution}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+
+
+\newcommand{\true}{T}
+\newcommand{\false}{F}
+\newcommand{\ifthen}{\Rightarrow}
+\newcommand{\ifonlyif}{\Leftrightarrow}
+\newcommand{\xor}{\oplus}
+\newcommand{\proves}{\vdash}
+\newcommand{\andintro}{\wedge i}
+\newcommand{\andelim}[1]{\wedge e_{#1}}
+\newcommand{\doublenegelim}{\neg\neg e}
+\newcommand{\doublenegintro}{\neg\neg i}
+\newcommand{\implelim}{\ifthen e}
+\newcommand{\implintro}{\ifthen i}
+\newcommand{\orintro}[1]{\vee i_{#1}}
+\newcommand{\orelim}{\vee e}
+\newcommand{\negintro}{\neg i}
+\newcommand{\negelim}{\neg e}
+\newcommand{\falseelim}{\false e}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\nmodels}{\not \models}
+\newcommand{\nproves}{\not \vdash}
+\newcommand{\etal}{\emph{et al.}}
+\newcommand{\wall}{~|~}
+\newcommand{\defs}{::=}
+
+\newcommand{\indexit}[1]{\emph{#1} \index{#1}}
+
+
+\begin{document}
+\frontmatter                            % only in book class (roman page #s)
+\maketitle                              % Print title page.
+\tableofcontents                        % Print table of contents
+\mainmatter                             % only in book class (arabic page #s)
+\input{notations.tex}
+\part{Mathematical Tools}
+\input{mathTools.tex}
+
+\part{Propositional Logic}
+\input{prop.tex}
+\input{natded.tex}
+%\chapter{Resolution}
+\input{satSolvers.tex}
+\input{randSAT.tex}
+%\section{Randomized solvers}
+%\subsection{2 CNF: Randomized polynomial time}
+%\subsection{3 CNF}
+%\chapter{SAT Counting}
+%\section{CNF counting}
+%\subsection{\# P-complete}
+%\subsection{Randomized approximate counting}
+%\section{DNF counting: FPRAS algorithm}
+%\chapter{Max-SAT}
+%\section{PCP: Hardness of approximation}
+
+\part{First Order Logic}
+\input{fo.tex}
+\input{fotheory.tex}
+
+\input{programVerification.tex}
+%\chapter{Artificial Intelligence}
+
+\printindex
+
+\bibliography{papers}
+\bibliographystyle{plain}
+\end{document}

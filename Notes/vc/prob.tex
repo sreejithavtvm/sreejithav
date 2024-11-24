@@ -1,0 +1,60 @@
+\newpage
+\section{Recap Statistics}
+%Let $X \sample \ Bernoulli(p)$ where 
+%\[
+%X = \begin{cases}
+%1 \text{ with probability $p$} \\
+%0 \text{ with $1-p$}
+%\end{cases}
+%\]
+%
+%Let $M_n = \frac{1}{n} \sum_{i=1}^n X_i$. As we take more and more $n$, we tend towards a normal distribution of $M_n$ with mean $p$.
+\begin{theorem}[""weak law of large numbers""]
+Let $X_1,X_2,\dots,X_n$ be identical random variables such that $\Exp{X_i} = \mu$. Then, for all $\epsilon, \delta > 0$ there exists an $N$ s.t. 
+\[
+\Prob{ \abs{\frac{1}{n} \sum_{i=1}^n X_i - \mu } > \epsilon}\ <\ \delta \tag{$\forall n \geq N$}
+\]
+\end{theorem}
+
+The central limit theorem informally says the following: $\frac{1}{n} \sum_{i=1}^n X_i$ approximates the normal distribution $\ndist(p, p(1-p)/n)$.
+
+\begin{lemma}[""Hoeffding bound""]
+\label{lem:chernoff}
+Let $X_1,X_2,\dots,X_n$ be identical random variables such that $\Prob{a \leq X_i \leq b} = 1$ for all $i \leq n$. Let $\Exp{X_i} = \mu$. Then,
+\[
+\Prob {\abs{\frac{1}{n} \sum_{i=1}^n X_i - \mu } \geq \epsilon}\ \leq\ 2 e^{-2 n \epsilon^2/(b-a)^2}
+\]
+\end{lemma}
+
+\AP
+\begin{lemma}[""Union bound""]
+\label{lem:unionbound}
+Let $A$ and $B$ be two events. Then
+\[
+\Prob {A \cup B}\ \leq\ \Prob A + \Prob B
+\]
+Let $A_1,A_2,\dots,A_n$ be $n$ events. Then,
+\[
+\Prob {\bigcup_{i=1}^n A_i}\ \leq\ \sum_{i=1}^n \Prob {A_i}
+\]
+\end{lemma}
+
+\AP
+\begin{lemma}[""Chebyshev inequality""]
+Let $X_1,X_2,\dots,X_n$ be iid random variables, where $\Exp{X_i} = \mu$ and $Var(X_i) = \sigma^2$ for all $i \leq n$. Then
+\[
+\Prob{\abs{\frac{1}{n} \sum_{i=1}^n X_i - \mu} > c}\ \leq\ \frac{\sigma^2}{nc^2}
+\]
+If in addition $X_i$s are Bernoulli random variables and $\mu \in [0,1]$
+\[
+\Prob{\abs{\frac{1}{n} \sum_{i=1}^n X_i  - \mu} > c} \ <\ \frac{\mu(1-\mu)}{nc^2}\ \leq\ \frac{1}{4nc^2}
+\]
+\end{lemma}
+
+\AP We denote the ""indicator random variable"" for an event $E$ by $\intro[\indrand]{}\indrand{E}$. The ""Rademacher random variable"" ($\intro{\Ra}$) is defined as
+\[
+\sigma = \begin{cases}
+-1, \quad \text{ with probability } \frac{1}{2} \\
++1, \quad \text{ with probability } \frac{1}{2}
+\end{cases}
+\]

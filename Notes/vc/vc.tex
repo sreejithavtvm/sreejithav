@@ -1,0 +1,584 @@
+\knowledge{gender identification}{notion}
+\knowledge{Target distribution}{notion}
+\knowledge{Training input}{notion}
+\knowledge{face recognition}{notion}
+\knowledge{obese classification}{notion}
+\knowledge{Feature space}[feature space]{notion}
+\knowledge{Label}[label|labelled]{notion}
+\knowledge{Bag of classifiers}[bag of classifiers]{notion}
+\knowledge{Loss function}[loss function]{notion}
+\knowledge{Risk}[risk]{notion}
+\knowledge{Hypothesis function}[hypothesis function|hypothesis]{notion}
+\knowledge{Empirical risk}[empirical risk]{notion}
+\knowledge{consistency of ERM}{notion}
+\knowledge{uniform convergence}[Uniform convergence]{notion}
+\knowledge{$\epsilon$-bad}{notion}
+\knowledge{$\epsilon$-close}{notion}
+\knowledge{$\epsilon$-good}{notion}
+\knowledge{Hoeffding bound}{notion}
+\knowledge{Chebyshev inequality}{notion}
+\knowledge{Union bound}[union bound]{notion}
+\knowledge{weak law of large numbers}{notion}
+\knowledge{sampling}{notion}
+\knowledge{empirical risk minimization}[Empirical risk minimization|ERM]{notion}
+\knowledge{growth function}{notion}
+\knowledge{Rademacher random variable}{notion}
+\knowledge{indicator random variable}{notion}
+\knowledge{shattered}{notion}
+\knowledge{VC dimension}{notion}
+
+
+\section{ERM and uniform convergence}
+\subsection{Empirical risk minimization (ERM)}
+\AP
+The \intro{risk} of a hypothesis $h \in \H$ is defined with respect to $\D$ as follows
+\[
+\intro[\risk]{}\risk h = \Exp[(x_i,y_i) \sample \D]{\L(h(x_i),y_i)} = \int \L(h(x_i),y_i))\ d \Prob{(x_i,y_i) \sample \D}
+\]
+Note that "risk" is defined with respect to the original distribution $\D$ which we do not know. Once "risk" is defined, we can define the ``best classifier'' or the hypothesis that has the least "risk".
+\AP
+\[
+\intro{\hstar} = \argmin_{h \in \H} \risk h
+\]
+%
+\AP
+A learning algorithm learns a hypothesis by looking at only a finite number of samples. Let us assume $S = \{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\}$ is the input to the learning algorithm. For a hypothesis $h \in \H$, we define the \intro{empirical risk} as
+\[
+\intro[\erisk]{}\erisk h = \frac{1}{|S|} \sum_{(x_i,y_i) \in S} \L(h(x_i),y_i)
+\]
+Based on this input $S$ an algorithm can at the most find the hypothesis that minimizes the empirical risk.
+\AP
+\[
+\intro{\ehstar} = \argmin_{h \in \H} \erisk h
+\]
+\AP This principle is called ""empirical risk minimization"" (ERM). 
+
+We now look at couple of properties of risk and empirical risk. These properties will be useful in the proofs.
+\noindent The first remark follows easily from the definition of $\ehstar$ and $\hstar$. 
+\begin{remark}
+$\erisk{\ehstar} \leq \erisk{\hstar}$ and $\risk{\hstar} \leq \risk{\ehstar}$.
+\end{remark}
+\noindent The next remark follows from the fact that $\L(h(x),y) \in [0,1]$,  $\forall (x,y) \in \D$.
+\begin{remark}
+For all $h \in \H$ and $S \subseteq \X \times \Y$, $\erisk{h} \in [0,1]$ and $\risk h \in [0,1]$.
+\end{remark}
+
+The aim of a learning algorithm is to find $\hstar$, the hypothesis with least risk. But, the learning algorithm can only see the input sample and the best
+it can do is find $\ehstar$, the hypothesis with the least empirical risk. What is the relationship between $\ehstar$ and $\hstar$? Only if $\ehstar$ is ``close'' to $\hstar$ can we say that the concept has been learned. Note also that we are not worried about the algorithmic complexity of learning $\ehstar$. 
+
+\subsection{Consistency of ERM}
+\AP Our aim is to ensure that $\ehstar$ is either same as or at least close to $\hstar$. It is natural to think that the more the samples you collect (or larger the set $S$ is) the better chance of $\ehstar$ being close to $\hstar$. We say that $\ehstar$ is \intro{$\epsilon$-close} to $\hstar$ if 
+\[
+\abs{ \erisk{\ehstar} - \risk{\hstar} }\quad \leq\quad \epsilon
+\]
+
+How large should our sample set $S$ be for $\ehstar$ to be "$\epsilon$-close" to $\hstar$? This is captured by the property on $\H$ called "consistency of ERM".
+\AP
+\begin{definition}[\intro{consistency of ERM}]
+\label{def:consERM}
+We say that $\H$ satisfies "consistency of ERM" over $\D$ if there is a function $\Nerm[\D]: (0,1) \times (0,1) \rightarrow \Nat$ such that 
+for all $\epsilon, \delta \in (0,1)$ and for all $n \geq \Nerm[\D](\epsilon, \delta)$ the following holds:
+\[
+\Prob[S \sample \D^n] {\abs{ \erisk{\ehstar} - \risk{\hstar} } > \epsilon}\quad <\quad \delta 
+\]
+We also say that $\H$ satisfies "consistency of ERM" if there is a function $\Nerm: (0,1) \times (0,1) \rightarrow \Nat$ such that for all distributions $\D$ and for all $\epsilon, \delta \in (0,1)$, $\Nerm(\epsilon, \delta) \geq \Nerm[\D](\epsilon,\delta)$.
+\end{definition}
+In the above definition, the function $\Nerm[\D]$ is called the consistency of ERM bound with respect to distribution $\D$. Similarly, the function $\Nerm$ is called the consistency of ERM bound.
+
+Let us try to understand the above definition. Consider a set $S \sample \D^n$ of cardinality $n$ where each $x_i \in S$ is drawn iid (independent and identically distributed) from the distribution $\D$. We will be ``happy'' if we can find an $\ehstar$ such that the empirical risk wrt to $\ehstar$ is "$\epsilon$-close" to the least possible risk $\risk {\hstar}$. In other words, $| \erisk{\ehstar} - \risk{\hstar} | \leq \epsilon$. This may not be always possible, since the sample set $S$ might be skewed. If we are really unlucky the set $S$ picked iid can all turn out to be of class $0$. Therefore, we can only ``probabilistically'' hope to get a good classification hypothesis. In other words, we want that with a high probability (of at least $1-\delta$) the sampled set $S$ gives us an $\ehstar$ that is "$\epsilon$-close" to $\hstar$. To summarize, we are interested in identifying a hypothesis that gives \emph{low error with high probability} or
+\[
+\Prob[S \sample \D^n] {\abs{ \erisk{\ehstar} - \risk{\hstar} } \leq \epsilon}\quad \geq\quad 1-\delta
+\]
+Note that Definition \ref{def:consERM} talks about identifying a hypothesis that gives \emph{high error with low probability}. The two notions are the same.
+
+The number $\Nerm[\D](\epsilon,\delta)$ or the consistency of ERM bound wrt $\D$, depends only on $\epsilon$, $\delta$ and $\D$. We know that if the sample $S$ is a singleton set, we are highly unlikely to get a hypothesis $\ehstar$ to our liking. As the size of $S$ increases we expect to get closer and closer to the best $\hstar$. Definition \ref{def:consERM} says that for any $\epsilon$ and $\delta$ there exists a large enough $\Nerm[\D](\epsilon,\delta)$ such that an iid sample $S$ of cardinality at least $\Nerm[\D](\epsilon,\delta)$ gives an $\ehstar$ that is "$\epsilon$-close" to $\hstar$ with high probability. We conclude by observing that if such an $\Nerm[\D](\epsilon,\delta)$ exist, then an $S$ of any size $n \geq \Nerm[\D](\epsilon,\delta)$ sampled iid also gives us a good enough $\ehstar$.
+
+The final piece in the definition is $\Nerm(\epsilon,\delta)$ or the consistency of ERM bound. This is a \emph{distribution free} bound. An $\H$ satisfy "consistency of ERM" if no matter what the distribution $\D$ is, if we sample an iid $S$ of size at least $\Nerm(\epsilon,\delta)$, then we will get an $\ehstar$ that is "$\epsilon$-close" to $\hstar$ with high probability. Note that we will be interested in the distribution free bound since a machine learning algorithm does not apriori know the distribution $\D$.
+
+Do all hypothesis class $\H$ satisfy "consistency of ERM"? Is there an $\H$ that satisfy "consistency of ERM"? These are questions we answer in this writeup.
+
+\subsection{Uniform convergence}
+We will now look at uniform convergence which is a necessary and sufficient condition for $\H$ to satisfy "consistency of ERM".
+\AP
+\begin{definition}[""uniform convergence""]
+We say that $\H$ satisfies "uniform convergence" over distribution $\D$ if there is a function $\Nuc[\D]: (0,1) \times (0,1) \rightarrow \Nat$ such that 
+for all $\epsilon, \delta \in (0,1)$ and for all $n \geq \Nuc[\D](\epsilon, \delta)$ the following holds:
+\[
+\Prob[S \sample \D^n]{\sup_{h\in \H} \ \abs{ \erisk h - \risk h } > \epsilon}\quad <\quad \delta 
+\]
+We also say that $\H$ satisfies "uniform convergence" if there is a function $\Nuc: (0,1) \times (0,1) \rightarrow \Nat$ such that for all distribution $\D$ and for all $\epsilon, \delta \in (0,1)$, $\Nuc(\epsilon,\delta) \geq \Nuc[\D](\epsilon,\delta)$.
+\end{definition}
+
+\AP
+Here, ``$\sup R$'' for a set $R \subseteq \Reals$ is the supremum of $R$. The function $\Nuc$ (resp. $\Nuc[\D]$) is called the uniform convergence bound (resp. for $\D$).
+
+Let us now try to understand the above definition. 
+Recall the use of $\epsilon$ and $\delta$ in the definition of "consistency of ERM". Let $S \sample \D^n$ be a set of cardinality $n$. We say that the set $S$ is \intro{$\epsilon$-bad} if there exists a hypothesis $h \in \H$ such that $| \erisk h - \risk h | > \epsilon$. In other words, for an "$\epsilon$-bad" $S$ the ``worst'' hypothesis $h$ gives an empirical error $\erisk h$ that is not "$\epsilon$-close" to the risk $\risk h$. 
+\[
+\text{(definition)} \quad S \text{ is "$\epsilon$-bad"} \quad \text{ if } \quad \exists h \in \H \text{ such that } | \erisk h - \risk h | > \epsilon
+\]
+Uniform convergence says that the probability of picking an $\epsilon$-bad $S$ is small (less than $\delta$).
+
+To summarize, we say that a hypothesis bag $\H$ satisfies the "uniform convergence" with respect to a distribution $\D$ if for any $\epsilon$ and $\delta$ there exists an $N = \Nuc[\D](\epsilon,\delta)$ such that the probability of an "$\epsilon$-bad" $S$ of size at least $N$ picked iid from  distribution $\D$ is less than $\delta$.
+
+\AP
+To get a better understanding of uniform convergence, let us restate our discussion. We say that the set $S$ is \intro{$\epsilon$-good} if for all $h \in \H$ the empirical risk $\erisk h$ is "$\epsilon$-close" to risk $\risk h$. Uniform convergence says that for any $\epsilon$ and $\delta$ there is an $N$ such that the probability of picking an "$\epsilon$-good" iid sample $S$ from distribution $\D$ is high (greater than $1-\delta$).
+
+The uniform convergence bound $\Nuc$ is a \emph{distribution free} bound. That is no matter what the distribution is, if we pick an iid sample $S$ of size at least $\Nuc(\epsilon,\delta)$, then the probability of picking an "$\epsilon$-bad" $S$ is less than $\delta$.
+
+The following observation will be useful in understanding some of the proofs.
+\begin{remark}
+Let $S \subseteq \X \times \Y$ be an arbitrary set. Then
+\[
+S \text{ is "$\epsilon$-bad"} \quad \text{ iff } \quad \exists h \in \H\ \  \abs{ \erisk h - \risk {h} } > \epsilon \quad \text{ iff } \quad \sup_{h\in \H} \ \abs{ \erisk h - \risk h } > \epsilon
+\]
+\end{remark}
+%
+\noindent Next we observe that "uniform convergence" is as strong as "weak law of large numbers". 
+\begin{lemma}["uniform convergence" $\Rightarrow$ "weak law of large numbers"]
+Let $\H$ satisfy "uniform convergence" for distribution $\D$. Then for all $\epsilon, \delta$ in $(0,1)$ and all $h \in \H$ there exists an $N$ such that 
+\[
+\Prob[S \sample \D^n]{\ \abs{ \erisk {h} - \risk {h} } > \epsilon} \quad <\quad \delta \tag{$\forall n \geq N$}
+\]
+\end{lemma}
+\begin{proof}
+Let us assume $\H$ satisfies uniform convergence for distribution $\D$. Let $\epsilon$ and $\delta$ be as given in the statement of the lemma. Let $N = \Nuc[\D](\epsilon,\delta)$. 
+Consider an $ h \in \H$. We show that for all $n \geq N$ the statement of the lemma is true. 
+
+Consider a finite set $S \sample \D^n$ of cardinality $n \geq N$. It follows from definition that if $| \erisk { h} - \risk { h} | > \epsilon$ then $S$ is "$\epsilon$-bad". In other words for all $n \geq N$,
+\begin{align*}
+\Prob[S \sample \D^n] {\  \abs{ \erisk { h} - \risk { h} } > \epsilon }\quad  & \leq\quad \Prob[S \sample \D^n] {\ S \text{ is "$\epsilon$-bad"}} \\
+\quad & =\quad \Prob[S \sample \D^n] {\ \exists \widehat h \in \H\ \  \abs{ \erisk {\widehat h} - \risk {\widehat h} } > \epsilon }  \quad < \quad \delta
+\end{align*}
+The latter inequality follows from the fact that $\H$ satisfies "uniform convergence". This concludes the proof of the lemma.
+\end{proof}
+
+\subsection{Consistency of ERM iff Uniform convergence}
+We first show that if $\H$ satisfies "uniform convergence" then it satisfies "consistency of ERM".
+
+\begin{lemma}["uniform convergence" $\Rightarrow$ "consistency of ERM"]
+\label{lem:uctocerm}
+Let $\H$ satisfy "uniform convergence" over $\D$. Then $\H$ satisfies "consistency of ERM" over $\D$. Moreover $\Nerm[\D](\epsilon,\delta) = \Nuc[\D](\epsilon/2,\delta)$.
+\end{lemma}
+\begin{proof}
+Let $\H$ satisfy uniform convergence over $\D$. Our aim is to give the consistency of ERM bound $\Nerm[\D]$.
+Consider an arbitrary $\epsilon, \delta \in (0,1)$. We show that $\Nerm[\D](\epsilon,\delta) = \Nuc[\D](\epsilon/2,\delta)$ satisfies the conditions of "consistency of ERM". Pick any $n \geq \Nuc[\D](\epsilon/2,\delta)$. Since $\H$ satisfies "uniform convergence" over $\D$:
+\[
+\Prob[S \sample \D^n]{\sup_{h \in \H} \abs{ \erisk h - \risk h } > \epsilon/2} \quad <\quad \delta 
+\]
+
+%Our aim is to show that $\H$ satisfies "consistency of ERM" over $\D$. 
+Consider an $S \sample \D^n$ and the following equation
+\begin{align*}
+\erisk{\ehstar} - \risk{\hstar} \quad & = \quad \risk{\ehstar} - \erisk{\ehstar} \\ 
+\quad & +\quad \erisk{\ehstar} - \erisk{\hstar} \\
+\quad & + \quad \erisk{\hstar} - \risk{\hstar}
+\end{align*}
+From the definition of $\ehstar$ we have that $\erisk{\ehstar} - \erisk{\hstar} \leq 0$. Therefore, 
+\[
+\erisk{\ehstar} - \risk{\hstar}\quad  \leq\quad \risk{\ehstar} - \erisk{\ehstar}\quad +\quad \erisk{\hstar} - \risk{\hstar}
+\]
+Since the left hand side is a non negative number
+\[
+\abs{\erisk{\ehstar} - \risk{\hstar}}\quad  \leq \quad 2 \sup_{h \in \H} |\erisk{h} - \risk{h}|
+\]
+Consistency of ERM now follows from the fact that
+\[
+\Prob[S \sample \D^n] {\abs{\erisk{\ehstar} - \risk{\hstar} } > \epsilon}\quad \leq\quad  \Prob[S \sample \D^n]{\sup_{h \in \H} | \erisk h - \risk h | > \epsilon/2} \quad < \quad \delta
+\]
+This concludes the proof.
+%The function $\Nerm[\D]$ is given by $\Nerm[\D](\epsilon,\delta) = \Nuc[\D](\epsilon/2,\delta)$ for all $\epsilon$ and $\delta$ in $(0,1)$.
+\end{proof}
+
+The other direction of the above lemma, that is consistency of ERM implies uniform convergence, was shown by Vapnik. We skip the non-trivial proof.
+\begin{lemma}["consistency of ERM" $\Rightarrow$ "uniform convergence"]
+Let $\H$ satisfy "consistency of ERM" over $\D$. Then $\H$ satisfies "uniform convergence" over $\D$.
+\end{lemma}
+
+\subsection{Uniform convergence for a finite set of hypothesis}
+We show that "uniform convergence" holds for a finite "bag of classifiers" $\H$.
+\begin{lemma}
+Distribution free "uniform convergence" holds for a finite set of hypothesis $\H$. Furthermore, uniform convergence holds for the following bound:
+\[
+\Nuc(\epsilon,\delta) = \frac{1}{2 \epsilon^2} \ln \frac{2\H}{\delta}
+\]
+Therefore, consistency of ERM holds for the bound:
+\[
+\Nerm(\epsilon,\delta) = \frac{2}{\epsilon^2} \ln \frac{2\H}{\delta}
+\]
+\end{lemma}
+\begin{proof}
+Consider a finite set $\H$. Our aim is to show that $\H$ satisfies \emph{distribution free} "uniform convergence" for the bound given in the statement of lemma.
+Let $\epsilon, \delta$ be arbitrary numbers in $(0,1)$ and $\D$ an arbitrary distribution over $\X \times \Y$. We need to show that for all $n>\Nuc(\epsilon,\delta)$,
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad < \quad \delta
+\]
+Fix an $h \in \H$. We define the random variable $X_i$ for all $i \leq n$ as follows: choose a random sample $(x_i,y_i) \sample \D$ and let $X_i = \L(h(x_i),y_i)$. Note that $\Exp {X_i} = \risk h$ for all $i \leq n$. Since the loss function is such that $\L(h(x),y) \in [0,1]$ we have that $0 \leq X_i \leq 1$ for all $i \leq n$. Therefore, we can apply the "Hoeffding bound" (regardless of the distribution $\D$) on the iid random variables $X_1, X_2, \dots, X_n$.
+\[
+\Prob[S \sample \D^n] {\ \abs{\erisk h - \risk h } > \epsilon}\quad =\quad \Prob {\abs{\frac{1}{n} \sum_{i=1}^n X_i - \risk h} > \epsilon}\quad \leq\quad 2 e^{-2 n \epsilon^2}
+\]
+We now bound the probability of an "$\epsilon$-bad" set $S$ using "union bound". For all distributions $\D$,
+\begin{align*}
+\Prob[S \sample \D^n]{\sup_{h\in \H} \ \abs{\erisk h - \risk h } > \epsilon}\quad & \leq\quad \sum_{h \in \H} \Prob[S \sample \D^n]{\ \abs{ \erisk h - \risk h } > \epsilon} \\
+\quad & \leq \quad2|\H| e^{-2 n \epsilon^2}
+\end{align*}
+To make left hand side less than $\delta$ we pick $n$ large enough so that $2|\H| e^{-2 n \epsilon^2} \leq \delta$. For this to happen
+\[
+\ln \big( 2|\H| e^{-2 n \epsilon^2} \big) \leq \ln \delta \quad \text{ iff } \quad \ln 2\H -2 n \epsilon^2 \leq \ln \delta
+\]
+In other words, we pick an $n$ such that
+\[
+n\quad \geq\quad \frac{1}{2 \epsilon^2} \ln \frac{2\H}{\delta}
+\]
+This concludes the proof of "uniform convergence" for the distribution free bound mentioned in the statement of the lemma. The "consistency of ERM" bound follows from Lemma \ref{lem:uctocerm}.
+\end{proof}
+%
+The above lemma shows that if $\H$ is a finite set, then the "uniform convergence" bound is $O(\log \H)$. Our next plan is to develop a general method to show uniform convergence for infinite hypothesis sets. 
+
+\section{Growth function and VC dimension}
+\subsection{Growth function}
+Let $\H$ be a set of hypothesis we are interested in. Consider the set $S = \{x_1,x_2,\dots,x_n\} \subseteq \X$. How many different ways can the points in $S$ be labelled by the classifiers in $\H$?
+\[
+\H_S = \big\{(h(x_1),h(x_2).\dots,h(x_n))\ \mid \ h \in \H\big\}
+\]
+The cardinality of the set $\H_S$ is the number of ways $\H$ can classify the elements in $S$. The set $\H_S$ can at least be of size $1$ and at most be of size $2^n$. 
+\[
+1 \leq \abs{\H_S} \leq 2^n
+\]
+Note that if $\abs \H_S < 2^n$, then there is a labelling that is not defined by any hypothesis in $\H$.
+
+\AP The ""growth function"" $\intro{\piH}$ is the maximum number of distinct classifications possible on an $n$ element set by the hypothesis in $\H$.
+\[
+\piH \defs \max \big\{ \abs{\H_S} \ \mid \ S \in \X^n \big\}
+\]
+From the discussions above we have
+\begin{remark}
+$1 \leq \piH \leq 2^n$
+\end{remark}
+\subsection{Uniform convergence and growth function}
+We show the following.
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad <\quad \cone \piH e^{-\ctwo n \epsilon^2}
+\]
+\AP where $\piH$ is the "growth function". Note the similarity with the case where $\abs \H$ is finite. 
+
+We first show the following claim by introducing \emph{ghost sampling}.
+\begin{claim}
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad <\quad 2\quad	 \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2}
+\]
+\end{claim}
+\begin{proof}
+Consider an $S \sample \D^n$ that is "$\epsilon$-bad". We first identify all hypothesis that makes it "$\epsilon$-bad". For an $S \sample \D^n$ we define
+\[
+\H_{\epsilon}(S)\quad \defs\quad \big \{\ h \in \H \quad \mid \quad \abs{\erisk h - \risk h} > \epsilon \big \}
+\]
+\AP Note that $S$ is "$\epsilon$-bad" if and only if $\H_{\epsilon}(S)$ is non-empty. We want a representative hypothesis from $\H_{\epsilon}(S)$. Define
+\[
+\intro[\hB]{}\hB\quad =\quad \begin{cases}
+\text{ pick an arbitrary $h \in \H_{\epsilon}(S),\quad$ if } \H_{\epsilon}(S) \neq \emptyset \\
+\text{ pick an arbitrary $h \in \H, \quad \quad$ otherwise }
+\end{cases}
+\]
+The construction of $\hB$ ensures that the following statement is correct.
+\begin{align}
+\label{eq:lhs}
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad  =\quad \Prob[S \sample \D^n] { \H_{\epsilon} (S) \neq \emptyset}  
+\quad = \quad \Prob [S \sample \D^n] {\abs{\erisk{\hB} - \risk {\hB}} > \epsilon}
+\end{align}
+We have now found another way to talk about the LHS in the statement of the lemma. We move on to understand the RHS of the lemma. 
+%
+Consider arbitrary $S \sample \D^n$ and $S' \sample \D^n$. Clearly,
+\begin{align*}
+\abs{\erisk{\hB} - \erisk[S'] {\hB}} > \epsilon/2 \quad & \Rightarrow \quad \exists h \in \H\ \abs{\erisk{h} - \erisk[S'] {h}} > \epsilon/2 
+\quad & \Leftrightarrow \quad \sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] {h}} > \epsilon/2
+\end{align*}
+Therefore  any $S,S'$ satisfying the LHS also satisfies the RHS. Hence,
+\begin{align}
+\label{eq:ghostsample}
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2}\quad \geq\quad \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \erisk[S'] {\hB}} > \epsilon/2}
+\end{align}
+We now lower bound the RHS of above inequality. From the triangular inequality $\abs{a-b} \geq {\abs a - \abs b}$ it follows that
+\[
+\abs{\erisk{\hB} - \erisk[S'] {\hB}}\quad \geq\quad \abs{\erisk{\hB} - \risk {\hB}} - \abs{\erisk[S']{\hB} - \risk {\hB}}
+\]
+Therefore,
+\[
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \erisk[S'] {\hB}} > \epsilon/2}\quad \geq \quad
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \risk {\hB}} > \epsilon \text{ and } \abs{\erisk[S']{\hB} - \risk {\hB}} < \epsilon/2}
+\]
+Let $P$ and $Q$ be the events $\abs{\erisk{\hB} - \risk {\hB}} > \epsilon$ and $\abs{\erisk[S']{\hB} - \risk {\hB}}< \epsilon/2$ respectively. Then 
+$\Prob{P \cap Q} = \Prob{P}\ \Prob{Q\ |\ P}$ or
+\begin{align}
+& \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \erisk[S'] {\hB}} > \epsilon/2}\  \geq \nonumber \\
+\label{eq:eptwo} & \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\underbrace{\abs{\erisk{\hB} - \risk {\hB}} > \epsilon}_{P}} \ \ \Prob[\substack{S \sample \D^n \\  S' \sample \D^n}]{\underbrace{\abs{\erisk[S']{\hB} - \risk {\hB}} < \epsilon/2}_Q \ \mid \ P}
+\end{align}
+%
+Our next plan is to lower bound $\Prob{Q \mid P}$. We need to avoid the conditionality of $P$. Note that $P$ and $\hB$ are correlated. Consider an arbitrary $h \in \H$. We lower bound $\Prob[S \sample \D^n]{\abs{\erisk[S']{h} - \risk {h}} < \epsilon/2}$. Define the random variable $X_i$ for all $i \leq n$ as follows: choose a random sample $(x_i,y_i) \sample \D$ and let $X_i$ be the indicator random variable for the event $h(x_i) \neq y_i$. It follows from the definition that $\Exp {X_i} = \risk h$ and therefore $\Exp {X_i} \in [0,1]$. Applying "Chebyshev inequality" on iid Bernolli random variables $X_1,\dots, X_n$ we have that
+\begin{align*}
+\Prob[S \sample \D^n]{\abs{\erisk{h} - \risk h} > \epsilon/2} &\ =\  \Prob{ \abs{\frac{1}{n} \sum_i X_i - \risk h} > \epsilon/2 } 
+\ <\ \frac{1}{4 n (\epsilon/2)^2}\ =\ \frac{1}{n \epsilon^2}
+\end{align*}
+For an $n > 2/ \epsilon^2$ we get that
+\begin{align*}
+\Prob[S \sample \D^n]{\abs{\erisk{h} - \risk h} < \epsilon/2} \quad >\quad 1- \frac{1}{n\epsilon^2}\quad >\quad \frac{1}{2}
+\end{align*}
+The above bound holds for all $h \in \H$ and therefore it also holds for $\hB$. Hence
+\[
+\Prob{Q\ \mid \ P}\quad =\quad \Prob[S \sample \D^n]{\abs{\erisk[S']{\hB} - \risk {\hB}}< \epsilon/2\ \mid\ P}\quad >\quad  \frac{1}{2}
+\]
+Substituting this in Equation \ref{eq:eptwo} we get 
+\[
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \erisk[S'] {\hB}} > \epsilon/2}\quad >\quad
+\frac{1}{2} \ \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \risk {\hB}} > \epsilon}  
+\]
+Substituting Equation \ref{eq:ghostsample} in the left hand side of the above inequality  we get
+\[
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2}\quad >\quad 
+\frac{1}{2} \ \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\abs{\erisk{\hB} - \risk {\hB}} > \epsilon}  
+\]
+Substituting Equation \ref{eq:lhs} in the right hand side of the above inequality we get
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon} \quad <\quad 
+2 \ \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2}
+\]
+%
+This concludes the proof of the claim.
+\end{proof}
+In the claim given below we denote by $\sigma_i$ a "Rademacher random variable". The claim is proved using a technique called \emph{Symmetrization}.
+\begin{claim}
+\[
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2} \quad \leq \quad 2\ \Prob [\substack{S \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H}  \abs{\frac{1}{n} \sum \sigma_i \indrand{h(x_i) \neq y_i} } > \epsilon/4}
+\]
+\end{claim}
+\begin{proof}
+The loss function $\L$ is 0-1. Hence, for an $h \in \H$ and $S \sample \D^n$ the empirical risk $\erisk h$ is equivalent to
+\[
+\erisk h \quad = \quad \frac{1}{\abs S} \sum_{(x,y) \in S} \L(h(x),y) \quad = \quad \frac{1}{\abs S} \sum_{(x,y) \in S} \indrand{h(x) \neq y}
+\]
+Therefore
+\begin{align} \label{eq:riskind}
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2} \quad = \quad  
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum \indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'}} > \epsilon/2}
+\end{align}
+We first show the following for all $h \in \H$:
+\begin{align} \label{eq:symmetric}
+\Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum \indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'}} > \frac{\epsilon}{2}}
+ =  \Prob [\substack{S,S' \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum \sigma_i \big( \indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'} \big)} > \frac{\epsilon}{2}}
+\end{align}
+Let $p = \risk h$. Hence $\Prob[(x,y) \sample \D] {\indrand{h(x) \neq y} = 1}=p$. The correctness of Equation \ref{eq:symmetric} follows from table:
+\begin{table}[h!]
+\begin{tabular}{c|c|c|c}
+$\indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'}$ & $Prob$ & $\sigma_i \big(\indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'} \big)$ & $Prob$ \\
+\hline 
+0 & $p^2 + (1-p)^2$ & 0 & $p^2 + (1-p)^2$ \\
+-1 & $p(1-p)$ & -1 & $1/2 p(1-p) + 1/2 p(1-p)$ \\
++1 & $p(1-p)$ & +1 & $1/2 p(1-p) + 1/2 p(1-p)$ 
+\end{tabular}
+\end{table}
+
+\noindent Applying the fact that $|a-b| \leq |a| + |b|$ and union bound, RHS of Equation \ref{eq:symmetric} can be bound by
+\begin{align*}
+& \Prob [\substack{S,S' \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum \sigma_i \big( \indrand{h(x_i) \neq y_i} - \indrand{h(x_i') \neq y_i'} \big)}  > \epsilon/2} \quad \leq \\
+& \Prob [\substack{S \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum \sigma_i \indrand{h(x_i) \neq y_i} } > \epsilon/4} 
+\quad + \quad
+ \Prob [\substack{S' \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum  \sigma_i \indrand{h(x_i') \neq y_i'}} > \epsilon/4}
+\end{align*}
+The claim now follows from Equation \ref{eq:riskind}.
+\end{proof}
+%
+\noindent In our final step we show the following using a technique called \emph{conditioning on samples}.
+\begin{claim}
+\begin{align*}
+ \Prob [\substack{S \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum  \sigma_i \indrand{h(x_i) \neq y_i}} > \epsilon/4} \quad \leq \quad 2\piH e^{-n\epsilon^2/32}
+\end{align*}
+\end{claim}
+\begin{proof}
+For an $n$ element $S \sample \D^n$, let $Pr_S$ be the following probability 
+\[ Pr_S = \Prob [\substack{\sigma_i \sample \Ra}] {\sup_{h \in \H} \abs{\frac{1}{n} \sum  \sigma_i \indrand{h(x_i) \neq y_i} } > \epsilon/4 \ \mid\ S }\]
+%
+The "growth function" says that irrespective of the sample $S$, there are at most $\piH$ distinct classification hypothesis. Note that even though $\H$ might be an infinite set, only $\piH$ many distinct hypothesis are there. Therefore we can apply union bound on $Pr_S$.
+\[
+Pr_S \quad \leq \quad \sum_{i =1}^{\piH} \Prob {\abs{  \frac{1}{n} \sum  \sigma_i \indrand{h(x_i) \neq y_i} } > \epsilon/4 \ \mid\ S }
+\]
+The random variable $X_i \defs \sigma_i \indrand{h(x_i) \neq y_i}$ has an expected value $0$. Moreover, $-1 \leq X_i \leq 1$. We can apply the "Hoeffding bound" and bound the probability $Pr_S$:
+\[
+Pr_S \quad \leq \quad 2\piH e^{-n\epsilon^2/32}
+\]
+The claim now follows from the fact that the bound is irrespective of the $S$ we picked.
+\end{proof}
+
+Combining the three claims we derive,
+\begin{lemma}
+\label{lem:vcucbound}
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad <\quad \cone \piH e^{-\ctwo n \epsilon^2}
+\]
+\end{lemma}
+\begin{proof}
+\begin{align*}
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad & <\quad 2\	 \Prob [\substack{S \sample \D^n \\  S' \sample \D^n}] {\sup_{h \in \H} \abs{\erisk{h} - \erisk[S'] h} > \epsilon/2} \\
+& < \quad 4\ \Prob [\substack{S \sample \D^n \\ \sigma_i \sample \Ra}] {\sup_{h \in \H} \sigma_i \abs{\frac{1}{n} \sum \indrand{h(x_i) \neq y_i} } > \epsilon/4} \\
+& < \quad \cone\ \piH e^{-\ctwo n\epsilon^2}
+\end{align*}
+\end{proof}
+
+\subsection{VC dimension}
+\AP Consider a bag of hypothesis $\H$. We say that an $n$ element set $S \subseteq \X$ is ""shattered"" by $\H$ if $\abs{\H_S} = 2^n$. In other words,
+\begin{quote}
+Set $S \subseteq \X$ is "shattered" by $\H$ if for all labelling $\rho: S \rightarrow \{0,1\}$, there is an $h \in \H$ such that $\rho(x) = h(x)$ for all $x \in S$.
+\end{quote}
+\AP The ""VC dimension"" of $\H$ (denoted by $\intro[\vc]{}\vc{\H}$) is the largest $n$ such that there exists an $n$ element set "shattered" by $\H$. In other words,
+\[
+\vc{\H} = \sup \{n \ \mid\ \piH = 2^n \}
+\]
+To restate: if $\vc \H \geq n$, then there exists an $n$ element set $S$ such that $S$ is "shattered" by $\H$.
+
+Let us look at few examples.
+\begin{example}
+Consider a feature in the real line. That is $\X \subseteq \Reals$. Let $\H$ consists of all \emph{rays} - left closed right infinite sets. A ray $[a,\infty] \in \H$ labels a point $x$ as $1$ if $a \leq x$ and $0$ otherwise. Note that $\H$ shatters all one element sets - to label a point $x$ one take the hypothesis $[x,\infty]$ and to label it $0$ take the hypothesis $[x+1,\infty]$. We claim that $\vc \H =1$ by arguing that no two element set can be "shattered" by $\H$. Let $x < y$ be a two element set. The labelling $x$ to $1$ and $y$ to $0$ is not possible by any hypothesis in $\H$.
+\end{example}
+
+\begin{example}
+Let $\H$ be the set of all left and right closed sets over the real lines. By similar arguments as above we can show that $\vc \H = 2$.
+\end{example}
+
+\begin{example}
+Let $\H$ consist of all lines in $\Reals^2$. Then $\vc \H = 3$. If $\H$ consists of all hyperplanes in $\Reals^d$, then $\vc \H = d+1$.
+\end{example}
+
+\begin{example}
+Let $\H$ consists of all convex sets in $\Reals^2$. We show that $\vc \H = \infty$ by arguing
+\[
+\text{ for all $n$, there exists an $n$ element set $S$ that is shattered.}
+\]
+Consider an arbitrary $n$. Pick a set $S$ of $n$ points equally separated in the unit circle. Consider any labelling of $S$. The convex set formed by the convex hull of all the $1$ labelled points is a hypothesis $h \in \H$ that separates the $1$ labelled and the $0$ labelled points. Since this can be done for any labelling of $S$ it follows that $\H$ shatters $S$. 
+
+We showed that for an arbitrary $n$, there exists a set $S$ of $n$ points shattered by $\H$. Therefore, for all $n$, there is a set $S$ shattered by $\H$ and hence $\vc \H = \infty$.
+\end{example}
+
+We will soon see that when $n > \vc \H$, $\piH$ is polynomial and when $n \leq \vc \H$, $\piH$ is exponential. In practise the number of parameters required to learn by an algorithm is proportional to $\vc \H$ and $n > 10 \vc \H$ works well in practise. 
+
+\subsection{Sauer's Lemma and bounds on growth function}
+Our aim is to show the following.
+\begin{lemma}[Sauer-Shelah]
+\label{lem:sauer}
+Let $\H$ be a (possibly infinite) set of hypothesis of finite VC dimension. 
+Then
+\[
+\piH  = \begin{cases}
+2^n, \quad \text{ for } n \leq \vc \H \\
+f(n), \quad \text{ otherwise}
+\end{cases}
+\]
+where $f(n)$ is a bounded by the polynomial
+\[
+f(n) < \sum_{i=0}^{\vc \H} {n \choose i}
+\]
+Let $\vc \H = d$. Thus for an $n > \vc \H$,
+\[
+\piH \leq O(d n^{d})
+\]
+\end{lemma}
+\begin{proof}
+First, let us consider the case where $n \leq \vc \H$. Then there exists an $S \subseteq \X$ of size $n$ such that $\H$ shatters $S$. It follows that $\piH = 2^n$. 
+
+Next, let us consider the case where $n > \vc \H$. Define $B(n,k)$ to be the cardinality of the largest set consisting of labellings of an $n$ element set where no $k$ element set is shattered.
+\[
+B(n,k) \defs \max \big \{ \abs{L}\ \mid\ L \subseteq \{0,1\}^n \text{ is a set of labels of an $n$ element set where no $k$ element set is shattered} \big \}
+\]
+Our aim is to show that 
+\begin{align}
+\label{eq:bnk}
+B(n,k) = \sum_{j=0}^{k-1} {n \choose k}
+\end{align}
+\noindent $\bullet$ First we show that $B(n,k) \geq RHS$ of Equation \ref{eq:bnk}. It suffices to show a set $L$ of labellings of an $n$ element set where no $k$ element set is shattered and such that size of $L$ is equal to RHS. Consider the set $L$ of union $L_i$ for all $i$ where $0 \leq i < k$ and 
+$L_i$ consists of all labellings of an $n$ element set with exactly $i$ many labels being $1$. Clearly size of $L$ is equal to RHS. We need to argue that no $k$ element set is shattered. Consider any $k$ element set. There is no mapping that labels all of them $1$. Hence it is not shattered. 
+
+\noindent $\bullet$ We now show that $B(n,k) \leq RHS$ of Equation \ref{eq:bnk}. We prove the claim by a double induction on $n$ and $k$. 
+
+Consider an arbitrary set $S = \{s_1,s_2,\dots,s_n\}$ and let $L$ be the largest set of all possible labellings that do not shatter any $k$ element set. We partition $L$ into three parts $U, M^0$ and $M^1$ as follows: a labelling $(a_1,a_2,\dots,a_{n-1},0) \in M^0$ if and only if $(a_1,a_2,\dots,a_{n-1},1) \in M^1$ and $U = L\ \backslash\ M^0 \cup M^1$ where $a_i \in \{0,1\}$ for all $i \leq n-1$. Clearly
+\begin{align}
+\label{eq:bnksplit}
+B(n,k) \leq |L| = |U \cup M^0| + |M^1|
+\end{align}
+We bound $|U \cup M^0|$ first. Let $T$ be the project of the first $n-1$ labellings of the sets $U$ and $M^0$.
+\[
+T \defs \{ \vec a\ \mid\ (\vec a, 0) \in U \} \cup \{ \vec a\ \mid\ (\vec a, 1) \in U \} \cup \{ \vec a\ \mid\ (\vec a, 0) \in M^0 \}
+\]
+Let $\vec a \in \{0,1\}^{n-1}$ and $* \in \{0,1\}$. From the definition of $U$ and $M^0$, we know that if $(\vec a, *) \in U$ then $(\vec a,0) \notin M^0$. Moreover if $(\vec a,0) \in M^0$ then $(\vec a,*) \notin U$. 
+Therefore $|T| = |U \cup M^0|$. Hence
+\[
+|U \cup M^0| = |T| \leq B(n-1,k)
+\]
+since no $k$ element set is shattered in $T$. Now we bound $|M^1|$. We claim that no $k-1$ size subset of $\{s_1,s_2,\dots,s_{n-1}\}$ is shattered by $M^1$. We show this by contradiction. Without loss of generality assume $T = \{s_1,s_2,\dots,s_{k-1}\}$ is shattered by $M^1$. Then the $k$ element set $T \cup \{s_n\}$ is shattered by $L$ since each $M^0$ and $M^1$ contains the shattered set $T$ and $s_n$ is labelled $0$ and $1$ respectively by $M^0$ and $M^1$.  This is a contradiction. Since no $k-1$ size subset of $S \backslash \{s_n\}$ is shattered by $M^1$ we have that
+\[
+|M^1| \leq B(n-1,k-1)
+\]
+Therefore,
+\begin{align*}
+B(n,k) & \leq B(n-1,k) + B(n-1,k-1) & \text{(from Equation \ref{eq:bnksplit})} \\
+& = \sum_{j=0}^{k-1} {n-1 \choose j} + \sum_{j=1}^{k-1} {n-1 \choose j-1} & \text{(inductive hypothesis)} \\
+& = {n-1 \choose 0} + \sum_{j=1}^{k-1} {n-1 \choose j} + {n-1 \choose j-1} & \\
+& = \sum_{j=0}^{k-1} {n \choose j} & \text{(from Lemma \ref{lem:comb})}
+\end{align*}
+This concludes the proof of the bound on $B(n,k)$. We now argue the bound on $\piH$. Let the VC dimension of a set of hypothesis $\H$ be $k$. Then no $k+1$ size set can be shattered by $\H$. Therefore $\piH \leq B(n,k+1)$. This concludes the proof.
+\end{proof}
+
+The above lemma shows that $\piH$ grows exponentially when $n$ is less than the VC dimension of $\H$. On the other hand $\piH$ grows polynomially once $n$ is greater than the VC dimension of $\H$. This enables us to show "uniform convergence" and "consistency of ERM" for $\H$ of finite VC dimension.
+
+\subsection{Uniform convergence for bags with a finite VC dimension}
+We show that "uniform convergence" holds for a "bag of classifiers" $\H$ with finite VC dimension. 
+Consider a bag of hypothesis $\H$ with a finite VC dimension. That is, let $\vc \H = d$ for a $d \in \Nat$. 
+
+\begin{lemma}
+Distribution free "uniform convergence" holds for a set of hypothesis $\H$ with a finite VC dimension $d$. 
+Moreover, "consistency of ERM" also holds.
+\end{lemma}
+\begin{proof}
+Consider a bag of hypothesis $\H$ where $\vc \H = d$. Our aim is to show that $\H$ satisfies \emph{distribution free} "uniform convergence" for the bound given in the statement of lemma.
+Let $\epsilon, \delta$ be arbitrary numbers in $(0,1)$. We need to show that there exists a function $\Nuc:(0,1)^2 \rightarrow \Nat$ such that for all $n>\Nuc(\epsilon,\delta)$,
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad < \quad \delta
+\]
+From Lemma \ref{lem:vcucbound} we have that 
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad <\quad \cone \piH e^{-\ctwo n \epsilon^2}
+\]
+From the above statement and Lemma \ref{lem:sauer} for an $n> d$, 
+\[
+\Prob [S \sample \D^n] {\sup_{h \in \H} \abs{\erisk{h} - \risk h} > \epsilon}\quad <\quad \cone d n^d e^{-\ctwo n \epsilon^2}
+\]
+To make left hand side less than $\delta$ we pick $n$ large enough so that $\cone d n^d e^{-\ctwo n \epsilon^2} \leq \delta$. For this to happen
+\[
+\ln \big( \cone d n^d e^{-\ctwo n \epsilon^2}\big) \leq \ln \delta \quad \text{ iff } \quad \ln {\cone d} + d \ln{n} - \ctwo n \epsilon^2\leq \ln \delta
+\]
+In other words, we pick an $n$ such that
+\[
+n \quad \geq \quad \frac{32}{\epsilon^2}\ \big(\ln \frac{\cone d n^d}{\delta}\big) \quad = \quad \frac{32}{\epsilon^2}\ \big(\ln \frac{\cone d}{\delta} + d \ln n \big)
+\]
+This concludes the proof of "uniform convergence" for the distribution free bound mentioned in the statement of the lemma. The "consistency of ERM" bound follows from Lemma \ref{lem:uctocerm}.
+\end{proof}
+
+%
+%The above lemma shows that if $\H$ is a set with finite VC dimension, then the "uniform convergence" bound is $O(d)$ where $d$ is the VC dimension of $\H$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

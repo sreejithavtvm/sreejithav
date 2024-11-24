@@ -1,0 +1,10 @@
+\section{Recap Combinatorics}
+\begin{lemma}
+\label{lem:comb}
+\[
+{n \choose j} = {n-1 \choose j-1} + {n-1 \choose j}
+\]
+\end{lemma}
+\begin{proof}
+Let $S = \{s_1,\dots,s_n\}$ be an $n$ element set. Consider the following combinatorial problem. How many different ways can one select a $j$ element set from $S$? Clearly this is equal to ${n \choose j}$. We now count the same in a different manner. A $j$ element subset of $S$ either contains $s_1$ or not. Let $T_1$ be all the $j$ element sets that contains $s_1$ and $T_2$ be all the $j$ element sets that do not contain $s_1$. A set in $T_1$ can be picked by first picking $s_1$ and then picking $j-1$ other elements from the remaining $n-1$ element set $S \backslash \{s_1\}$. Therefore $\abs{T_1}={n-1 \choose j-1}$. On the other hand, any set in $T_2$ contains $j$ elements none of which is $s_1$. A set in $T_2$ can be picked by picking $j$ elements from the $n-1$ element set $S \backslash \{s_1\}$. Therefore $\abs{T_2}$ is ${n-1 \choose j}$. This concludes the proof.
+\end{proof}

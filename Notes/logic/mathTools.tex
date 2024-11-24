@@ -1,0 +1,69 @@
+\chapter{Introduction}
+We require the following mathematical concepts to understand the lecture notes. The notions of sets, cardinality of sets (countable, uncountable), functions, relations, trees, binary trees, infinite trees, parse trees, graphs, mathematical induction, structural induction. We would also be using notions from computational complexity perspective like Non-deterministic polynomial time (NP), NP-hard, NP-complete, undecidability etc.
+%\chapter{Computational Complexity}
+
+%\chapter{Counting and Probability}
+%\section{Introduction to Probability}
+%\section{Markov Chains}
+
+\chapter{Set Theory}
+\section{Mathematical Induction}
+\label{chap:mathInd}
+
+Consider a property which is true for every natural number. We will denote by $P(n)$ the fact that the property is true for the number $n$. For example
+\begin{enumerate}
+\item $P(n):$ The sum of numbers from $1$ to $n$ is $\frac{n(n+1)}{2}$. 
+\item $P(n):$ The sum of numbers from $1$ to $n^2$ is $\frac{n(n+1)(2n+1)}{6}$.
+\item $P(n):$ There is a prime number greater than $n$.
+\end{enumerate}
+
+We can use mathematical induction to prove the correctness of such properties. There are three components in mathematical induction. 
+\begin{enumerate}
+\item Induction Hypothesis (IH): This is the property, $P(n)$ we are interested in proving, for all $n \in \Nat$. In many cases we will have to restate the theorem statement in a way suitable for induction. For example, the statement, ``there are infinite number of primes" can be rephrased as ``For all $n$, there is a prime number greater than $n$".
+\item Base case: In the base case, we show that the theorem statement (in other words $P(n)$) is true for the smallest $n$. In the case of all the examples above, the least number for which $P(n)$ is true is $n=1$. There might be cases when the base case need not be $1$. There are certain situations, when the base case consists of more than $1$ case.
+\item Inductive step: In the inductive step, we first assume that the statement $P(n)$ is true and show that $P(n+1)$ is true. In a stronger version of induction, we assume that $P(k)$ is true for all numbers $k \leq n$. Using this assumption we show that $P(n+1)$ is true.
+\end{enumerate}
+
+The statement of weak mathematical induction can be expressed using the following equivalence statement (understanding the following expression will require knowing first order logic).
+\[
+\Big(P(1) \wedge \forall n ~\big(P(n) \implies P(n+1)\big)\Big) \implies \forall x ~P(x)  
+\]
+
+Let us look at an example now.
+\begin{theorem}
+The number of subsets of an $n$ element set is $2^n$.
+\end{theorem}
+\begin{proof}
+The induction hypothesis is the following.
+
+\centerline{For all $n \geq 0$, the number of subsets of an $n$ element set is $2^n$.}
+We now show that the theorem is true for the base case. \\
+Base case ($n=0$): The only subset of a $0$ element set (empty set) is the empty set itself. \\
+Inductive step: Let us assume that the claim is true for an $n$ element set. That is the number of subsets is $2^n$. Now let us consider an $n+1$ element set. Without loss of generality we can assume the set is $\{1,2,\dots,n+1\}$. We can now partition the set of all subsets into two parts. $(1)$ All sets without element $n+1$. and $(2)$ all sets with the element $n+1$. By induction hypothesis, the first part consists of $2^n$ elements (the set of all subsets of $\{1,2,\dots,2^n\}$). Each subset in the second part can be created by taking a subset from the first part and inserting the $n+1$ element. Therefore this part also consists of $2^n$ elements. Hence the total number of subsets of $n+1$ elements is $2^n + 2^n = 2 \times 2^n = 2^{n+1}$.
+\end{proof}
+
+One has to be extremely careful while designing a proof by induction. All arguments we make in the inductive step should necessarily hold for all values of $n$. Otherwise we can fall into traps, proving statements which are false. Here is an example of a wrong use of induction hypothesis. Readers are requested to find out what is wrong in the proof.
+\begin{example}
+What is wrong in the following proof by induction. 
+
+We prove using induction that
+
+\centerline{``For all classes of size $n$, either everyone is male or everyone is female."}
+
+Base case ($n=1$): For a class of size $1$, the claim is obviously true.
+
+Inductive step: Let us assume the claim holds for all classes of size $n$. Consider a class $\{1,2,\dots,n,n+1\}$ of size $n+1$.  From induction hypothesis, it follows that in the class of $\{1,2,\dots,n\}$ either all are male or all are female. That is the persons $1$ and $n$ have the same gender. Using induction hypothesis again, the class of $\{1,2,\dots,n-1,n+1\}$ also has either all male or all female. This gives us that $1$ and $n+1$ is of the same gender. Therefore our claim holds for the class $\{1,2,\dots,n+1\}$. 
+\end{example}
+
+\begin{exercise}
+Prove using induction hypothesis the following
+\begin{enumerate}
+\item $1+2+\dots+n = \frac{n(n+1)}{2}$.
+\item $1^2+2^2+\dots+n^2 = \frac{n(n+1)(2n+1)}{6}$.
+\item The pigeon hole principle
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Prove the equivalence between mathematical induction and strong mathematical induction.
+\end{exercise}

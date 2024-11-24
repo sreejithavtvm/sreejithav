@@ -1,0 +1,317 @@
+\chapter{Deterministic SAT Solvers}
+In this chapter we will look at algorithms to check whether a formula is satisfiable or not. We are more interested in special cases of propositional formulas which give polynomial time algorithm for satisfiability. Later we look at a general algorithm which works very well in practise even though its worst case running time is exponential. The algorithm is used in most modern SAT solvers.
+\section{2-CNF satisfiability}
+In this section we will look at satisfiability of $2$-CNF formulas. Let $\alpha$ be a $2$-CNF formula. We will formalise the notations for the algorithm by using the following example.
+\begin{equation}
+ (\neg p \vee \neg q) \wedge (\neg r \vee \neg p) \wedge (p \vee q) \wedge (q \vee r) \wedge (\neg q \vee p)
+ \label{eq:2sateg}
+\end{equation}
+We construct a graph $G_{\alpha}=(V_{\alpha},E_{\alpha})$ which will capture the information contained in the formula $\alpha$. The vertices of the graph will be the propositions and their negations. That is $\{p,q,r,\neg p, \neg q, \neg r\}$ will be the vertex set of the example \ref{eq:2sateg}. In general, $V_{\alpha}$ will be as follows.
+\[
+V_{\alpha} ::= \{p ~|~ p \text{ is a proposition in } \alpha \} \cup \{\neg p ~|~ p \text { is a proposition in } \alpha \}
+\]
+
+We identify the edges now. Consider example \ref{eq:2sateg}. For each clause $(\neg p \vee \neg q)$, we draw an edge from $p$ to $\neg q$ and another edge from $q$ to $\neg p$. This will denote the formulas $p \ifthen \neg q$ and $q \ifthen \neg p$. Note that
+\[
+(\neg p \vee \neg q) \equiv (p \ifthen \neg q) \wedge (q \ifthen \neg p)
+\]
+Thus the graph of example  \ref{eq:2sateg} (shown in Figure \ref{fig:2satcycle}), will represent the following equivalent formula.
+\begin{align}
+& (p \ifthen \neg q) \wedge (q \ifthen \neg p) \wedge (r \ifthen \neg p) \wedge (p \ifthen \neg r) \wedge  (\neg p \ifthen q) \wedge \notag \\
+&  (\neg q \ifthen p) \wedge (\neg q \ifthen r) \wedge (\neg r \ifthen q) \wedge (q \ifthen p) \wedge (\neg p \ifthen \neg q) \label{eq:2sateqeg}
+\end{align}
+
+\begin{figure}[!h]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,node distance=3cm,on grid,auto]
+    \tikzstyle{state}=[shape=circle,thick,draw,minimum size=1.5cm]
+
+    \node[state] (r) {$r$};
+    \node[state,above of=r] (q) {$q$};
+    \node[state,above of=q] (p) {$p$};
+
+    \node[state,right of=r] (nr) {$\neg r$};
+    \node[state,above of=nr] (nq) {$\neg q$};
+    \node[state,above of=nq] (np) {$\neg p$};
+
+
+    \path[->,draw,thick]
+    (p) edge node {} (nq)
+    (nq) edge node {} (r)
+    (r) edge node {} (np)
+	(np) edge node {} (q)
+	(q) edge node {} (p)
+	
+    ;
+
+  \end{tikzpicture}
+  \caption{Only few edges of the graph of formula \ref{eq:2sateg} is shown.}
+  \label{fig:2satcycle}
+\end{figure}
+
+In general $(l_1,l_2) \in E_{\alpha}$ if and only if $(\neg l_1 \vee l_2)$ is a clause in the $\alpha$ or $(l_1 \vee \neg l_2)$ is a clause in $\alpha$.
+
+Now consider the following edges in Figure \ref{fig:2satcycle}: $(p,\neg q)$ and $(\neg q,r)$. It means formula \ref{eq:2sateqeg} has conjuncts of the form $(p \ifthen \neg q)$ and $(\neg q \ifthen r)$. Therefore any satisfying assignment for formula \ref{eq:2sateqeg} should also satisfy the implication $(p \ifthen r)$. That is $\alpha \models (p \ifthen r)$. In general, if there is a directed path (however long) from literal $s$ to literal $t$ in graph $G_{\alpha}$, then $\alpha \models (s \ifthen t)$. 
+\begin{claim}
+\label{claim:pathimpl}
+If there is a path from literal $s$ to literal $t$ in $G_{\alpha}$, then $\alpha \models (s \ifthen t)$.
+\end{claim}
+\begin{proof}
+Since there exist a path, $s$ to $t$ in $G_{\alpha}$, there exists literals $l_0, l_1,\dots, l_k$ such that $l_0=s$, $l_k=t$ and edges $(l_0,l_1),(l_1,l_2),\dots,(l_{k-1},l_k) \in E_{\alpha}$. From our arguments above, we have $\alpha \models (l_i,l_{i+1})$ for all $i < k$. We now use induction to show that $\alpha \models (l_0 \ifthen l_k)$. 
+
+The induction hypothesis: $\alpha \models (l_0 \ifthen l_i)$ for all $i \leq k$.
+
+Base case ($i=1$): This is true since $\alpha \models (l_0 \ifthen l_1)$. 
+
+Induction step: Let the hypothesis be true for all $i\leq j$. We show that the  hypothesis is true for $j+1$. By induction hypothesis we have $\alpha \models (l_0 \ifthen l_j)$. We also know that $\alpha \models (l_j \ifthen l_{j+1})$. Therefore $\alpha \models (l_0 \ifthen l_j) \wedge (l_j \ifthen l_{j+1})$. From the semantics of implication we know $(l_0 \ifthen l_j) \wedge (l_j \ifthen l_{j+1}) \models (l_0 \ifthen l_{j+1})$. Hence we get $\alpha\models (l_0 \ifthen l_{j+1})$. This proves the induction step.
+\end{proof}
+
+Consider the case, when there is a path from $p$ to $\neg p$. That is $\alpha \models (p \ifthen \neg p)$. The implication $(p \ifthen \neg p)$ can only be satisfied by an assignment which maps $p$ to false. That is all valuations which make $\alpha$ true should necessarily be such that $p$ is mapped to false. On the other hand, if there is a path from $\neg p$ to $p$, the satisfying assignment should map $p$ to true. Therefore, if there is a path from $p$ to $\neg p$ as well as a path from $\neg p$ to $p$, the formula cannot be satisfied. The Figure \ref{fig:2satcycle} shows a path from $p$ to $\neg p$ and from $\neg p$ to $p$. Therefore the formula \ref{eq:2sateg} is not satisfiable.
+
+Aspvall \etal \cite{aspvall_2satlin} showed that this is also a sufficient condition for non-satisfiability. In other words, if for all  proposition $p$, either the path from $p$ to $\neg p$ or the path from $\neg p$ to $p$ does not exist, then the formula will be satisfied. To summarize, the necessary and sufficient condition for non-satisfiability of a formula $\alpha$, is for a proposition and its negation to be in the same strongly connected component in the graph $G_{\alpha}$. 
+
+Aspvall's theorem (Theorem \ref{thm:2cnfsat}) gives us a polynomial time algorithm (see Algorithm \ref{alg:2cnfsat}) to check for satisfiability. The algorithm can be implemented by running multiple depth first search on the graph $G_{\alpha}$. This gives us an $O(|\alpha|^2)$ algorithm. We can use Kosaraju's linear time algorithm for detecting strongly connected components in a graph, to check whether $p$ and $\neg p$ are in the same strongly connected component. This will give us a linear time algorithm for $2$-CNF SAT.
+\begin{algorithm}[H]
+ \caption{$2$-CNF SAT (also known as $2$-SAT)}
+ \label{alg:2cnfsat}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE A $2$-CNF formula $\alpha$ 
+ \ENSURE  YES if $\alpha$ is satisfiable, otherwise NO
+  \STATE Construct the graph $G_{\alpha}$ as discussed above.
+  \IF {there is a proposition $p$ such that there is a path from $p$ to $\neg p$ and vice versa}
+ 		 \STATE   output NO
+  \ELSE
+  		\STATE ouput YES
+  \ENDIF
+ \end{algorithmic} 
+ \end{algorithm}
+
+We are left with proving the correctness of the above algorithm. Let $\alpha$ be a $2$-CNF formula. Let us assume $G_{\alpha}$ satisfy the following property
+\begin{equation}
+\label{eq:2cnfsatprop}
+\text{ For no proposition } p \text{ there is a path from } p \text{ to } \neg p \text{ and back.}
+\end{equation}
+We show that if there is no proposition $p$ such that there is a path from $p$ to $\neg p$ and back to $p$ in the graph $G_{\alpha}$, then $\alpha$ is satisfiable. In fact we give an algorithm (Algorithm \ref{alg:2cnfass}) which outputs the assignment to the proposition which makes $\alpha$ true. The algorithm first identifies the strongly connected components of $G_{\alpha}$. The strongly connected components of a graph can be linearly ordered such that all edges go in the forward direction. This paves the way for some interesting properties. For all the explanations below we assume $\neg \neg p$ to be $p$ for a proposition $p$. First we see that if there is a path from $p$ to $q$ in $G_{\alpha}$, then there is a path from $\neg q$ to $\neg p$ also in $G_{\alpha}$.
+\begin{claim}
+\label{claim:pathreverse}
+Let there exist a path from literal $r$ to $t$. Then there exists a path from $\neg r$ to $\neg t$.
+\end{claim}
+\begin{proof}
+Let the path be through the edges $(l_0,l_1),(l_1,l_2),\dots,(l_{k-1},l_k)$ where $l_0=r$ and $l_k=t$. From the definition of $G_{\alpha}$ it follows that $(l_i \ifthen l_{i+1})$ for all $i < k$, is a conjunct in $G_{\alpha}$. Therefore its contrapositive $(\neg l_{i+1} \ifthen l_i)$ is a also a conjunct. Hence there is a path from $\neg r$ to $\neg t$.
+\end{proof}
+
+The next claim gives an interesting property of strongly connected component. It says that if two literals are in the same strongly connected component, then both the negations will also be in one component.
+\begin{claim}
+\label{claim:strongcomponent}
+Let literals $l_1,l_2 \in C_i$ for some $i \leq k$. Then there exists a $j \leq k$ such that $\neg l_1,\neg l_2 \in C_j$
+\end{claim}
+\begin{proof}
+Since $l_1,l_2 \in C_i$, we have that there is a path from $l_1$ to $l_2$ and back. From claim \ref{claim:pathreverse}, we know there is a path from $\neg l_2$ to $\neg l_1$ and back. Therefore $\neg l_1$ and $\neg l_2$ should lie in the same strongly connected component.
+\end{proof}
+
+The explanation of the algorithm given in \ref{alg:2cnfass} is as follows. Let us assume there are no propositions $p$ for which there is a path from $p$ to $\neg p$ and back to $p$ in the graph $G_{\alpha}$. We now build a satisfying assignment for $\alpha$. First, enumerate the strongly connected components of $G$
+\[
+C_1, C_2, \dots, C_k
+\]
+such that there is no edge from $C_i$ to $C_j$ if $j<i$. This is possible since the strongly connected components form a directed acyclic graph.  We assign all the literals in $C_k$ to true first. Note that there is no edge going from $C_k$ to any other component. Now we inductively assign values to literals in $C_k-1,\dots,C_2,C_1$ in that order. Consider the component $C_i$. If a literal in $C_i$ is already assigned a value assign all the literals in $C_i$ to false. Otherwise assign all the literals in $C_i$ to true. This is the end of the algorithm. 
+
+\begin{algorithm}[H]
+ \caption{$2$-CNF assignment}
+ \label{alg:2cnfass}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE A $2$-CNF formula $\alpha$ such that $G_{\alpha}$ satisfies property (\ref{eq:2cnfsatprop}).
+ \ENSURE  An assignment of the propositions such that $\alpha$ is satisfiable.
+  \STATE Sort the strongly connected components of $G_{\alpha}$ in a topological ordering.  
+  \[
+  		C_1, C_2, \dots, C_k
+  \]
+  That is, all edges are from $C_i$ to $C_j$ where $i \leq j$.
+  \FOR {i=k \TO 1}
+  		\IF {there is a literal $l$ in $C_i$ such that $\neg l$ was already assigned}
+  			\STATE Assign False to every literal in $C_i$
+  		\ELSE
+  			\STATE Assign True to every literal in $C_i$
+  		\ENDIF
+  \ENDFOR
+ \end{algorithmic} 
+ \end{algorithm}
+
+Before we go into the correctness of the above algorithm, let us understand one crucial fact about the algorithm. We argue that, a literal is assigned to True (by the algorithm) if and only if it is seen for the first time. Let us elaborate. If the algorithm sees $\neg p$ in component $C_i$ and it has not seen $p$ till now (that is $p$ is not in any $C_j$ for a $j>i$), then $\neg p$ is assigned to True. On the other hand if $p$ is in the component $C_j$ for a $j>i$, then $\neg p$ is assigned to False. This will be first step to prove the correctness of the algorithm.
+\begin{claim}
+A literal $l_1$ is assigned True by the algorithm if and only if the algorithm has not assigned $\neg l_1$ earlier.
+\end{claim}
+\begin{proof}
+Let $l_1 \in C_i$ for an $i \leq k$.  \\
+$(\Rightarrow):$ Let us assume $\neg l_1$ is seen earlier. That is $\neg l_1$ was assigned a boolean value before the algorithm reached $C_i$. Hence, the {\bf if} condition (line 3) of the algorithm is true and therefore $l_1$ is assigned False. \\
+$(\Leftarrow):$ Let us assume $l_1$ is assigned False. Therefore there exists a literal $l_2 \in C_i$ such that $\neg l_2 \in C_j$ for a $j > i$. By claim \ref{claim:strongcomponent} it follows that $\neg l_1 \in C_j$ and therefore $\neg l_1$ was already assigned.
+\end{proof}
+
+Finally, we can show the correctness of the algorithm. 
+\begin{theorem}
+The algorithm ouputs a satisfying valuation when $G_{\alpha}$ satisfies property \ref{eq:2cnfsatprop}.
+\label{thm:2cnfasscorrect}
+\end{theorem}
+\begin{proof}
+Assume the ouput of the algorithm does not satisfy $\alpha$. Therefore, there is an implication $(l_i \ifthen l_j)$ which is not satisfied and there is path from $l_i$ to $l_j$ in $G_{\alpha}$. Let $l_i \in C_i$ and $l_j \in C_j$. The implication is false only if $l_i$ is true and $l_j$ is false. 
+\begin{figure}[!h]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,node distance=3cm,on grid,auto]
+    \tikzstyle{state}=[shape=circle,thick,draw,minimum size=1.5cm]
+
+    \node[state,label=below:$C_i$] (li) {$l_i$};
+    \node[state,label=below:$C_j$,right of=li] (lj) {$l_j$};
+    \node[state,label=below:$C_k$,right of=lj] (nlj) {$\neg l_j$};
+    \node[state,label=below:$C_m$,right of=nlj] (nli) {$\neg l_i$};
+  \end{tikzpicture}
+  \caption{Strongly connected components and literals}
+  \label{fig:strongcomponents}
+\end{figure}
+Note that from the way in which strongly connected components are ordered (see Figure \ref{fig:strongcomponents}) we have that $i < j$.  If $l_j$ is mapped to false, then $\neg l_j$ was mapped earlier to true (note that for a proposition $p$ we denote by $\neg \neg p$ to mean $p$). That is, there is a set $C_k$ such that $k> j$ and $\neg l_j \in C_k$.  Since there is a path in the graph from $l_i$ to $l_j$, from claim \ref{claim:pathreverse} there is a path from $\neg l_j$ to $\neg l_i$ too. Again, from the way we have ordered the strongly connected components it follows that there is a set $C_{m}$ where $m > k$ and $\neg l_i \in C_m$ (see Figure \ref{fig:strongcomponents}). Therefore, our algorithm would have assigned $\neg l_i$ earlier and hence $l_i$ would have been assigned false. This is a contradiction. Therefore the algorithm will never assign $l_i$ to true and $l_j$ to false.
+\end{proof}
+
+We summarize our discussion till now by arguing that $\alpha$ is not satisfiable if and only if there is a proposition $p$ such that there is a path from $p$ to $\neg p$ in $G_{\alpha}$ and back.
+\begin{theorem}[Aspvall \etal \cite{aspvall_2satlin}]
+\label{thm:2cnfsat}
+$\alpha$ is not satisfiable if and only if there is a proposition $p$ such that there is a path from $p$ to $\neg p$ and back in $G_{\alpha}$.
+\end{theorem}
+\begin{proof}
+$(\Rightarrow):$ We assume the contrapositive of the theorem. So let us assume property \ref{eq:2cnfsatprop}. The Algorithm \ref{alg:2cnfass} gives a satisfying assignment to $\alpha$. From the correctness (Theorem \ref{thm:2cnfasscorrect}) of the algorithm it follows that $\alpha$ is satisfiable. \\
+$(\Leftarrow):$ Consider a proposition $p$ such that there is a path from $p$ to $\neg p$ and back in $G_{\alpha}$. From claim \ref{claim:pathimpl} it follows that $\alpha \models (p \ifthen \neg p)$ and $\alpha \models (\neg p \ifthen p)$. Since $p$ cannot be assigned True or False, $\alpha$ is not satisfiable.
+\end{proof}
+
+\section{Horn clause satisfiability}
+A formula is a \indexit{Horn clause} formula if it can be generated by the following grammar. \\
+$\mathcal{P} \defs \true \wall \false \wall p ~~\{\text {where $p$ is a proposition}\}$ \\
+$C \defs \mathcal{P} \wall \mathcal{P} \wedge C$ \\
+$H \defs C \ifthen P \wall H \wedge H$ \\
+
+Here is an example of a Horn clause formula.
+\[
+(\true \ifthen p) \wedge ((p \wedge q) \ifthen r) \wedge (\false \ifthen q) \wedge (p \ifthen \false)
+\]
+
+Here are some examples of formulas which are not Horn clause formulas. 
+\begin{enumerate}
+\item $p \ifthen (q \wedge r)$ :  Implications cannot have conjunctions on the right side.
+\item $\neg p \ifthen q$ :  Negations are not allowed
+\item $p \ifthen (q \ifthen r)$ : Implications cannot be nested.
+\end{enumerate}
+
+The polynomial time algorithm for checking satisfiability of Horn-clause formulas is given in Algorithm \ref{alg:hornsat}.
+\begin{algorithm}[h]
+ \caption{Horn-clause-SAT}
+ \label{alg:hornsat}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE A Horn clause formula $\alpha$ 
+ \ENSURE  No if $\alpha$ is unsatisfiable, otherwise Yes and the satisfying assignment 
+  \STATE Mark all \true\/ in $\alpha$. 
+  \WHILE {there exists a clause $(p_1 \wedge p_2 \wedge \dots \wedge p_k) \ifthen p_{k+1}$ such that $p_i$ is marked for all $i \leq k$ but $p_{k+1}$ is not}
+  		\STATE Mark $p_{k+1}$
+  \ENDWHILE
+  \IF {there exists a \false\/ which is marked}
+  		\STATE Output No
+  	\ELSE
+  		\STATE Output assignment which maps all marked propositions to \true\/ and unmarked to \false
+  \ENDIF
+ \end{algorithmic} 
+ \end{algorithm}
+
+The correctness of the algorithm follows from the two lemmas below. 
+
+\begin{lemma}
+If the Horn-clause-SAT algorithm outputs No, then the formula is not satisfiable.
+\end{lemma}
+\begin{proof}
+We first show the following loop invariant.
+\myquote{Let $v$ be a satisfying assignment of $\alpha$. Then, the marked propositions will be assigned true in $v$.}
+The loop invariant holds before we enter the while loop in line $(2)$, since only \true\/ is marked. So, let us assume that the loop invariant is true before it enters the while loop. We show that, the loop invariant holds after a run of the while loop. Consider that the while loop marks a proposition $p_{k+1}$ because all propositions $p_1,\dots,p_k$ was marked and $\alpha$ contains the clause $(p_1 \wedge p_2 \wedge \dots \wedge p_k) \ifthen p_{k+1}$. Let $v$ be an arbitrary assignment which makes $\alpha$ true. We know from the loop invariant that $v$ assigns true to all propositions $p_1,\dots,p_k$. Since $v$ also satisfies the clause $(p_1 \wedge p_2 \wedge \dots \wedge p_k) \ifthen p_{k+1}$ (note that $\alpha$ is a conjunction of such clauses), $v$ should necessarily assign $p_{k+1}$ to true. Therefore, the loop invariant remains to hold once we exit the while loop also.
+
+We can now prove the lemma. Let us assume that the algorithm outputs No. Therefore, \false\/ was marked. Our loop invariant says that all valuations which satisfies $\alpha$ should necessarily be such that it assigns true to \false\/. This is not possible and hence the formula is not satisfiable.
+\end{proof}
+
+
+\begin{lemma}
+If the Horn-Clause-SAT algorithm outputs Yes, then the formula is satisfiable.
+\end{lemma}
+\begin{proof}
+Let $\alpha$ be the formula given as input to the algorithm. We first prove the following claim.
+\myquote{If $p_{k+1}$ is not marked and there is a clause $p_1 \wedge p_2 \wedge \dots \wedge p_k \ifthen p_{k+1}$ in $\alpha$, then atleast one of $p_1,\dots,p_k$ is not marked.}
+Assume the above claim is false. Then all the propositions $p_1,\dots,p_k$ are marked. But then step $2$ of the algorithm will mark $p_{k+1}$ also. This is a contradiction. Hence atleast one of $p_1,\dots,p_k$ is not marked. 
+
+We use the above claim to prove the lemma. There can be two types of clauses, (1) either a clause has all propositions marked or (2) it has atleast one proposition not marked. So consider the latter case. A clause with atleast one proposition not marked. From our above claim, it follos that atleast one proposition in the left hand side of the implication is not marked. The algorithm ensures this clause is satisfied, since all propositions not marked are assigned false. Now, consider the former case. A clause whose all propositions are marked. The algorithm assigns all propositions to true and hence the clause is satisfied. Therefore the clause is satisfied by the valuation given by the algorithm.
+\end{proof}
+
+\section{DPLL algorithm}
+The DPLL algorithm takes as input a CNF formula and says whether the formula is satisfiable or not. It is the foundation for most modern SAT solvers. The solvers though now use far more complex heuristics. 
+
+\begin{algorithm}[h]
+ \caption{DPLL Algorithm}
+ \label{alg:dpll}
+ \begin{algorithmic}[1]
+ \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+ \renewcommand{\algorithmicensure}{\textbf{Output:}}
+ \REQUIRE A CNF formula $\alpha$ 
+ \ENSURE  UNSATISFIABLE if $\alpha$ is unsatisfiable, SATISFIABLE otherwise
+ \REPEAT  
+ 		\STATE Reduce the size of $\alpha$ by doing the following eliminations
+ 		
+ 		{\emph{ Tautology Elimination:}}
+		 \STATE Remove clauses in $\alpha$ which are tautologies
+		 
+		{\emph{Pure Literal elimination:}}
+		\STATE Remove clauses which contain a pure literal.
+		
+		\emph{One Literal elimination: Let $l$ be a one literal}
+		\STATE Remove all clauses which contain the literal $l$
+		\STATE Remove  $\neg l$ from all clauses.
+		
+		\emph{Empty clause check}		
+		\IF {there is an empty clause}
+				\STATE return UNSATISFIABLE
+		\ENDIF
+		
+		\emph{Empty formula check}
+		\IF {$\alpha$ contains no clause}
+				\STATE return SATISFIABLE
+		\ENDIF
+\UNTIL {the size of $\alpha$ is not reduced by loop}
+
+\emph{Splitting: Pick a proposition $p$. Let $\alpha$ be of form $(C_1 \vee p) \wedge \dots \wedge (C_k \vee p) \wedge (C_{k+1} \vee \neg p) \wedge \dots \wedge (C_m \vee \neg p) \wedge C_{m+1}$.}
+\STATE Call DPLL algorithm with $\alpha_1 \defs C_1 \wedge \dots \wedge C_k \wedge C_{m+1}$.
+\STATE Call DPLL algorithm with $\alpha_2 \defs C_{k+1} \wedge \dots \wedge C_m \wedge C_{m+1}$.
+\IF {$\alpha_1$ or $\alpha_2$ is satisfiable}
+		\STATE return SATISFIABLE
+\ELSE
+		\STATE return UNSATISFIABLE 
+\ENDIF
+ \end{algorithmic} 
+ \end{algorithm}
+
+
+\section{Exercises}
+
+\begin{exercise}
+Give a polynomial time algorithm which takes as input a graph $G=(V,E)$ and outputs a propositional formula $\alpha$ such that the graph is $3$ colorable if and only if $\alpha$ is satisfiable. That is, give a polynomial time reduction from $3$-colorability to SAT.
+\end{exercise}
+
+\begin{exercise}
+Let us assume you have the following programs.
+\begin{enumerate}
+\item Horn-SAT: The program on input a formula $\alpha$ outputs Yes if $\alpha$ is a satisfiable Horn clause formula. Otherwise it outputs No.
+\item 2CNF-SAT: The program on input a formula $\alpha$ outputs Yes if $\alpha$ is a satisfiable 2CNF formula. Otherwise it outputs No.
+\end{enumerate}
+Use these programs to check whether the following formulas are satisfiable or not.
+\begin{enumerate}[label=(\alph*)]
+\item Let $\alpha$ be a conjunction of clauses (disjunction of literals) with at most one literal negated in a clause.
+\item $\alpha$ is generated by the following grammar. $G$ is the start symbol and $p_i$s are propositions. \\
+$P := p_1 ~|~ p_2 ~|~ \dots ~|~ p_n ~|~ \neg p_1 ~|~ \neg p_2 ~|~ \dots ~|~ \neg p_n$ \\
+$C := P \wedge C ~|~ P$ \\
+$G := C ~|~ (P \Rightarrow G)$
+\end{enumerate}
+\end{exercise}
